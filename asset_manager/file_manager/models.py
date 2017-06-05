@@ -37,8 +37,8 @@ class Folder(S3_Object):
 
         def get_descendants(self):
             descendants.append(self)
-            # for file in self.file_set.all():
-            #     descendants.append(file)
+            for asset in self.asset_set.all():
+                descendants.append(asset)
             child_folders = self.folder_set.all()
             for folder in child_folders:
                 get_descendants(folder)
