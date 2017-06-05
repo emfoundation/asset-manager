@@ -9,6 +9,8 @@ AWS_STORAGE_BUCKET_NAME = ''
 AWS_ACCESS_KEY_ID = ''
 AWS_SECRET_ACCESS_KEY = ''
 
+AWS_TEST_BUCKET_NAME = ''
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
