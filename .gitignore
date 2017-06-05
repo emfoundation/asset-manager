@@ -1,3 +1,15 @@
+# Secret settings file
+asset_manager/asset_manager/settings_secret.py
+
+# Logs
+logs/
+
+# Migrations
+migrations/
+
+# Compiled Python files
+*.pyc
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
