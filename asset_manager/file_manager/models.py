@@ -3,7 +3,7 @@ from django.db import models
 
 from model_utils import FieldTracker
 
-# from . import utils
+from . import utils
 from . import s3_utils
 
 # Create your models here.
@@ -72,10 +72,29 @@ class Folder(S3_Object):
                 new_s3_key = (object.get_path() + '/').lower()
                 object.s3_key = new_s3_key
 
-            elif type(object) is File:
+            elif type(object) is Asset:
                 new_s3_key = object.get_path().lower()
                 object.s3_key = new_s3_key
                 object.file.name = utils.get_file_directory_path(object, object.filename())
 
             s3_utils.update_s3_key(old_s3_key, new_s3_key)
             object.save()
+
+class Asset(S3_Object):
+    parent = models.ForeignKey(Folder, on_delete=models.CASCADE)
+    file = models.FileField(upload_to=utils.get_file_directory_path)
+    tracker = FieldTracker()
+
+    def get_path(self):
+        return self.parent.get_path() + '/' + self.filename()
+
+    # @TODO this must return JUST filename!
+    def filename(self):
+        # Asset.file.name contains the filename, until the model has been saved, then
+        # it contains the full filepath, relative to MEDIAFILES_LOCATION
+        # to get just the file name, we split the string from the right, once, on first '/'
+        # if it contains any /'s
+        filename = self.file.name
+        if '/' in filename:
+            return filename.rsplit('/',1)[1]
+        return filename

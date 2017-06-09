@@ -109,7 +109,7 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 STATICFILES_LOCATION = 'static'
 STATIC_URL = '/static/'
 
-DEFAULT_FILE_STORAGE = 'asset_manager.custom_storages.MediaStorage'
+DEFAULT_FILE_STORAGE = 'file_manager.custom_storages.MediaStorage'
 MEDIAFILES_LOCATION = 'media'
 MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 
