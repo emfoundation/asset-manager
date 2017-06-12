@@ -85,6 +85,9 @@ class Asset(S3_Object):
     file = models.FileField(upload_to=utils.get_file_directory_path)
     tracker = FieldTracker()
 
+    def __str__(self):
+        return self.parent.get_path() + '/' + self.name
+
     def get_path(self):
         return self.parent.get_path() + '/' + self.filename()
 
