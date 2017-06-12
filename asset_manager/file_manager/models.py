@@ -17,6 +17,9 @@ class S3_Object(models.Model):
     def __str__(self):
         return self.s3_key
 
+
+# ------------ Folders ------------#
+
 class Folder(S3_Object):
 
     parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
@@ -80,9 +83,27 @@ class Folder(S3_Object):
             s3_utils.update_s3_key(old_s3_key, new_s3_key)
             object.save()
 
+# ------------ Tags ------------#
+
+class TagGroup(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+class Tag(models.Model):
+    name = models.CharField(max_length=64)
+    group = models.ForeignKey(TagGroup, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+# ------------ Assets ------------#
+
 class Asset(S3_Object):
     parent = models.ForeignKey(Folder, on_delete=models.CASCADE)
     file = models.FileField(upload_to=utils.get_file_directory_path)
+    tags = models.ManyToManyField('Tag')
     tracker = FieldTracker()
 
     def get_path(self):
