@@ -114,4 +114,4 @@ MEDIAFILES_LOCATION = 'media'
 MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 
 # Logs
-LOGFILE='logs/hive_logs.txt'
+LOGFILE='logs/logs.txt'
