@@ -16,6 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-urlpatterns = [
+from rest_framework.routers import SimpleRouter
+
+from file_manager.views import AssetViewSet
+
+router = SimpleRouter()
+# "assets" defines the url pattern ie localhost:8000/assets/
+router.register("assets", AssetViewSet)
+
+urlpatterns = router.urls + [
     url(r'^admin/', admin.site.urls),
 ]
