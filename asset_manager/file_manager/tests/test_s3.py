@@ -77,6 +77,81 @@ class S3_UtilsTest(TestCase):
 
         self.assertEqual(bucket_contents, ['media/test_folder_edit/', 'media/test_folder_edit/subfolder/'])
 
+    def test_update_folder_parent_with_subfolders(self):
+        logging.info('test_update_folder_parent_with_subfolders...')
+        f1 = Folder(name='f1')
+        f1.save()
+        f2 = Folder(name='f2', parent=f1)
+        f2.save()
+        f3 = Folder(name='f3', parent=f1)
+        f3.save()
+        f4 = Folder(name='f4', parent=f2)
+        f4.save()
+
+        asset1 = Asset(name='asset1', parent=f4)
+        asset1.file.save('asset1.txt', ContentFile('Content'.encode('utf-8')))
+        asset2 = Asset(name='asset2', parent=f4)
+        asset2.file.save('asset2.txt', ContentFile('Content'.encode('utf-8')))
+
+        f0 = Folder(name='f0')
+        f0.save()
+
+        f2.parent = f0
+        f2.save()
+
+        bucket_contents = []
+        for obj in s3_utils.s3.list_objects(Bucket = settings.AWS_STORAGE_BUCKET_NAME)['Contents']:
+            bucket_contents.append(obj['Key'])
+
+        self.assertEqual(bucket_contents, ['media/f0/', 'media/f0/f2/', 'media/f0/f2/f4/', 'media/f0/f2/f4/asset1.txt', 'media/f0/f2/f4/asset2.txt',  'media/f1/', 'media/f1/f3/' ])
+
+    def test_update_folder_name_and_parent(self):
+        logging.info('test_update_folder_name_and_parent')
+        f0 = Folder(name='f0')
+        f0.save()
+        f1 = Folder(name='f1', parent=f0)
+        f1.save()
+        f2 = Folder(name='f2', parent=f1)
+        f2.save()
+
+        asset1 = Asset(name='asset1', parent=f2)
+        asset1.file.save('asset1.txt', ContentFile('Content'.encode('utf-8')))
+        asset2 = Asset(name='asset2', parent=f2)
+        asset2.file.save('asset2.txt', ContentFile('Content'.encode('utf-8')))
+
+        f2.name = 'f2_edit'
+        f2.parent = f0
+        f2.save()
+
+        bucket_contents = []
+        for obj in s3_utils.s3.list_objects(Bucket = settings.AWS_STORAGE_BUCKET_NAME)['Contents']:
+            bucket_contents.append(obj['Key'])
+
+        self.assertEqual(bucket_contents, ['media/f0/', 'media/f0/f1/', 'media/f0/f2_edit/', 'media/f0/f2_edit/asset1.txt', 'media/f0/f2_edit/asset2.txt' ])
+
+    def test_update_folder_parent_to_none(self):
+        logging.info('test_update_folder_parent_to_none')
+        f0 = Folder(name='f0')
+        f0.save()
+        f1 = Folder(name='f1', parent=f0)
+        f1.save()
+        f2 = Folder(name='f2', parent=f1)
+        f2.save()
+
+        asset1 = Asset(name='asset1', parent=f2)
+        asset1.file.save('asset1.txt', ContentFile('Content'.encode('utf-8')))
+        asset2 = Asset(name='asset2', parent=f2)
+        asset2.file.save('asset2.txt', ContentFile('Content'.encode('utf-8')))
+
+        f2.parent = None
+        f2.save()
+
+        bucket_contents = []
+        for obj in s3_utils.s3.list_objects(Bucket = settings.AWS_STORAGE_BUCKET_NAME)['Contents']:
+            bucket_contents.append(obj['Key'])
+
+        self.assertEqual(bucket_contents, ['media/f0/', 'media/f0/f1/', 'media/f2/', 'media/f2/asset1.txt', 'media/f2/asset2.txt' ])
+
     def test_delete_single_folder(self):
         logging.info('test_delete_single_folder...')
         s3_utils.create_s3_folder('media/test_folder/')
