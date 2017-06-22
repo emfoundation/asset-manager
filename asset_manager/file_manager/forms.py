@@ -4,6 +4,7 @@ from . models import Asset, Folder
 import re
 
 invalid_name_msg = 'Invalid {0}, please use only: a-z A-Z 0-9 _ and -'
+folder_set_as_own_parent_msg = 'A Folder cannot be set as its own Parent! Please choose an alternative Folder or leave blank to create a root level Folder.'
 
 class AssetForm(forms.ModelForm):
     class Meta:
@@ -30,3 +31,9 @@ class FolderForm(forms.ModelForm):
         if not pattern.match(name):
             raise forms.ValidationError(invalid_name_msg.format('folder name'))
         return self.cleaned_data['name']
+
+    def clean_parent(self):
+        parent = self.cleaned_data.get('parent')
+        if parent == self.instance:
+            raise forms.ValidationError(folder_set_as_own_parent_msg)
+        return self.cleaned_data['parent']
