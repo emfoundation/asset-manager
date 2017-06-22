@@ -8,5 +8,9 @@ class FolderAdmin(admin.ModelAdmin):
     form = forms.FolderForm
 
 # Register your models here.
+
+admin.site.register(models.TagGroup)
+admin.site.register(models.Tag)
 admin.site.register(models.Folder, FolderAdmin)
 admin.site.register(models.Asset, AssetAdmin)
+
