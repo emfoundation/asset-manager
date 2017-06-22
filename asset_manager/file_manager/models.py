@@ -40,8 +40,8 @@ class Folder(S3_Object):
 
         def get_descendants(self):
             descendants.append(self)
-            # for file in self.file_set.all():
-            #     descendants.append(file)
+            for asset in self.asset_set.all():
+                descendants.append(asset)
             child_folders = self.folder_set.all()
             for folder in child_folders:
                 get_descendants(folder)
@@ -105,6 +105,9 @@ class Asset(S3_Object):
     file = models.FileField(upload_to=utils.get_file_directory_path)
     tags = models.ManyToManyField('Tag')
     tracker = FieldTracker()
+
+    def __str__(self):
+        return self.parent.get_path() + '/' + self.name
 
     def get_path(self):
         return self.parent.get_path() + '/' + self.filename()
