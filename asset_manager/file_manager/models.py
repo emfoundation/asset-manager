@@ -103,7 +103,7 @@ class Tag(models.Model):
 class Asset(S3_Object):
     parent = models.ForeignKey(Folder, on_delete=models.CASCADE)
     file = models.FileField(upload_to=utils.get_file_directory_path)
-    tags = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField('Tag', blank=True)
     tracker = FieldTracker()
 
     def __str__(self):

@@ -9,7 +9,7 @@ class AssetForm(forms.ModelForm):
     class Meta:
         model = Asset
         readonly_fields = ['s3_key',]
-        fields = ['parent', 'name', 'file', 's3_key']
+        fields = ['parent', 'name', 'file', 's3_key', 'tags']
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
