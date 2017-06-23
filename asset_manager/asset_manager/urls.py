@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from rest_framework.routers import SimpleRouter
+from rest_framework_jwt.views import obtain_jwt_token
 
 from file_manager.views import AssetViewSet
 
@@ -26,4 +27,5 @@ router.register("assets", AssetViewSet)
 
 urlpatterns = router.urls + [
     url(r'^admin/', admin.site.urls),
+    url(r'^jwt-auth/', obtain_jwt_token),
 ]
