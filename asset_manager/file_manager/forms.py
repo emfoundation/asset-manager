@@ -9,8 +9,7 @@ folder_set_as_own_parent_msg = 'A Folder cannot be set as its own Parent! Please
 class AssetForm(forms.ModelForm):
     class Meta:
         model = Asset
-        readonly_fields = ['s3_key',]
-        fields = ['parent', 'name', 'file', 's3_key', 'tags']
+        fields = ['parent', 'name', 'file', 'tags']
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
@@ -22,8 +21,7 @@ class AssetForm(forms.ModelForm):
 class FolderForm(forms.ModelForm):
     class Meta:
         model = Folder
-        readonly_fields = ['s3_key']
-        fields = ['parent', 'name', 's3_key']
+        fields = ['parent', 'name']
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
