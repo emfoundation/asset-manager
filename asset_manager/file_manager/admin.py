@@ -7,7 +7,7 @@ from pytz import timezone
 
 class AssetAdmin(admin.ModelAdmin):
     form = forms.AssetForm
-    list_display = ['name', 'get_path', 'file', 'uploaded_by', 'get_uploaded_at']
+    list_display = ['name', 'get_path', 'file', 'uploaded_by', 'uploaded_at']
     def save_model(self, request, obj, form, change):
         if not change:
             obj.uploaded_by = request.user
