@@ -12,7 +12,7 @@ class AssetAdmin(admin.ModelAdmin):
         if not change:
             obj.uploaded_by = request.user
             obj.uploaded_at = datetime.now(timezone(settings.TIME_ZONE))
-            super(AssetAdmin, self).save_model(request, obj, form, change)
+        super(AssetAdmin, self).save_model(request, obj, form, change)
 
 class FolderAdmin(admin.ModelAdmin):
     form = forms.FolderForm
