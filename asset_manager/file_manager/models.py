@@ -100,6 +100,31 @@ class Asset(S3_Object):
     copyright_info = models.TextField(blank=True)
     enabled = models.BooleanField(default=True)
 
+    PROTOTYPE = 'PT'
+    START_UP = 'SU'
+    ACTIVE = 'AC'
+    ON_MARKET = 'OM'
+    PROJECT = 'PR'
+    RESEARCH = 'RS'
+    COMPLETE = 'CM'
+    DISCONTINUED = 'DS'
+    STATUS_CHOICES = (
+        (PROTOTYPE, 'Prototype'),
+        (START_UP, 'Start Up'),
+        (ACTIVE, 'Active'),
+        (ON_MARKET, 'On Market'),
+        (PROJECT, 'Project'),
+        (RESEARCH, 'Research'),
+        (COMPLETE, 'Complete'),
+        (DISCONTINUED, 'Discontinued'),
+    )
+    status = models.CharField(
+        max_length=2,
+        choices=STATUS_CHOICES,
+        blank=True,
+        verbose_name='Status (Case Studies only)'
+    )
+
     uploaded_at = models.DateTimeField(null=True)
     uploaded_by = models.ForeignKey(User, null=True)
 
