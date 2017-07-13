@@ -58,7 +58,26 @@ class Tag(models.Model):
     group = models.ForeignKey(TagGroup, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.group.name.title() + ' | ' + self.name
+
+class ContinentTagGroup(TagGroup):
+    pass
+
+class CountryTag(models.Model):
+    name = models.CharField(max_length=64)
+    continent = models.ForeignKey(ContinentTagGroup, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.continent.name.title() + ' | ' + self.name
+
+# ------------ Contributor ------------#
+
+class Contributor(models.Model):
+    first_name = models.CharField(max_length=64)
+    last_name = models.CharField(max_length=64, blank=True)
+
+    def __str__(self):
+        return self.last_name + ', ' + self.first_name
 
 # ------------ Assets ------------#
 
@@ -68,10 +87,22 @@ class Asset(S3_Object):
         return str(self.parent.id) + '/' + filename
 
     parent = models.ForeignKey(Folder, on_delete=models.CASCADE)
-    file = models.FileField(upload_to=get_s3_key)
-    tags = models.ManyToManyField('Tag', blank=True)
-    uploaded_by = models.ForeignKey(User, null=True)
+    file = models.FileField(upload_to=get_s3_key, blank=True)
+    link = models.URLField(blank=True)
+
+    tags = models.ManyToManyField(Tag, blank=True)
+    locations = models.ManyToManyField(CountryTag, blank=True)
+    contributors = models.ManyToManyField(Contributor, blank=True)
+
+    description = models.TextField(blank=True)
+    duration = models.SmallIntegerField(blank=True, null=True, verbose_name='Duration (mins)')
+    creation_date = models.DateField(blank=True, null=True)
+    copyright_info = models.TextField(blank=True)
+    enabled = models.BooleanField(default=True)
+
     uploaded_at = models.DateTimeField(null=True)
+    uploaded_by = models.ForeignKey(User, null=True)
+
     tracker = FieldTracker()
 
     def __str__(self):

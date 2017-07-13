@@ -9,7 +9,7 @@ folder_set_as_own_parent_msg = 'A Folder cannot be set as its own Parent! Please
 class AssetForm(forms.ModelForm):
     class Meta:
         model = Asset
-        fields = ['parent', 'name', 'file', 'tags']
+        fields = ['parent', 'name', 'file', 'link', 'tags', 'locations', 'contributors', 'description', 'duration', 'creation_date', 'copyright_info', 'enabled',]
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
