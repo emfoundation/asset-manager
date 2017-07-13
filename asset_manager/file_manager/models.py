@@ -113,7 +113,3 @@ class Asset(S3_Object):
         if '/' in filename:
             return filename.rsplit('/',1)[1]
         return filename
-
-    def get_uploaded_at(self):
-        return self.uploaded_at
-    get_uploaded_at.short_description = 'Uploaded at'
