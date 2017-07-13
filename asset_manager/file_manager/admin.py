@@ -7,6 +7,7 @@ from pytz import timezone
 
 class AssetAdmin(admin.ModelAdmin):
     form = forms.AssetForm
+    filter_horizontal = ('contributors', 'locations', 'tags', )
     list_display = ['name', 'get_path', 'file', 'uploaded_by', 'uploaded_at']
     def save_model(self, request, obj, form, change):
         if not change:
@@ -21,5 +22,8 @@ class FolderAdmin(admin.ModelAdmin):
 
 admin.site.register(models.TagGroup)
 admin.site.register(models.Tag)
+admin.site.register(models.Contributor)
+admin.site.register(models.ContinentTagGroup)
+admin.site.register(models.CountryTag)
 admin.site.register(models.Folder, FolderAdmin)
 admin.site.register(models.Asset, AssetAdmin)
