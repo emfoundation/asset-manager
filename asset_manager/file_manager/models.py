@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 
 from model_utils import FieldTracker
@@ -69,6 +70,8 @@ class Asset(S3_Object):
     parent = models.ForeignKey(Folder, on_delete=models.CASCADE)
     file = models.FileField(upload_to=get_s3_key)
     tags = models.ManyToManyField('Tag', blank=True)
+    uploaded_by = models.ForeignKey(User, null=True)
+    uploaded_at = models.DateTimeField(null=True)
     tracker = FieldTracker()
 
     def __str__(self):
@@ -99,6 +102,7 @@ class Asset(S3_Object):
 
     def get_path(self):
         return self.parent.get_path() + '/' + self.name
+    get_path.short_description = 'Path'
 
     def get_filename(self):
         """
