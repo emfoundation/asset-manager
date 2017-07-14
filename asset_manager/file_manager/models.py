@@ -7,6 +7,8 @@ from model_utils import FieldTracker
 from . import utils
 from . import s3_utils
 
+import mimetypes
+
 import logging
 logging.basicConfig(
     filename=settings.LOGFILE,
@@ -79,6 +81,14 @@ class Contributor(models.Model):
     def __str__(self):
         return self.last_name + ', ' + self.first_name
 
+# ------------ Collection ------------#
+
+class Collection(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
 # ------------ Assets ------------#
 
 class Asset(S3_Object):
@@ -93,6 +103,7 @@ class Asset(S3_Object):
     tags = models.ManyToManyField(Tag, blank=True)
     locations = models.ManyToManyField(CountryTag, blank=True)
     contributors = models.ManyToManyField(Contributor, blank=True)
+    collections = models.ManyToManyField(Collection, blank=True)
 
     description = models.TextField(blank=True)
     duration = models.SmallIntegerField(blank=True, null=True, verbose_name='Duration (mins)')
@@ -125,8 +136,13 @@ class Asset(S3_Object):
         verbose_name='Status (Case Studies only)'
     )
 
+    filetype = models.CharField(max_length=64, null=True)
     uploaded_at = models.DateTimeField(null=True)
-    uploaded_by = models.ForeignKey(User, null=True)
+    last_edit_at = models.DateTimeField(null=True)
+
+    uploaded_by = models.ForeignKey(User, null=True, related_name='asset_uploaded_by')
+    last_edit_by = models.ForeignKey(User, null=True, related_name='asset_last_edit_by')
+    owner = models.ForeignKey(User, blank=True, null=True)
 
     tracker = FieldTracker()
 
@@ -137,12 +153,14 @@ class Asset(S3_Object):
 
         # if first save
         if not self.id:
-            pass
+            self.update_filetype()
 
         # if a new file is uploaded, will update filename even if parent has also changed...
         elif self.tracker.has_changed('file'):
             old_s3_key = settings.MEDIAFILES_LOCATION + '/' + self.tracker.previous('file').name
             s3_utils.delete_s3_object(old_s3_key)
+            # update filetype
+            self.update_filetype()
 
         # but if file has not changed and parent has, must be handled manually
         elif self.tracker.has_changed('parent_id'):
@@ -169,3 +187,9 @@ class Asset(S3_Object):
         if '/' in filename:
             return filename.rsplit('/',1)[1]
         return filename
+
+    def update_filetype(self):
+        """
+        Automatically update filetype field based on file field
+        """
+        self.filetype = mimetypes.guess_type(self.get_filename())[0]
