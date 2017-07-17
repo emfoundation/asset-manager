@@ -78,7 +78,7 @@ class Contributor(models.Model):
     name = models.CharField(max_length=64)
 
     def __str__(self):
-        return self.last_name + ', ' + self.first_name
+        return self.name
 
 # ------------ Collection ------------#
 
