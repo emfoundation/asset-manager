@@ -75,8 +75,7 @@ class CountryTag(models.Model):
 # ------------ Contributor ------------#
 
 class Contributor(models.Model):
-    first_name = models.CharField(max_length=64)
-    last_name = models.CharField(max_length=64, blank=True)
+    name = models.CharField(max_length=64)
 
     def __str__(self):
         return self.last_name + ', ' + self.first_name
