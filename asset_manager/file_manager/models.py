@@ -63,10 +63,11 @@ class Tag(models.Model):
         return self.group.name.title() + ' | ' + self.name
 
 class ContinentTagGroup(TagGroup):
-    pass
+    code = models.CharField(max_length=2, null=True)
 
 class CountryTag(models.Model):
     name = models.CharField(max_length=64)
+    code = models.CharField(max_length=3, null=True)
     continent = models.ForeignKey(ContinentTagGroup, on_delete=models.CASCADE)
 
     def __str__(self):
