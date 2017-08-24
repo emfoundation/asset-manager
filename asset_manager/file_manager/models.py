@@ -68,8 +68,15 @@ class Tag(models.Model):
     class Meta:
         ordering = ('name', )
 
-class ContinentTagGroup(TagGroup):
+class ContinentTagGroup(models.Model):
+    name = models.CharField(max_length=64)
     code = models.CharField(max_length=2, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
 
 class CountryTag(models.Model):
     name = models.CharField(max_length=64)
@@ -78,6 +85,9 @@ class CountryTag(models.Model):
 
     def __str__(self):
         return self.continent.name.title() + ' | ' + self.name
+
+    class Meta:
+        ordering = ('name', )
 
 # ------------ Contributor ------------#
 
