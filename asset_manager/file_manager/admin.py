@@ -64,6 +64,14 @@ class FolderAdmin(admin.ModelAdmin):
                 set_asset_user_metadata(instance, request.user)
             instance.save()
 
+class TagGroupAdmin(admin.ModelAdmin):
+    model = models.TagGroup
+    ordering = ['name', ]
+
+class TagAdmin(admin.ModelAdmin):
+    model = models.Tag
+    ordering = ['group', 'name', ]
+
 class ContinentTagGroupAdmin(admin.ModelAdmin):
     model = models.ContinentTagGroup
     ordering = ['name', ]
@@ -75,8 +83,8 @@ class CountryTagAdmin(admin.ModelAdmin):
 
 # Register your models here.
 
-admin.site.register(models.TagGroup)
-admin.site.register(models.Tag)
+admin.site.register(models.TagGroup, TagGroupAdmin)
+admin.site.register(models.Tag, TagAdmin)
 admin.site.register(models.Contributor)
 admin.site.register(models.ContinentTagGroup, ContinentTagGroupAdmin)
 admin.site.register(models.CountryTag, CountryTagAdmin)
