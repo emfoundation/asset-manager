@@ -3,8 +3,13 @@ from django.conf import settings
 from . models import Asset, Folder
 import re
 
-invalid_name_msg = 'Invalid {0}, please use only: a-z A-Z 0-9 _ and -'
-folder_set_as_own_parent_msg = 'A Folder cannot be set as its own Parent! Please choose an alternative Folder or leave blank to create a root level Folder.'
+invalid_name_msg = "Invalid {0}, please use only: a-z A-Z 0-9 _ and -"
+folder_set_as_own_parent_msg = "A Folder cannot be set as its own Parent! \
+Please choose an alternative Folder or leave blank to create a root level \
+Folder."
+descendant_set_as_own_parent_msg = "A Folder's Parent cannot be one of its \
+sub-folders! Please choose an alternative Folder or leave blank to create a \
+root level Folder"
 
 class AssetForm(forms.ModelForm):
     class Meta:
@@ -32,6 +37,9 @@ class FolderForm(forms.ModelForm):
 
     def clean_parent(self):
         parent = self.cleaned_data.get('parent')
-        if parent == self.instance:
-            raise forms.ValidationError(folder_set_as_own_parent_msg)
+        if parent != None:
+            if parent == self.instance:
+                raise forms.ValidationError(folder_set_as_own_parent_msg)
+            elif not self.instance.is_new_parent_valid(parent):
+                raise forms.ValidationError(descendant_set_as_own_parent_msg)
         return self.cleaned_data['parent']
