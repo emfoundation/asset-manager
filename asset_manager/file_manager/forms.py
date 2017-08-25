@@ -59,7 +59,7 @@ class FolderForm(forms.ModelForm):
 
         return self.cleaned_data
 
-class BaseFolderFormSet(forms.BaseInlineFormSet):
+class InlineFolderFormSet(forms.BaseInlineFormSet):
     def clean(self):
         """
         Check no two inline Folders have the same title as each other.
@@ -69,7 +69,7 @@ class BaseFolderFormSet(forms.BaseInlineFormSet):
             return
         folder_names = []
         for form in self.forms:
-            name = form.cleaned_data['name']
+            name = form.cleaned_data.get('name')
             if name in folder_names:
                 raise forms.ValidationError(duplicate_inline_folder_name.format(name))
             folder_names.append(name)
