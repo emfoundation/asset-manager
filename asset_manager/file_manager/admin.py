@@ -45,6 +45,8 @@ class AssetInline(admin.TabularInline):
 
 class FolderInline(admin.TabularInline):
     model = models.Folder
+    form = forms.FolderForm
+    formset = forms.BaseFolderFormSet
     extra = 0
     ordering = ['name', ]
     show_change_link = True

@@ -31,14 +31,20 @@ class S3_Object(models.Model):
 # ------------ Folders ------------#
 
 class Folder(S3_Object):
-
     parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
     tracker = FieldTracker()
 
     def __str__(self):
-        return self.get_path()
+        path = self.get_path()
+        if path.startswith(settings.MEDIAFILES_LOCATION + '/'):
+            path = path[6:]
+        return path
 
     def get_path(self):
+        """
+        Returns an up to date Folder path based on its location in the Django \
+        model.
+        """
         if not self.parent:
             return settings.MEDIAFILES_LOCATION + '/' + self.name
         else:
