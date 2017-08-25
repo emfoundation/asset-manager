@@ -47,6 +47,27 @@ class Folder(S3_Object):
     def get_files(self):
         return self.file_set.all()
 
+    def get_all_ancestor_folders(self):
+        """
+        Returns a list of all the ancestors of a given folder, including the folder itself
+        """
+        if not self.parent:
+            return [self]
+        else:
+            ancestors = self.parent.get_all_ancestor_folders()
+            ancestors.append(self)
+            return ancestors
+
+    def is_new_parent_valid(self, new_parent):
+        """
+        Returns True if the new_parent Folder is a valid parent for this Folder,
+        otherwise returns False
+        """
+        new_parent_ancestors = new_parent.get_all_ancestor_folders()
+        if self in new_parent_ancestors:
+            return False
+        return True
+
 # ------------ Tags ------------#
 
 class TagGroup(models.Model):
