@@ -37,6 +37,8 @@ class AssetAdmin(admin.ModelAdmin):
 
 class AssetInline(admin.TabularInline):
     model = models.Asset
+    form = forms.AssetForm
+    formset = forms.InlineModelFormSet
     extra = 0
     ordering = ['name', ]
     fields = ['name', ]
@@ -46,7 +48,7 @@ class AssetInline(admin.TabularInline):
 class FolderInline(admin.TabularInline):
     model = models.Folder
     form = forms.FolderForm
-    formset = forms.InlineFolderFormSet
+    formset = forms.InlineModelFormSet
     extra = 0
     ordering = ['name', ]
     show_change_link = True
