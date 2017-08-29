@@ -93,3 +93,6 @@ admin.site.register(models.CountryTag, CountryTagAdmin)
 admin.site.register(models.Collection)
 admin.site.register(models.Folder, FolderAdmin)
 admin.site.register(models.Asset, AssetAdmin)
+
+admin.site.site_header = 'EMF Digital Asset Management System'
+admin.site.site_title = 'EMF DAMS Admin'
