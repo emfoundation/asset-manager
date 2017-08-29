@@ -30,8 +30,14 @@ class AssetForm(forms.ModelForm):
         cleaned_data = super(AssetForm, self).clean()
         name = cleaned_data.get('name')
         parent = cleaned_data.get('parent')
+        file = cleaned_data.get('file')
 
         validate_model_name(self, name, parent)
+
+        # validate filename
+        pattern = re.compile(strings.VALID_FILE_NAME_FORMAT)
+        if not pattern.match(file.name):
+            raise forms.ValidationError(strings.invalid_name_msg.format('file'))
 
         return cleaned_data
 
