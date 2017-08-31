@@ -219,7 +219,7 @@ class Asset(S3_Object):
 
     def get_path(self):
         return self.parent.get_path() + '/' + self.name
-    get_path.short_description = 'Path'
+    get_path.short_description = 'Full Path'
 
     def get_filename(self):
         """

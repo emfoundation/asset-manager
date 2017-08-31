@@ -27,7 +27,8 @@ def set_asset_user_metadata(instance, user):
 class AssetAdmin(admin.ModelAdmin):
     form = forms.AssetForm
     filter_horizontal = ('collections', 'contributors', 'locations', 'tags', )
-    list_display = ['name', 'get_path', 'file', 'filetype', 'uploaded_by', 'uploaded_at', 'last_edit_by', 'last_edit_at', 'owner', ]
+    list_display = ['name', 'parent', 'get_path', 'file', 'filetype', 'uploaded_by', 'uploaded_at', 'last_edit_by', 'last_edit_at', 'owner', ]
+    search_fields = ('name', 'file', )
     ordering = ['name', ]
 
     def save_model(self, request, obj, form, change):
