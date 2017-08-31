@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
     'storages',
     'django_extensions',
     'rest_framework',
@@ -48,6 +49,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'asset_manager.urls'
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 TEMPLATES = [
     {

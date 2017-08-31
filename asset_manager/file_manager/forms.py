@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 from . models import Asset, Folder
-from . import strings
+from . import strings, widgets
 import re
 
 
@@ -24,6 +24,9 @@ def validate_model_name(form, name, parent):
 class AssetForm(forms.ModelForm):
     class Meta:
         model = Asset
+        widgets = {
+            'file': widgets.ClearableFileInputNonEdit,
+        }
         fields = ['parent', 'name', 'file', 'link', 'owner', 'tags', 'locations', 'contributors', 'collections', 'description', 'copyright_info', 'duration', 'creation_date', 'enabled', 'status', ]
 
     def clean(self):
@@ -35,9 +38,21 @@ class AssetForm(forms.ModelForm):
         validate_model_name(self, name, parent)
 
         # validate filename
-        pattern = re.compile(strings.VALID_FILE_NAME_FORMAT)
-        if not pattern.match(file.name):
-            raise forms.ValidationError(strings.invalid_name_msg.format('file'))
+        if(file):
+            pattern = re.compile(strings.VALID_FILE_NAME_FORMAT)
+            if not pattern.match(file.name):
+                raise forms.ValidationError(strings.invalid_name_msg.format('file'))
+
+            # Check file name is unique within parent Folder. Note that new
+            # files do not yet have their parent's id appended to their name.
+            # This will need appending to check for equality.
+            assets = Asset.objects.filter(parent=parent).exclude(pk=self.instance.pk)
+            filenames = []
+            for asset in assets:
+                filenames.append(asset.file.name)
+            s3_key = str(parent.id) + '/' + file.name
+            if s3_key in filenames:
+                raise forms.ValidationError(strings.duplicate_file_name_msg.format(file.name, parent, name))
 
         return cleaned_data
 
