@@ -11,6 +11,9 @@ Folder."
 
 invalid_name_msg = "Invalid {0} name, please use only: a-z A-Z 0-9 _ and -"
 
+duplicate_file_name_msg = 'A file with the name "{0}" already exists in this \
+Folder: {1}, attached to Asset {2}. Please rename the file.'
+
 duplicate_model_name_msg = '{0} "{1}" already exists within Folder "{2}" \
 . Please choose another name or a different parent.'
 
