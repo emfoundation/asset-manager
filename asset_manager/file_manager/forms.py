@@ -37,14 +37,19 @@ class AssetForm(forms.ModelForm):
 
         validate_model_name(self, name, parent)
 
-        # validate filename
-        if(file):
+        #### VALIDATE FILENAME ####
+        # Pre-save filename is that of the file. Post-save filename has <parent_id>/
+        # appended to it. as such it fails validation on subsequent saves due to the '/'
+        # Only validating filename on initial upload is good enough for now.
+        # @TODO When we allow filename to be changed after upload, or a new file
+        # to be uploaded "over" an existing one, this validation will need reviewing.
+        if(file and not self.instance.tracker.previous('file')):
             pattern = re.compile(strings.VALID_FILE_NAME_FORMAT)
             if not pattern.match(file.name):
                 raise forms.ValidationError(strings.invalid_name_msg.format('file'))
 
             # Check file name is unique within parent Folder. Note that new
-            # files do not yet have their parent's id appended to their name.
+            # files do not yet have their parent's id appended to their name yet.
             # This will need appending to check for equality.
             assets = Asset.objects.filter(parent=parent).exclude(pk=self.instance.pk)
             filenames = []
