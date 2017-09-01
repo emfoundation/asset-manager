@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 
-from . import forms, models
+from . import filters, forms, models
 
 from datetime import datetime
 from pytz import timezone
@@ -29,6 +29,8 @@ class AssetAdmin(admin.ModelAdmin):
     filter_horizontal = ('collections', 'contributors', 'locations', 'tags', )
     list_display = ['name', 'parent', 'get_path', 'file', 'filetype', 'uploaded_by', 'uploaded_at', 'last_edit_by', 'last_edit_at', 'owner', ]
     search_fields = ('name', 'file', )
+    # list_filter = ('tags__group', filters.TagListFilter, )
+    list_filter = (filters.ReferencedTagGroupFilter, filters.TagListFilter, )
     ordering = ['name', ]
 
     def save_model(self, request, obj, form, change):
@@ -76,6 +78,7 @@ class TagGroupAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     model = models.Tag
     ordering = ['group', 'name', ]
+    list_filter = (filters.TagGroupListFilter, )
 
 class ContinentTagGroupAdmin(admin.ModelAdmin):
     model = models.ContinentTagGroup
