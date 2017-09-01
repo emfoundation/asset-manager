@@ -43,7 +43,7 @@ class AssetForm(forms.ModelForm):
         # Only validating filename on initial upload is good enough for now.
         # @TODO When we allow filename to be changed after upload, or a new file
         # to be uploaded "over" an existing one, this validation will need reviewing.
-        if(file and self.instance.tracker.previous('file') == None):
+        if(file and not self.instance.tracker.previous('file')):
             pattern = re.compile(strings.VALID_FILE_NAME_FORMAT)
             if not pattern.match(file.name):
                 raise forms.ValidationError(strings.invalid_name_msg.format('file'))
