@@ -38,7 +38,7 @@ class AssetForm(forms.ModelForm):
         validate_model_name(self, name, parent)
 
         # validate filename
-        if(file):
+        if(file and not self.instance.tracker.previous('file')):
             pattern = re.compile(strings.VALID_FILE_NAME_FORMAT)
             if not pattern.match(file.name):
                 raise forms.ValidationError(strings.invalid_name_msg.format('file'))
