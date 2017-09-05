@@ -85,7 +85,7 @@ class TagGroupAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     model = models.Tag
     ordering = ['group', 'name', ]
-    list_filter = (filters.TagGroupListFilter, )
+    list_filter = ('group', )
 
 class ContinentTagGroupAdmin(admin.ModelAdmin):
     model = models.ContinentTagGroup
