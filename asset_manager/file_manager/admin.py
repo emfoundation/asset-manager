@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.contrib import admin
 
-from . import forms, models
+from . import filters, forms, models
+from .models import Contributor
 
 from datetime import datetime
 from pytz import timezone
@@ -25,10 +26,18 @@ def set_asset_user_metadata(instance, user):
         instance.owner = user
 
 class AssetAdmin(admin.ModelAdmin):
+
     form = forms.AssetForm
     filter_horizontal = ('collections', 'contributors', 'locations', 'tags', )
     list_display = ['name', 'parent', 'get_path', 'file', 'filetype', 'uploaded_by', 'uploaded_at', 'last_edit_by', 'last_edit_at', 'owner', ]
     search_fields = ('name', 'file', )
+    list_filter = (
+        filters.TagListFilter,
+        filters.LocationsListFilter,
+        filters.ContributorListFilter,
+        filters.OwnerListFilter,
+        filters.FileTypeListFilter,
+    )
     ordering = ['name', ]
 
     def save_model(self, request, obj, form, change):
@@ -76,6 +85,7 @@ class TagGroupAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     model = models.Tag
     ordering = ['group', 'name', ]
+    list_filter = ('group', )
 
 class ContinentTagGroupAdmin(admin.ModelAdmin):
     model = models.ContinentTagGroup
