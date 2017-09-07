@@ -41,11 +41,14 @@ class AssetForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(AssetForm, self).clean()
         name = clean_white_space(cleaned_data.get('name'))
-        cleaned_data['name'] = name
         parent = cleaned_data.get('parent')
         file = cleaned_data.get('file')
 
-        validate_model_name(self, name, parent)
+        # if a name has been entered, strip extra white space and validate
+        if name:
+            name = clean_white_space(name)
+            cleaned_data['name'] = name
+            validate_model_name(self, name, parent)
 
         #### VALIDATE FILENAME ####
         # Pre-save filename is that of the file. Post-save filename has <parent_id>/
@@ -79,9 +82,8 @@ class FolderForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(FolderForm, self).clean()
-        name = clean_white_space(cleaned_data.get('name'))
-        cleaned_data['name'] = name
         parent = cleaned_data.get('parent')
+        name = cleaned_data.get('name')
 
         # Check Folder parent is correctly set
         if parent != None:
@@ -90,7 +92,11 @@ class FolderForm(forms.ModelForm):
             elif not self.instance.is_new_parent_valid(parent):
                 raise forms.ValidationError(strings.descendant_set_as_own_parent_msg)
 
-        validate_model_name(self, name, parent)
+        # if a name has been entered, strip extra white space and validate
+        if name:
+            name = clean_white_space(name)
+            cleaned_data['name'] = name
+            validate_model_name(self, name, parent)
 
         return cleaned_data
 
@@ -107,9 +113,11 @@ class InlineModelFormSet(forms.BaseInlineFormSet):
         for form in self.forms:
             # validation must take place on the clean_white_space version of the name
             # this is not being set in the formset, so we must check against it here.
-            name = clean_white_space(form.cleaned_data.get('name'))
-            if name in model_names:
-                raise forms.ValidationError(strings.duplicate_inline_model_name.format(form._meta.model.__name__, name))
-            model_names.append(name)
+            name = form.cleaned_data.get('name')
+            if name:
+                name = clean_white_space(name)
+                if name in model_names:
+                    raise forms.ValidationError(strings.duplicate_inline_model_name.format(form._meta.model.__name__, name))
+                model_names.append(name)
 
         return self.cleaned_data
