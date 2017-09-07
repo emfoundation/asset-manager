@@ -40,7 +40,7 @@ class AssetForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(AssetForm, self).clean()
-        name = clean_white_space(cleaned_data.get('name'))
+        name = cleaned_data.get('name')
         parent = cleaned_data.get('parent')
         file = cleaned_data.get('file')
 
