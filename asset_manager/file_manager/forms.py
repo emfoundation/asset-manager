@@ -6,6 +6,9 @@ import re
 
 
 def validate_model_name(form, name, parent):
+    """
+    Check a model name is unique and valid.
+    """
     model = form._meta.model
 
     # Validate model name format
@@ -20,6 +23,12 @@ def validate_model_name(form, name, parent):
             raise forms.ValidationError(strings.duplicate_model_name_msg.format(
             model.__name__, name, parent or 'Root'))
 
+def clean_white_space(input_string):
+    """
+    Remove multiple spaces from input_string. Does not handle other white space chars.
+    """
+    return re.sub(' +', ' ', input_string)
+
 
 class AssetForm(forms.ModelForm):
     class Meta:
@@ -31,7 +40,8 @@ class AssetForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(AssetForm, self).clean()
-        name = cleaned_data.get('name')
+        name = clean_white_space(cleaned_data.get('name'))
+        cleaned_data['name'] = name
         parent = cleaned_data.get('parent')
         file = cleaned_data.get('file')
 
@@ -69,7 +79,8 @@ class FolderForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(FolderForm, self).clean()
-        name = cleaned_data.get('name')
+        name = clean_white_space(cleaned_data.get('name'))
+        cleaned_data['name'] = name
         parent = cleaned_data.get('parent')
 
         # Check Folder parent is correctly set
@@ -94,7 +105,9 @@ class InlineModelFormSet(forms.BaseInlineFormSet):
             return
         model_names = []
         for form in self.forms:
-            name = form.cleaned_data.get('name')
+            # validation must take place on the clean_white_space version of the name
+            # this is not being set in the formset, so we must check against it here.
+            name = clean_white_space(form.cleaned_data.get('name'))
             if name in model_names:
                 raise forms.ValidationError(strings.duplicate_inline_model_name.format(form._meta.model.__name__, name))
             model_names.append(name)

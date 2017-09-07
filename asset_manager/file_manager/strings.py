@@ -21,5 +21,5 @@ duplicate_inline_model_name = 'You are attempting to add more than one {0} \
 with the same name: "{1}". Please choose unique names for each {0}.'
 
 # string constants
-VALID_NAME_FORMAT = '^[a-zA-Z0-9-_]+$'
+VALID_NAME_FORMAT = '^[a-zA-Z0-9-_ ]+$'
 VALID_FILE_NAME_FORMAT = '^[a-zA-Z0-9-_.]+$'
