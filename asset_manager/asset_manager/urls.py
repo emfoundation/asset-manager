@@ -23,7 +23,7 @@ from file_manager.views import AssetViewSet
 
 router = SimpleRouter()
 # "assets" defines the url pattern ie localhost:8000/assets/
-router.register("assets", AssetViewSet)
+router.register("api/assets", AssetViewSet)
 
 urlpatterns = router.urls + [
     url(r'^admin/', admin.site.urls),
