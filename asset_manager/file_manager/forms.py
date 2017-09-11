@@ -36,7 +36,7 @@ class AssetForm(forms.ModelForm):
         widgets = {
             'file': widgets.ClearableFileInputNonEdit,
         }
-        fields = ['parent', 'name', 'file', 'link', 'owner', 'tags', 'locations', 'contributors', 'collections', 'description', 'copyright_info', 'duration', 'creation_date', 'enabled', 'status', ]
+        fields = ['parent', 'name', 'file', 'link', 'owner', 'tags', 'locations', 'contributors', 'collections', 'description', 'copyright_info', 'duration', 'creation_date', 'enabled', 'status', 'type_field', ]
 
     def clean(self):
         cleaned_data = super(AssetForm, self).clean()

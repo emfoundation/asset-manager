@@ -179,6 +179,33 @@ class Asset(S3_Object):
         verbose_name='Status (Case Studies only)'
     )
 
+    CASE_STUDY = 'CS'
+    CO_PROJECT = 'CP'
+    IMAGE = 'IM'
+    LINK = 'LN'
+    PAPER = 'PA'
+    PRESENTATION = 'PR'
+    REPORT = 'RT'
+    VIDEO = 'VI'
+    WORKSHOP_SUMMARY = 'WS'
+    TYPE_CHOICES = (
+        (CASE_STUDY, 'CASE STUDY'),
+        (CO_PROJECT, 'CO.PROJECT'),
+        (IMAGE, 'IMAGE'),
+        (LINK, 'LINK'),
+        (PAPER, 'PAPER'),
+        (PRESENTATION, 'PRESENTATION'),
+        (REPORT, 'REPORT'),
+        (VIDEO, 'VIDEO'),
+        (WORKSHOP_SUMMARY, 'WORKSHOP SUMMARY'),
+    )
+    type_field = models.CharField(
+        max_length=2,
+        choices = TYPE_CHOICES,
+        blank=True,
+        verbose_name='Type (CE100 Resources only)'
+    )
+
     filetype = models.CharField(max_length=64, null=True)
     uploaded_at = models.DateTimeField(null=True)
     last_edit_at = models.DateTimeField(null=True)
