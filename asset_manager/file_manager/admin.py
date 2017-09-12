@@ -53,6 +53,7 @@ class AssetInline(admin.TabularInline):
     ordering = ['name', ]
     fields = ['name', ]
     show_change_link = True
+    classes = ['collapse', ]
 
 
 class FolderInline(admin.TabularInline):
@@ -62,11 +63,12 @@ class FolderInline(admin.TabularInline):
     extra = 0
     ordering = ['name', ]
     show_change_link = True
+    classes = ['collapse', ]
 
 
 class FolderAdmin(admin.ModelAdmin):
     form = forms.FolderForm
-    inlines = [AssetInline, FolderInline, ]
+    inlines = [FolderInline, AssetInline, ]
     ordering = ['name', ]
 
     def save_formset(self, request, form, formset, change):
