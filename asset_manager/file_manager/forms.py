@@ -44,7 +44,7 @@ class AssetForm(forms.ModelForm):
         parent = cleaned_data.get('parent')
         # Validate that a parent folder has been selected
         if parent is None:
-            raise forms.ValidationError(strings.no_parent)
+            raise forms.ValidationError(strings.missing_parent_msg)
 
         file = cleaned_data.get('file')
 
