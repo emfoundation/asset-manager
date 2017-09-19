@@ -42,6 +42,10 @@ class AssetForm(forms.ModelForm):
         cleaned_data = super(AssetForm, self).clean()
         name = cleaned_data.get('name')
         parent = cleaned_data.get('parent')
+        # Validate that a parent folder has been selected
+        if parent is None:
+            raise forms.ValidationError(strings.missing_parent_msg)
+
         file = cleaned_data.get('file')
 
         # if a name has been entered, strip extra white space and validate
