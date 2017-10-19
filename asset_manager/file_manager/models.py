@@ -149,7 +149,7 @@ class Asset(S3_Object):
     collections = models.ManyToManyField(Collection, blank=True)
 
     description = models.TextField(blank=True)
-    duration = models.SmallIntegerField(blank=True, null=True, verbose_name='Duration (mins)')
+    duration = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Duration (mins)')
     creation_date = models.DateField(blank=True, null=True)
     copyright_info = models.TextField(blank=True)
     enabled = models.BooleanField(default=True)
