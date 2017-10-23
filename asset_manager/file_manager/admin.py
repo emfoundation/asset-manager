@@ -51,7 +51,8 @@ class AssetInline(admin.TabularInline):
     formset = forms.InlineModelFormSet
     extra = 0
     ordering = ['name', ]
-    fields = ['name', ]
+    fields = ['name', 'uploaded_by', 'uploaded_at', 'last_edit_by', 'last_edit_at', 'owner', ]
+    readonly_fields = ['uploaded_by', 'uploaded_at', 'last_edit_by', 'last_edit_at', 'owner',]
     show_change_link = True
     classes = ['collapse', ]
 
