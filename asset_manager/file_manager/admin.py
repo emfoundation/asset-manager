@@ -114,6 +114,7 @@ admin.site.site_header = 'EMF Digital Asset Management System'
 admin.site.site_title = 'EMF DAMS Admin'
 admin.site.index_title = 'Admin Interface'
 
-if settings.ENVIRONMENT != None:
+# Concatenate environment onto Django Admin header/title to indicate dev/staging
+if settings.ENVIRONMENT == 'development' or settings.ENVIRONMENT == 'staging':
     admin.site.site_header += ' - ' + settings.ENVIRONMENT
     admin.site.site_title += ' - ' + settings.ENVIRONMENT
