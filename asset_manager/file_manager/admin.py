@@ -115,5 +115,5 @@ admin.site.index_title = 'Admin Interface'
 
 # Concatenate environment onto Django Admin header/title to indicate dev/staging
 if settings.ENVIRONMENT == 'development' or settings.ENVIRONMENT == 'staging':
-    admin.site.site_header += ' - ' + settings.ENVIRONMENT
-    admin.site.site_title += ' - ' + settings.ENVIRONMENT
+    admin.site.site_header += ' - ' + settings.ENVIRONMENT.capitalize()
+    admin.site.site_title += ' - ' + settings.ENVIRONMENT.capitalize()
