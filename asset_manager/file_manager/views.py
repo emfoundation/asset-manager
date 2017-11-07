@@ -20,6 +20,15 @@ class AssetPerTagViewSet(ModelViewSet):
         tag_id = self.kwargs['id']
         return Asset.objects.filter(tags__id=tag_id)
 
+class AssetPerCollectionAndTagViewSet(ModelViewSet):
+    serializer_class = serializers.AssetSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['collection_id']
+        tag_id = self.kwargs['tag_id']
+        return Asset.objects.filter(collections__id=collection_id).filter(tags__id=tag_id)
+
 class ContributorViewSet(ModelViewSet):
     serializer_class = serializers.ContributorSerializer
     queryset = Contributor.objects.all()
