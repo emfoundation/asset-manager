@@ -1,9 +1,10 @@
 import openpyxl
 import os
 
+from django.conf import settings
 from file_manager.models import Tag, TagGroup
 
-os.chdir('file_manager/scripts/tag_taxonomy/')
+os.chdir(settings.BASE_DIR + '/file_manager/scripts/tag_taxonomy/')
 wb = openpyxl.load_workbook('tag_taxonomy.xlsx')
 sheet = wb.get_sheet_by_name('Sheet1')
 
