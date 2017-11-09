@@ -17,13 +17,23 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from rest_framework.routers import SimpleRouter
+from rest_framework_jwt.views import obtain_jwt_token
 
-from file_manager.views import AssetViewSet
+from file_manager import views
 
 router = SimpleRouter()
 # "assets" defines the url pattern ie localhost:8000/assets/
-router.register("assets", AssetViewSet)
+router.register("api/assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset')
+router.register("api/assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)", 
+		views.AssetPerCollectionAndTagViewSet, 'asset')
+router.register("api/assets", views.AssetViewSet)
+router.register("api/collections", views.CollectionViewSet)
+router.register("api/contributors", views.ContributorViewSet)
+router.register("api/countries", views.CountryTagViewSet)
+router.register("api/tags", views.TagViewSet)
+router.register("api/tag-groups", views.TagGroupViewSet)
 
 urlpatterns = router.urls + [
     url(r'^admin/', admin.site.urls),
+    url(r'^jwt-auth/', obtain_jwt_token),
 ]

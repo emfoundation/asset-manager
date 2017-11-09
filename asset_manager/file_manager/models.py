@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 
 from model_utils import FieldTracker
@@ -6,26 +7,44 @@ from model_utils import FieldTracker
 from . import utils
 from . import s3_utils
 
+import mimetypes
+
+import logging
+logging.basicConfig(
+    filename=settings.LOGFILE,
+    level=logging.INFO,
+    format=' %(asctime)s - %(levelname)s - %(message)s'
+    )
+# logging.disable(logging.CRITICAL)
+
 # Create your models here.
 class S3_Object(models.Model):
     name = models.CharField(max_length=64)
-    s3_key = models.CharField(max_length=256, blank=True, null=True)
 
     class Meta:
         abstract = True
 
     def __str__(self):
-        return self.s3_key
+        return self.name
 
 
 # ------------ Folders ------------#
 
 class Folder(S3_Object):
-
     parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
     tracker = FieldTracker()
 
+    def __str__(self):
+        path = self.get_path()
+        if path.startswith(settings.MEDIAFILES_LOCATION + '/'):
+            path = path[6:]
+        return path
+
     def get_path(self):
+        """
+        Returns an up to date Folder path based on its location in the Django \
+        model.
+        """
         if not self.parent:
             return settings.MEDIAFILES_LOCATION + '/' + self.name
         else:
@@ -34,54 +53,26 @@ class Folder(S3_Object):
     def get_files(self):
         return self.file_set.all()
 
-    def get_all_descendants(self, include_self=False):
-
-        descendants=[]
-
-        def get_descendants(self):
-            descendants.append(self)
-            for asset in self.asset_set.all():
-                descendants.append(asset)
-            child_folders = self.folder_set.all()
-            for folder in child_folders:
-                get_descendants(folder)
-
-        get_descendants(self)
-
-        if not include_self:
-            descendants.remove(self)
-
-        return descendants
-
-    def update_s3_keys(self):
+    def get_all_ancestor_folders(self):
         """
-        When a Folder model has been updated, this function will
-        update the s3_keys of it and its children
+        Returns a list of all the ancestors of a given folder, including the folder itself
         """
-        # first update folder
-        old_s3_key = self.tracker.previous('s3_key')
-        # generate and set new s3_key from current name + file tree position
-        new_s3_key = (self.get_path() + '/').lower()
-        self.s3_key = new_s3_key
+        if not self.parent:
+            return [self]
+        else:
+            ancestors = self.parent.get_all_ancestor_folders()
+            ancestors.append(self)
+            return ancestors
 
-        s3_utils.update_s3_key(old_s3_key, new_s3_key)
-
-        # then update descendants
-        objects = self.get_all_descendants()
-        for object in objects:
-            old_s3_key = object.s3_key
-
-            if type(object) is Folder:
-                new_s3_key = (object.get_path() + '/').lower()
-                object.s3_key = new_s3_key
-
-            elif type(object) is Asset:
-                new_s3_key = object.get_path().lower()
-                object.s3_key = new_s3_key
-                object.file.name = utils.get_file_directory_path(object, object.filename())
-
-            s3_utils.update_s3_key(old_s3_key, new_s3_key)
-            object.save()
+    def is_new_parent_valid(self, new_parent):
+        """
+        Returns True if the new_parent Folder is a valid parent for this Folder,
+        otherwise returns False
+        """
+        new_parent_ancestors = new_parent.get_all_ancestor_folders()
+        if self in new_parent_ancestors:
+            return False
+        return True
 
 # ------------ Tags ------------#
 
@@ -91,9 +82,52 @@ class TagGroup(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ('name', )
+
 class Tag(models.Model):
     name = models.CharField(max_length=64)
     group = models.ForeignKey(TagGroup, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.group.name.title() + ' | ' + self.name
+
+    class Meta:
+        ordering = ('name', )
+
+class ContinentTagGroup(models.Model):
+    name = models.CharField(max_length=64)
+    code = models.CharField(max_length=2, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name', )
+
+class CountryTag(models.Model):
+    name = models.CharField(max_length=64)
+    code = models.CharField(max_length=3, null=True)
+    continent = models.ForeignKey(ContinentTagGroup, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.continent.name.title() + ' | ' + self.name
+
+    class Meta:
+        ordering = ('name', )
+
+# ------------ Contributor ------------#
+
+class Contributor(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+# ------------ Collection ------------#
+
+class Collection(models.Model):
+    name = models.CharField(max_length=64)
 
     def __str__(self):
         return self.name
@@ -101,24 +135,131 @@ class Tag(models.Model):
 # ------------ Assets ------------#
 
 class Asset(S3_Object):
+
+    def get_s3_key(self, filename):
+        return str(self.parent.id) + '/' + filename
+
     parent = models.ForeignKey(Folder, on_delete=models.CASCADE)
-    file = models.FileField(upload_to=utils.get_file_directory_path)
-    tags = models.ManyToManyField('Tag')
+    file = models.FileField(upload_to=get_s3_key, blank=True)
+    link = models.URLField(blank=True)
+
+    tags = models.ManyToManyField(Tag, blank=True)
+    locations = models.ManyToManyField(CountryTag, blank=True)
+    contributors = models.ManyToManyField(Contributor, blank=True)
+    collections = models.ManyToManyField(Collection, blank=True)
+
+    description = models.TextField(blank=True)
+    duration = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Duration (mins)')
+    creation_date = models.DateField(blank=True, null=True)
+    copyright_info = models.TextField(blank=True)
+    enabled = models.BooleanField(default=True)
+
+    PROTOTYPE = 'PT'
+    START_UP = 'SU'
+    ACTIVE = 'AC'
+    ON_MARKET = 'OM'
+    PROJECT = 'PR'
+    RESEARCH = 'RS'
+    COMPLETE = 'CM'
+    DISCONTINUED = 'DS'
+    STATUS_CHOICES = (
+        (PROTOTYPE, 'Prototype'),
+        (START_UP, 'Start Up'),
+        (ACTIVE, 'Active'),
+        (ON_MARKET, 'On Market'),
+        (PROJECT, 'Project'),
+        (RESEARCH, 'Research'),
+        (COMPLETE, 'Complete'),
+        (DISCONTINUED, 'Discontinued'),
+    )
+    status = models.CharField(
+        max_length=2,
+        choices=STATUS_CHOICES,
+        blank=True,
+        verbose_name='Status (Case Studies only)'
+    )
+
+    CASE_STUDY = 'CS'
+    CO_PROJECT = 'CP'
+    IMAGE = 'IM'
+    LINK = 'LN'
+    PAPER = 'PA'
+    PRESENTATION = 'PR'
+    REPORT = 'RT'
+    VIDEO = 'VI'
+    WORKSHOP_SUMMARY = 'WS'
+    TYPE_CHOICES = (
+        (CASE_STUDY, 'CASE STUDY'),
+        (CO_PROJECT, 'CO.PROJECT'),
+        (IMAGE, 'IMAGE'),
+        (LINK, 'LINK'),
+        (PAPER, 'PAPER'),
+        (PRESENTATION, 'PRESENTATION'),
+        (REPORT, 'REPORT'),
+        (VIDEO, 'VIDEO'),
+        (WORKSHOP_SUMMARY, 'WORKSHOP SUMMARY'),
+    )
+    type_field = models.CharField(
+        max_length=2,
+        choices = TYPE_CHOICES,
+        blank=True,
+        verbose_name='Type (CE100 Resources only)'
+    )
+
+    filetype = models.CharField(max_length=64, null=True)
+    uploaded_at = models.DateTimeField(null=True)
+    last_edit_at = models.DateTimeField(null=True)
+
+    uploaded_by = models.ForeignKey(User, null=True, related_name='asset_uploaded_by')
+    last_edit_by = models.ForeignKey(User, null=True, related_name='asset_last_edit_by')
+    owner = models.ForeignKey(User, blank=True, null=True)
+
     tracker = FieldTracker()
 
     def __str__(self):
         return self.parent.get_path() + '/' + self.name
 
-    def get_path(self):
-        return self.parent.get_path() + '/' + self.filename()
+    def save(self, *args, **kwargs):
 
-    # @TODO this must return JUST filename!
-    def filename(self):
-        # Asset.file.name contains the filename, until the model has been saved, then
-        # it contains the full filepath, relative to MEDIAFILES_LOCATION
-        # to get just the file name, we split the string from the right, once, on first '/'
-        # if it contains any /'s
+        # if first save
+        if not self.id:
+            self.update_filetype()
+
+        # if a new file is uploaded, will update filename even if parent has also changed...
+        elif self.tracker.has_changed('file'):
+            old_s3_key = settings.MEDIAFILES_LOCATION + '/' + self.tracker.previous('file').name
+            s3_utils.delete_s3_object(old_s3_key)
+            # update filetype
+            self.update_filetype()
+
+        # but if file has not changed and parent has, must be handled manually
+        elif self.tracker.has_changed('parent_id'):
+            old_file_name = self.file.name
+            self.file.name = str(self.parent.id) + '/' + self.get_filename()
+            logging.info('Filename changed from {0} to {1}'.format(old_file_name, self.file.name))
+
+            media_dir = settings.MEDIAFILES_LOCATION
+
+            s3_utils.update_s3_key(media_dir + '/' + old_file_name, media_dir + '/' + self.file.name)
+
+        super(Asset, self).save(*args, **kwargs)
+
+    def get_path(self):
+        return self.parent.get_path() + '/' + self.name
+    get_path.short_description = 'Full Path'
+
+    def get_filename(self):
+        """
+        Asset.file.name contains the full filepath, relative to MEDIAFILES_LOCATION ie 'parent_id/filename'
+        To get just the filename, we split the string from the right, once, on first '/'
+        """
         filename = self.file.name
         if '/' in filename:
             return filename.rsplit('/',1)[1]
         return filename
+
+    def update_filetype(self):
+        """
+        Automatically update filetype field based on file field
+        """
+        self.filetype = mimetypes.guess_type(self.get_filename())[0]

@@ -4,6 +4,9 @@ asset_manager/asset_manager/settings_secret.py
 # Logs
 logs/
 
+# Scripts not to be included on the live server
+file_manager/scripts/generate_assets.py
+
 # Migrations
 migrations/
 
