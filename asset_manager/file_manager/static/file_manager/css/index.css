@@ -1,0 +1,43 @@
+header {
+  text-align: center;
+  padding: 2% 0;
+  background-color: #f1f4f7;
+}
+body {
+  height: 100vh;
+  margin:0;
+  padding:0;
+}
+.background-image {
+  position: fixed;
+  left:0;
+  right:0;
+  padding: 5%;
+  background-image: url("../images/smf-banner.jpg");
+  filter: blur(5px);
+  height: 100vh;
+  z-index: 0;
+
+}
+.text-overlay {
+  padding-top: 3%;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  width:100%;
+  height: 100vh;
+  text-align: center;
+  font-family: Helvetica;
+  color: #fff;
+  z-index: 1;
+}
+
+#home-title {
+  font-size: 2.5em;
+}
+a {
+  color: #1bc7f7;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}

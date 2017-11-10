@@ -7,6 +7,10 @@ from .models import Asset, Contributor, Collection, CountryTag, Tag, TagGroup
 from . import serializers
 
 # Create your views here.
+
+def index(request):
+    return render(request, 'file_manager/index.html')
+
 class AssetViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
     queryset = Asset.objects.all()
