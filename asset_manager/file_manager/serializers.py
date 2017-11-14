@@ -22,7 +22,7 @@ class ContributorSerializer(serializers.ModelSerializer):
 class CountryTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CountryTag
-        fields = ('id', 'name', 'code', )
+        fields = ('id', 'name', 'display_name', 'code',)
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
