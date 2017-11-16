@@ -26,6 +26,8 @@ router = SimpleRouter()
 router.register("api/assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset')
 router.register("api/assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)", 
 		views.AssetPerCollectionAndTagViewSet, 'asset')
+router.register("api/assets/collection/(?P<collection_id>\d+)/country/(?P<country_id>\d+)", 
+		views.AssetPerCollectionAndCountryViewSet, 'asset')
 router.register("api/assets", views.AssetViewSet)
 router.register("api/collections", views.CollectionViewSet)
 router.register("api/contributors", views.ContributorViewSet)
