@@ -107,6 +107,7 @@ class ContinentTagGroup(models.Model):
 
 class CountryTag(models.Model):
     name = models.CharField(max_length=64)
+    display_name = models.CharField(max_length=32, blank=True)
     code = models.CharField(max_length=3, null=True)
     continent = models.ForeignKey(ContinentTagGroup, on_delete=models.CASCADE)
 
