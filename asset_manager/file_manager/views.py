@@ -12,6 +12,14 @@ class AssetViewSet(ModelViewSet):
     queryset = Asset.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+class AssetPerCollectionViewSet(ModelViewSet):
+    serializer_class = serializers.AssetSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['id']
+        return Asset.objects.filter(collections__id=collection_id)
+
 class AssetPerTagViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
