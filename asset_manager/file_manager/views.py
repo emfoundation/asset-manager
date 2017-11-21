@@ -35,8 +35,8 @@ class AssetPerCollectionAndCountryViewSet(ModelViewSet):
 
     def get_queryset(self):
         collection_id = self.kwargs['collection_id']
-        country_id = self.kwargs['country_id']
-        return Asset.objects.filter(collections__id=collection_id).filter(locations__id=country_id)
+        location_id = self.kwargs['location_id']
+        return Asset.objects.filter(collections__id=collection_id).filter(locations__id=location_id)
 
 class ContributorViewSet(ModelViewSet):
     serializer_class = serializers.ContributorSerializer
