@@ -23,6 +23,7 @@ from file_manager import views
 
 router = SimpleRouter()
 # "assets" defines the url pattern ie localhost:8000/assets/
+router.register("api/assets/collection/(?P<id>\d+)", views.AssetPerCollectionViewSet, 'asset')
 router.register("api/assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset')
 router.register("api/assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)", 
 		views.AssetPerCollectionAndTagViewSet, 'asset')
