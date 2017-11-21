@@ -29,6 +29,15 @@ class AssetPerCollectionAndTagViewSet(ModelViewSet):
         tag_id = self.kwargs['tag_id']
         return Asset.objects.filter(collections__id=collection_id).filter(tags__id=tag_id)
 
+class AssetPerCollectionAndCountryViewSet(ModelViewSet):
+    serializer_class = serializers.AssetSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['collection_id']
+        location_id = self.kwargs['location_id']
+        return Asset.objects.filter(collections__id=collection_id).filter(locations__id=location_id)
+
 class ContributorViewSet(ModelViewSet):
     serializer_class = serializers.ContributorSerializer
     queryset = Contributor.objects.all()
