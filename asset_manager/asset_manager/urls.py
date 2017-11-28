@@ -25,7 +25,7 @@ router = SimpleRouter()
 # "assets" defines the url pattern ie localhost:8000/assets/
 router.register("api/assets/collection/(?P<id>\d+)", views.AssetPerCollectionViewSet, 'asset')
 router.register("api/assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset')
-router.register("api/assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)", 
+router.register("api/assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)",
 		views.AssetPerCollectionAndTagViewSet, 'asset')
 router.register("api/assets/collection/(?P<collection_id>\d+)/location/(?P<location_id>\d+)", 
 		views.AssetPerCollectionAndCountryViewSet, 'asset')
@@ -37,6 +37,7 @@ router.register("api/tags", views.TagViewSet)
 router.register("api/tag-groups", views.TagGroupViewSet)
 
 urlpatterns = router.urls + [
+    url(r'^$', views.index),
     url(r'^admin/', admin.site.urls),
     url(r'^jwt-auth/', obtain_jwt_token),
 ]
