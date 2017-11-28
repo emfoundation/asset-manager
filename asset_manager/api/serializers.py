@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . import models
+from file_manager import models
 
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
