@@ -12,6 +12,14 @@ class AssetViewSet(ModelViewSet):
     queryset = Asset.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+class AssetPerCollectionViewSet(ModelViewSet):
+    serializer_class = serializers.AssetSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['id']
+        return Asset.objects.filter(collections__id=collection_id)
+
 class AssetPerTagViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -28,6 +36,15 @@ class AssetPerCollectionAndTagViewSet(ModelViewSet):
         collection_id = self.kwargs['collection_id']
         tag_id = self.kwargs['tag_id']
         return Asset.objects.filter(collections__id=collection_id).filter(tags__id=tag_id)
+
+class AssetPerCollectionAndLocationViewSet(ModelViewSet):
+    serializer_class = serializers.AssetSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['collection_id']
+        location_id = self.kwargs['location_id']
+        return Asset.objects.filter(collections__id=collection_id).filter(locations__id=location_id)
 
 class ContributorViewSet(ModelViewSet):
     serializer_class = serializers.ContributorSerializer
