@@ -127,7 +127,7 @@ def create_asset(name, filename, folder_name, type_field, authors, created_at, a
     active = active
     collection = get_collection_from_resource_flag(resource)
 
-    # add filefrom url
+    # add file from url
 
     a.save()
 
