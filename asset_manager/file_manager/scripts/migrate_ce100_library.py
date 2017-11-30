@@ -4,7 +4,7 @@ import os
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
-from file_manager.models import Asset, Folder
+from file_manager.models import Asset, Folder, Collection, Contributor
 
 import boto3
 import botocore
@@ -29,8 +29,36 @@ type_dict = {
     'WORKSHOP SUMMARY' : 'WS'
 }
 
-def get_contributors(authors):
-    pass
+def create_contributor(contributor_name):
+    contributor = Contributor(name = contributor_name)
+    contributor.save()
+    print('Contributor {} created...'.format(contributor_name))
+    return contributor
+
+def get_or_create_contributors(authors):
+    # For each contributor, get if exists, create otherwise, and return
+    contributor_names = authors.split(',')
+    contributor_names = [ contributor_name.strip() for contributor_name in contributor_names ]
+    # eg ['foo', 'bar']
+
+    contributors = []
+    # to return all contributor models
+
+    for contributor_name in contributor_names:
+        contributor = Contributor.objects.filter(name__iexact=contributor_name).first()
+        if contributor is None:
+            # coontributor does not exist
+            contributors.append(create_contributor(contributor_name))
+        else:
+            print('Contributor {} exists already...'.format(contributor_name))
+            contributors.append(contributor)
+
+    return contributors
+
+def get_collection_from_resource_flag(resource_flag):
+    if resource_flag:
+        return Collection.objects.get(id=2)
+    return Collection.objects.get(id=1)
 
 def get_filename(key):
     return key.rsplit('/')[-1]
@@ -89,13 +117,19 @@ def create_asset(name, filename, folder_name, type_field, authors, created_at, a
     asset = Asset(
         name=name,
         parent=folder_name,
-        type_field=get_type_code(type_field),
-        contributors=get_contributors(authors)
-        # created_at
-        # active
-        # resource
     )
+    # save must be performed before many-to-many field applied
+    a.save()
 
+    type_field = get_type_code(type_field),
+    contributors = get_contributors(authors)
+    created_at = created_at
+    active = active
+    collection = get_collection_from_resource_flag(resource)
+
+    # add file
+
+    a.save()
 
 def migrate_asset():
     download_file()
@@ -104,27 +138,42 @@ def migrate_asset():
 def run():
     print("Well done, ce100 library successfully migrated... well, almost :-)")
 
-    # insight_id = str(sheet.cell(row=2, column=1).value)
-    # title = sheet.cell(row=2, column=2).value
-    # url = sheet.cell(row=2, column=3).value
-    # insight_type = sheet.cell(row=2, column=4).value
-    # author = sheet.cell(row=2, column=5).value
-    # date = sheet.cell(row=2, column=6).value
-    # active = str(sheet.cell(row=2, column=7).value)
-    # resource = str(sheet.cell(row=2, column=8).value)
-    #
-    # print('Foo:\n' +
-    #     insight_id + '\n' +
-    #     title + '\n' +
-    #     url + '\n' +
-    #     insight_type + '\n' +
-    #     author + '\n' +
-    #     date + '\n' +
-    #     active + '\n' +
-    #     resource + '\n'
-    #     )
-    #
-    # # f = Folder(name='folder1')
-    # # a = Asset(parent=f, name='asset1')
+    # print(get_or_create_contributors('foo, bar2, ray'))
+    print('resource', get_collection_from_resource_flag(True))
+    print('collection', get_collection_from_resource_flag(False))
+
+
+    insight_id = str(sheet.cell(row=2, column=1).value)
+    title = sheet.cell(row=2, column=2).value
+    url = sheet.cell(row=2, column=3).value
+    insight_type = sheet.cell(row=2, column=4).value
+    author = sheet.cell(row=2, column=5).value
+    date = sheet.cell(row=2, column=6).value
+    active = str(sheet.cell(row=2, column=7).value)
+    resource = str(sheet.cell(row=2, column=8).value)
+
+    print('Foo:\n' +
+        insight_id + '\n' +
+        title + '\n' +
+        url + '\n' +
+        insight_type + '\n' +
+        author + '\n' +
+        date + '\n' +
+        active + '\n' +
+        resource + '\n'
+        )
+
+    # f = Folder(name='folder1')
+    # f.save()
+    # a = Asset(parent=f, name='asset1')
+    # a.save()
+    # a.contributors = get_or_create_contributors('George Millard, Alex Wijns')
+
+    # contributors = get_or_create_contributors('George Millard, Alex Wijns')
+    # for contributor in contributors:
+    #     print(contributor)
+
+    # a.contributors = get_or_create_contributors('George Millard, Alex Wijns')
+    # a.save()
     #
     # download_file(s3, SOURCE_BUCKET_NAME, KEY, 'temporary_files')
