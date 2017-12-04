@@ -1,6 +1,7 @@
 import dateutil.parser
 import openpyxl
 import os
+import os.path
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,12 +13,17 @@ import boto3
 import botocore
 s3 = boto3.resource('s3')
 
-SOURCE_BUCKET_NAME = 's3-ce100-library-backup'
+SOURCE_BUCKET_NAME = 's3-ce100-library'
 KEY = 'Case-Studies/Agency-of-Design-Case-Study.pdf'
 
 os.chdir(settings.BASE_DIR + '/file_manager/scripts/ce100_migration/')
 wb = openpyxl.load_workbook('ce100_insight_list_2017_11_14.xlsx')
-sheet = wb.get_sheet_by_name('result')
+insight_sheet = wb.get_sheet_by_name('result')
+
+wb2 = openpyxl.load_workbook('ce100_tag_insight_list_2017_12_04.xlsx')
+tag_sheet = wb2.get_sheet_by_name('result')
+
+asset_dict = {}
 
 type_dict = {
     'CASE STUDY' : 'CS',
@@ -57,6 +63,13 @@ def get_or_create_contributors(authors):
 
     return contributors
 
+def get_tag(tag_name):
+    tag = Tag.objects.filter(name__iexact=tag_name).first()
+    if tag is None:
+        # tag does not exist
+        return -1
+    return tag
+
 def get_collection_from_resource_flag(resource_flag):
     if resource_flag == True:
         return Collection.objects.get(id=2)
@@ -80,17 +93,27 @@ def download_file(s3, bucket_name, url, destination_folder):
         destination_folder += '/'
 
     filename = get_filename(url)
+    print('filename ', filename)
     path = destination_folder + filename
+    print('bucket: {} s3_key: {} '.format(bucket_name, get_s3_key(url)))
 
-    try:
-        s3.Bucket(bucket_name).download_file(get_s3_key(url), path)
-    except botocore.exceptions.ClientError as e:
-        if e.response['Error']['Code'] == "404":
-            print("The object does not exist.")
-        else:
-            raise
+    # my_file = File(path)
 
-    print('File {} successfully downloaded \nfrom Bucket: {}, Url: {}'.format(filename, bucket_name, url))
+    if not os.path.isfile(path):
+
+        try:
+            s3.Bucket(bucket_name).download_file(get_s3_key(url), path)
+
+            print('File {} successfully downloaded \nfrom Bucket: {}, Url: {}'.format(filename, bucket_name, url))
+
+        except botocore.exceptions.ClientError as e:
+            if e.response['Error']['Code'] == "404":
+                print("The object does not exist. {}".format(get_s3_key(url)))
+            else:
+                raise
+
+    else:
+        print('File {} already exists.'.format(path))
 
 def create_folder(folder_name):
 
@@ -121,19 +144,23 @@ def create_folder(folder_name):
 # def create_asset(name, filename, folder_name, type_field, authors, created_at, active, resource):
 def create_asset(insight_details):
 
-    parent = create_folder(get_folder_name(insight_details['url']))
+    isFile = False
+    parent = create_folder('website_assets')
 
-    # delete asset if it exists already
-    assets = Asset.objects.filter(parent=parent, name=insight_details['title'])
-    for a in assets:
-        a.delete()
+    if(insight_details['url'].startswith('http://s3')):
+        isFile = True
+        parent = create_folder(get_folder_name(insight_details['url']))
 
-    asset = Asset(
-        name=insight_details['title'],
-        parent=parent,
-    )
-    # save must be performed before many-to-many field applied
-    asset.save()
+    # update asset if it exists already
+    asset = Asset.objects.filter(parent=parent, name=insight_details['title']).first()
+    if asset is None:
+        # create
+        asset = Asset(
+            name=insight_details['title'],
+            parent=parent,
+        )
+        # save must be performed before many-to-many field applied
+        asset.save()
 
     asset.type_field = get_type_code(insight_details['insight_type'])
     asset.contributors = get_or_create_contributors(insight_details['author'])
@@ -143,49 +170,103 @@ def create_asset(insight_details):
 
     asset.save()
 
-    filename = get_filename(insight_details['url'])
-    f = open(settings.BASE_DIR + '/file_manager/scripts/ce100_migration/temporary_files/{}'.format(filename), 'rb')
-    asset.file.save(filename, File(f))
+    # pickup if url is a link, not a file!
+    if isFile:
+        filename = get_filename(insight_details['url'])
+        f = open(settings.BASE_DIR + '/file_manager/scripts/ce100_migration/temporary_files/{}'.format(filename), 'rb')
 
-    # is an extra save necessary?
-    # a.save()
+        if len(filename) > 100:
+            extension = filename.split('.')[-1]
+            print('{} renamed to {}.'.format(filename, filename[:90] + extension))
+            filename = filename[:90] + extension
+
+        asset.file.save(filename, File(f))
+
+    else:
+        asset.link = insight_details['url']
+
+    asset_dict[insight_details['insight_id']] = asset
 
 def migrate_asset(insight_details):
     download_file(s3, SOURCE_BUCKET_NAME, insight_details['url'], 'temporary_files')
     create_asset(insight_details)
 
+def read_asset(row):
+
+    if insight_sheet.cell(row=row, column=1).value is not None:
+        insight_details = {
+            'insight_id' : str(insight_sheet.cell(row=row, column=1).value),
+            'title' : insight_sheet.cell(row=row, column=2).value,
+            'url' : insight_sheet.cell(row=row, column=3).value,
+            'insight_type' : insight_sheet.cell(row=row, column=4).value,
+            'author' : insight_sheet.cell(row=row, column=5).value,
+            'date' : insight_sheet.cell(row=row, column=6).value,
+            'active' : str(insight_sheet.cell(row=row, column=7).value),
+            'resource' : str(insight_sheet.cell(row=row, column=8).value),
+        }
+
+        migrate_asset(insight_details)
+
+        read_asset(row+1)
+
+def read_tag(row):
+
+    if tag_sheet.cell(row=row, column=1).value is not None:
+
+        print('Tag: {} Asset: {}'.format(
+            str(tag_sheet.cell(row=row, column=1).value),
+            asset_dict[str(tag_sheet.cell(row=row, column=2).value)]
+            )
+        )
+
+        read_tag(row+1)
+
+def add_tags_to_assets():
+
+    read_tag(2)
+
+
 def run():
     print("Well done, ce100 library successfully migrated... well, almost :-)")
 
-    insight_details = {
-        'insight_id' : str(sheet.cell(row=2, column=1).value),
-        'title' : sheet.cell(row=2, column=2).value,
-        'url' : sheet.cell(row=2, column=3).value,
-        'insight_type' : sheet.cell(row=2, column=4).value,
-        'author' : sheet.cell(row=2, column=5).value,
-        'date' : sheet.cell(row=2, column=6).value,
-        'active' : str(sheet.cell(row=2, column=7).value),
-        'resource' : str(sheet.cell(row=2, column=8).value),
-    }
+    # test read_asset
 
-    print('Foo:\n' +
-        insight_details['insight_id'] + '\n' +
-        insight_details['title'] + '\n' +
-        insight_details['url'] + '\n' +
-        insight_details['insight_type'] + '\n' +
-        insight_details['author'] + '\n' +
-        insight_details['date'] + '\n' +
-        insight_details['active'] + '\n' +
-        insight_details['resource'] + '\n'
-        )
+    # insight_details = {
+    #     'insight_id' : str(insight_sheet.cell(row=2, column=1).value),
+    #     'title' : insight_sheet.cell(row=2, column=2).value,
+    #     'url' : insight_sheet.cell(row=2, column=3).value,
+    #     'insight_type' : insight_sheet.cell(row=2, column=4).value,
+    #     'author' : insight_sheet.cell(row=2, column=5).value,
+    #     'date' : insight_sheet.cell(row=2, column=6).value,
+    #     'active' : str(insight_sheet.cell(row=2, column=7).value),
+    #     'resource' : str(insight_sheet.cell(row=2, column=8).value),
+    # }
+    #
+    # migrate_asset(insight_details)
 
-    migrate_asset(insight_details)
+    read_asset(2)
+    print('Assets added {}'.format(asset_dict))
+    add_tags_to_assets()
+
+    # test from niche to norm
+    # download_file(s3, SOURCE_BUCKET_NAME, 'http://s3-eu-west-1.amazonaws.com/s3-ce100-library/Insights/From-waste-to-resource-management-role-of-the-private-sector-in-moving-towards-a-circular-economy.pdf', 'temporary_files')
+
+    # print('Foo:\n' +
+    #     insight_details['insight_id'] + '\n' +
+    #     insight_details['title'] + '\n' +
+    #     insight_details['url'] + '\n' +
+    #     insight_details['insight_type'] + '\n' +
+    #     insight_details['author'] + '\n' +
+    #     insight_details['date'] + '\n' +
+    #     insight_details['active'] + '\n' +
+    #     insight_details['resource'] + '\n'
+    #     )
 
     # test get_date
     # print(get_date('2017-07-04T13:44:27.013675+00:00'))
 
     # test download_file (again!)
-    # download_file(s3, SOURCE_BUCKET_NAME, insight_details['url'], 'temporary_files')
+    # download_file(s3, SOURCE_BUCKET_NAME, 'http://s3-eu-west-1.amazonaws.com/s3-ce100-library/Insights/A-circular-economy-for-smart-devices.pdf', 'temporary_files')
 
     # print(get_or_create_contributors('foo, bar2, ray'))
     # print('resource', get_collection_from_resource_flag(True))
