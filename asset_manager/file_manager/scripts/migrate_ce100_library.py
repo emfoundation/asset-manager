@@ -7,22 +7,22 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 
-from file_manager.models import Asset, Folder, Collection, Contributor
+from file_manager.models import Asset, Folder, Collection, Contributor, Tag
 
 import boto3
 import botocore
 s3 = boto3.resource('s3')
 
 SOURCE_BUCKET_NAME = 's3-ce100-library'
-KEY = 'Case-Studies/Agency-of-Design-Case-Study.pdf'
 
 os.chdir(settings.BASE_DIR + '/file_manager/scripts/ce100_migration/')
-wb = openpyxl.load_workbook('ce100_insight_list_2017_11_14.xlsx')
+wb = openpyxl.load_workbook('ce100_insight_list_2017_12_05.xlsx')
 insight_sheet = wb.get_sheet_by_name('result')
 
 wb2 = openpyxl.load_workbook('ce100_tag_insight_list_2017_12_04.xlsx')
 tag_sheet = wb2.get_sheet_by_name('result')
 
+# A reference to all assets created, so tags can later be added.
 asset_dict = {}
 
 type_dict = {
@@ -38,12 +38,19 @@ type_dict = {
 }
 
 def create_contributor(contributor_name):
+    '''
+    Creates a contributor for a given name.
+    '''
     contributor = Contributor(name = contributor_name)
     contributor.save()
     print('Contributor {} created...'.format(contributor_name))
     return contributor
 
 def get_or_create_contributors(authors):
+    '''
+    Returns a list of contributors from the insight authors field.
+    If contributors do not yet exist, they will first be created.
+    '''
     # For each contributor, get if exists, create otherwise, and return
     contributor_names = authors.split(',')
     contributor_names = [ contributor_name.strip() for contributor_name in contributor_names ]
@@ -64,6 +71,9 @@ def get_or_create_contributors(authors):
     return contributors
 
 def get_tag(tag_name):
+    '''
+    Returns a tag for a given name, or -1 if the tag does not exist.
+    '''
     tag = Tag.objects.filter(name__iexact=tag_name).first()
     if tag is None:
         # tag does not exist
@@ -71,18 +81,39 @@ def get_tag(tag_name):
     return tag
 
 def get_collection_from_resource_flag(resource_flag):
+    '''
+    Returns the correct collection, ce100_insights or ce100_resources,
+    based on the insight resource boolean.
+    '''
     if resource_flag == True:
         return Collection.objects.get(id=2)
     return Collection.objects.get(id=1)
 
 def get_filename(url):
+    '''
+    Returns the filename from the insight url.
+    '''
     return url.rsplit('/')[-1]
 
 def get_folder_name(url):
+    '''
+    Returns the subfolder name from the insight url.
+    Catches the case where an asset sits directly within the root folder.
+    '''
+    folder = url.rsplit('/')[-2]
+    if folder == 's3-ce100-library':
+        return ''
     return url.rsplit('/')[-2]
 
 def get_s3_key(url):
-    return get_folder_name(url) + '/' + get_filename(url)
+    '''
+    Returns the s3_key to download a file from the insight url.
+    '''
+    folder_name = get_folder_name(url)
+    if folder_name == '':
+        return get_filename(url)
+    else:
+        return get_folder_name(url) + '/' + get_filename(url)
 
 def get_type_code(type):
     return type_dict[type]
@@ -96,8 +127,6 @@ def download_file(s3, bucket_name, url, destination_folder):
     print('filename ', filename)
     path = destination_folder + filename
     print('bucket: {} s3_key: {} '.format(bucket_name, get_s3_key(url)))
-
-    # my_file = File(path)
 
     if not os.path.isfile(path):
 
@@ -119,6 +148,9 @@ def create_folder(folder_name):
 
     try:
         folder_parent = Folder.objects.get(name='Cello Library')
+
+        if folder_name == '':
+            return folder_parent
 
         folders = Folder.objects.filter(parent=folder_parent)
         print('current folders: {}'.format(folders))
@@ -145,7 +177,7 @@ def create_folder(folder_name):
 def create_asset(insight_details):
 
     isFile = False
-    parent = create_folder('website_assets')
+    parent = create_folder('websites')
 
     if(insight_details['url'].startswith('http://s3')):
         isFile = True
@@ -176,7 +208,7 @@ def create_asset(insight_details):
         f = open(settings.BASE_DIR + '/file_manager/scripts/ce100_migration/temporary_files/{}'.format(filename), 'rb')
 
         if len(filename) > 100:
-            extension = filename.split('.')[-1]
+            extension = filename.rsplit('.')[-1]
             print('{} renamed to {}.'.format(filename, filename[:90] + extension))
             filename = filename[:90] + extension
 
@@ -192,39 +224,58 @@ def migrate_asset(insight_details):
     create_asset(insight_details)
 
 def read_asset(row):
+    '''
+    Reads insight details from excel spreadsheet, calling migrate_asset() on each.
+    '''
 
-    if insight_sheet.cell(row=row, column=1).value is not None:
-        insight_details = {
-            'insight_id' : str(insight_sheet.cell(row=row, column=1).value),
-            'title' : insight_sheet.cell(row=row, column=2).value,
-            'url' : insight_sheet.cell(row=row, column=3).value,
-            'insight_type' : insight_sheet.cell(row=row, column=4).value,
-            'author' : insight_sheet.cell(row=row, column=5).value,
-            'date' : insight_sheet.cell(row=row, column=6).value,
-            'active' : str(insight_sheet.cell(row=row, column=7).value),
-            'resource' : str(insight_sheet.cell(row=row, column=8).value),
-        }
+    if(row < 10):
 
-        migrate_asset(insight_details)
+        if insight_sheet.cell(row=row, column=1).value is not None:
+            insight_details = {
+                'insight_id' : insight_sheet.cell(row=row, column=1).value,
+                'title' : insight_sheet.cell(row=row, column=2).value.strip().strip('\n'),
+                'url' : insight_sheet.cell(row=row, column=3).value,
+                'insight_type' : insight_sheet.cell(row=row, column=4).value,
+                'author' : insight_sheet.cell(row=row, column=5).value,
+                'date' : insight_sheet.cell(row=row, column=6).value,
+                'active' : str(insight_sheet.cell(row=row, column=7).value),
+                'resource' : str(insight_sheet.cell(row=row, column=8).value),
+            }
 
-        read_asset(row+1)
+            print(insight_details)
+
+            migrate_asset(insight_details)
+
+            read_asset(row+1)
 
 def read_tag(row):
 
-    if tag_sheet.cell(row=row, column=1).value is not None:
+    if row <10:
 
-        print('Tag: {} Asset: {}'.format(
-            str(tag_sheet.cell(row=row, column=1).value),
-            asset_dict[str(tag_sheet.cell(row=row, column=2).value)]
+        if tag_sheet.cell(row=row, column=1).value is not None:
+
+            tag = get_tag(str(tag_sheet.cell(row=row, column=1).value))
+
+            if tag == -1:
+                print('Attempting to add Tag: "{}" to Insight: {} but tag does not exist... \
+                please add manually.'.format(str(tag_sheet.cell(row=row, column=1).value)), asset_dict[str(tag_sheet.cell(row=row, column=2).value)])
+
+            asset = asset_dict[tag_sheet.cell(row=row, column=2).value]
+
+            asset.tags.add(tag)
+
+            print('Added Tag: "{}" to Insight: {}'.format(
+                str(tag_sheet.cell(row=row, column=1).value),
+                asset_dict[tag_sheet.cell(row=row, column=2).value]
+                # str(tag_sheet.cell(row=row, column=2).value),
+                )
             )
-        )
 
-        read_tag(row+1)
+            read_tag(row+1)
 
 def add_tags_to_assets():
 
     read_tag(2)
-
 
 def run():
     print("Well done, ce100 library successfully migrated... well, almost :-)")
@@ -249,7 +300,7 @@ def run():
     add_tags_to_assets()
 
     # test from niche to norm
-    # download_file(s3, SOURCE_BUCKET_NAME, 'http://s3-eu-west-1.amazonaws.com/s3-ce100-library/Insights/From-waste-to-resource-management-role-of-the-private-sector-in-moving-towards-a-circular-economy.pdf', 'temporary_files')
+    # download_file(s3, SOURCE_BUCKET_NAME, 'http://s3-eu-west-1.amazonaws.com/s3-ce100-library/Circular-furniture-case-studies-1.pdf', 'temporary_files')
 
     # print('Foo:\n' +
     #     insight_details['insight_id'] + '\n' +
@@ -290,5 +341,3 @@ def run():
 
     # a.contributors = get_or_create_contributors('George Millard, Alex Wijns')
     # a.save()
-    #
-    # download_file(s3, SOURCE_BUCKET_NAME, KEY, 'temporary_files')
