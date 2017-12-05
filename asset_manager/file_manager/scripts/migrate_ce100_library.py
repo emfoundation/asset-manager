@@ -197,7 +197,7 @@ def create_asset(insight_details):
     asset.type_field = get_type_code(insight_details['insight_type'])
     asset.contributors = get_or_create_contributors(insight_details['author'])
     asset.uploaded_at = dateutil.parser.parse(insight_details['date'])
-    asset.active = insight_details['active']
+    asset.enabled = insight_details['active']
     asset.collections.add(get_collection_from_resource_flag(insight_details['resource']))
 
     asset.save()
@@ -216,6 +216,7 @@ def create_asset(insight_details):
 
     else:
         asset.link = insight_details['url']
+        asset.save()
 
     asset_dict[insight_details['insight_id']] = asset
 
@@ -227,51 +228,54 @@ def read_asset(row):
     '''
     Reads insight details from excel spreadsheet, calling migrate_asset() on each.
     '''
+    if insight_sheet.cell(row=row, column=1).value is not None:
+        insight_details = {
+            'insight_id' : insight_sheet.cell(row=row, column=1).value,
+            'title' : insight_sheet.cell(row=row, column=2).value.strip().strip('\n'),
+            'url' : insight_sheet.cell(row=row, column=3).value,
+            'insight_type' : insight_sheet.cell(row=row, column=4).value,
+            'author' : insight_sheet.cell(row=row, column=5).value,
+            'date' : insight_sheet.cell(row=row, column=6).value,
+        }
 
-    if(row < 10):
+        if str(insight_sheet.cell(row=row, column=7).value) == 'True':
+            insight_details['active'] = True
+        else:
+            insight_details['active'] = False
 
-        if insight_sheet.cell(row=row, column=1).value is not None:
-            insight_details = {
-                'insight_id' : insight_sheet.cell(row=row, column=1).value,
-                'title' : insight_sheet.cell(row=row, column=2).value.strip().strip('\n'),
-                'url' : insight_sheet.cell(row=row, column=3).value,
-                'insight_type' : insight_sheet.cell(row=row, column=4).value,
-                'author' : insight_sheet.cell(row=row, column=5).value,
-                'date' : insight_sheet.cell(row=row, column=6).value,
-                'active' : str(insight_sheet.cell(row=row, column=7).value),
-                'resource' : str(insight_sheet.cell(row=row, column=8).value),
-            }
+        if str(insight_sheet.cell(row=row, column=8).value) == 'True':
+            insight_details['resource'] = True
+        else:
+            insight_details['resource'] = False
 
-            print(insight_details)
+        migrate_asset(insight_details)
 
-            migrate_asset(insight_details)
-
-            read_asset(row+1)
+        read_asset(row+1)
 
 def read_tag(row):
 
-    if row <10:
+    if tag_sheet.cell(row=row, column=1).value is not None:
 
-        if tag_sheet.cell(row=row, column=1).value is not None:
+        tag = get_tag(str(tag_sheet.cell(row=row, column=1).value))
 
-            tag = get_tag(str(tag_sheet.cell(row=row, column=1).value))
+        # if tag == -1:
+        #     print('ERROR Tag: {} not found.'.format(str(tag_sheet.cell(row=row, column=1).value)))
 
-            if tag == -1:
-                print('Attempting to add Tag: "{}" to Insight: {} but tag does not exist... \
-                please add manually.'.format(str(tag_sheet.cell(row=row, column=1).value)), asset_dict[str(tag_sheet.cell(row=row, column=2).value)])
+        if tag == -1:
+            print('Attempting to add Tag: "{}" to Insight: {} but tag does not exist... please add manually.'.format(str(tag_sheet.cell(row=row, column=1).value), asset_dict[tag_sheet.cell(row=row, column=2).value]))
 
-            asset = asset_dict[tag_sheet.cell(row=row, column=2).value]
+        asset = asset_dict[tag_sheet.cell(row=row, column=2).value]
 
-            asset.tags.add(tag)
+        asset.tags.add(tag)
 
-            print('Added Tag: "{}" to Insight: {}'.format(
-                str(tag_sheet.cell(row=row, column=1).value),
-                asset_dict[tag_sheet.cell(row=row, column=2).value]
-                # str(tag_sheet.cell(row=row, column=2).value),
-                )
+        print('Added Tag: "{}" to Insight: {}'.format(
+            str(tag_sheet.cell(row=row, column=1).value),
+            asset_dict[tag_sheet.cell(row=row, column=2).value]
+            # str(tag_sheet.cell(row=row, column=2).value),
             )
+        )
 
-            read_tag(row+1)
+        read_tag(row+1)
 
 def add_tags_to_assets():
 
