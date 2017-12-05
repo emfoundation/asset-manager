@@ -11,7 +11,9 @@ from file_manager.models import Asset, Folder, Collection, Contributor, Tag
 
 import boto3
 import botocore
-s3 = boto3.resource('s3')
+s3 = boto3.resource('s3',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
 
 SOURCE_BUCKET_NAME = 's3-ce100-library'
 
@@ -120,29 +122,31 @@ def get_type_code(type):
 
 def download_file(s3, bucket_name, url, destination_folder):
 
-    if not destination_folder.endswith('/'):
-        destination_folder += '/'
+    if url.startswith('http://s3'):
 
-    filename = get_filename(url)
-    print('filename ', filename)
-    path = destination_folder + filename
-    print('bucket: {} s3_key: {} '.format(bucket_name, get_s3_key(url)))
+        if not destination_folder.endswith('/'):
+            destination_folder += '/'
 
-    if not os.path.isfile(path):
+        filename = get_filename(url)
+        print('filename ', filename)
+        path = destination_folder + filename
+        print('bucket: {} s3_key: {} '.format(bucket_name, get_s3_key(url)))
 
-        try:
-            s3.Bucket(bucket_name).download_file(get_s3_key(url), path)
+        if not os.path.isfile(path):
 
-            print('File {} successfully downloaded \nfrom Bucket: {}, Url: {}'.format(filename, bucket_name, url))
+            try:
+                s3.Bucket(bucket_name).download_file(get_s3_key(url), path)
 
-        except botocore.exceptions.ClientError as e:
-            if e.response['Error']['Code'] == "404":
-                print("The object does not exist. {}".format(get_s3_key(url)))
-            else:
-                raise
+                print('File {} successfully downloaded \nfrom Bucket: {}, Url: {}'.format(filename, bucket_name, url))
 
-    else:
-        print('File {} already exists.'.format(path))
+            except botocore.exceptions.ClientError as e:
+                if e.response['Error']['Code'] == "404":
+                    print("The object does not exist. {}".format(get_s3_key(url)))
+                else:
+                    raise
+
+        else:
+            print('File {} already exists.'.format(path))
 
 def create_folder(folder_name):
 
