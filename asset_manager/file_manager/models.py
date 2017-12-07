@@ -19,7 +19,7 @@ logging.basicConfig(
 
 # Create your models here.
 class S3_Object(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=200)
 
     class Meta:
         abstract = True
