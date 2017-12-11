@@ -23,5 +23,5 @@ with the same name: "{1}". Please choose unique names for each {0}.'
 missing_parent_msg = 'No Parent Folder has been selected. Please choose a Parent Folder.'
 
 # string constants
-VALID_NAME_FORMAT = '^[a-zA-Z0-9-_ ]+$'
+VALID_NAME_FORMAT = '^[a-zA-Z0-9-_\'"&,.() ]+$'
 VALID_FILE_NAME_FORMAT = '^[a-zA-Z0-9-_.]+$'
