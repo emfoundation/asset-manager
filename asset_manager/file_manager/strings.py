@@ -22,7 +22,7 @@ with the same name: "{1}". Please choose unique names for each {0}.'
 
 missing_parent_msg = 'No Parent Folder has been selected. Please choose a Parent Folder.'
 
-file_size_exceeded = 'The file you have chosen is too large, please select a file that is less than 100MB.'
+file_size_exceeded = 'The file you have chosen is too large, please select a file that is less than {0}'
 
 # string constants
 VALID_NAME_FORMAT = '^[a-zA-Z0-9-_ ]+$'
