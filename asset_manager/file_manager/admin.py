@@ -63,7 +63,8 @@ class FolderInline(admin.TabularInline):
     extra = 0
     ordering = ['name', ]
     show_change_link = True
-    classes = ['collapse', ]
+    ### Adds the ability to collaspe the folder structure ###
+    # classes = ['collapse', ]
 
 
 class FolderAdmin(admin.ModelAdmin):
