@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 
 from . import filters, forms, models
-from .models import Contributor
+from .models import Contributor, Collection
 
 from datetime import datetime
 from pytz import timezone
@@ -97,6 +97,14 @@ class CountryTagAdmin(admin.ModelAdmin):
     model = models.CountryTag
     ordering = ['continent', 'name', ]
 
+class CollectionInline(admin.TabularInline):
+    model = Collection.assets.through
+    extra = 0
+
+class CollectionAdmin(admin.ModelAdmin):
+    fields = ['name', ]
+    inlines = [CollectionInline, ]
+
 
 # Register your models here.
 
@@ -105,7 +113,7 @@ admin.site.register(models.Tag, TagAdmin)
 admin.site.register(models.Contributor)
 admin.site.register(models.ContinentTagGroup, ContinentTagGroupAdmin)
 admin.site.register(models.CountryTag, CountryTagAdmin)
-admin.site.register(models.Collection)
+admin.site.register(models.Collection, CollectionAdmin)
 admin.site.register(models.Folder, FolderAdmin)
 admin.site.register(models.Asset, AssetAdmin)
 

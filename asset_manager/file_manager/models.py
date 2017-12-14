@@ -129,6 +129,7 @@ class Contributor(models.Model):
 
 class Collection(models.Model):
     name = models.CharField(max_length=64)
+    assets = models.ManyToManyField('file_manager.Asset', through='file_manager.asset_collections', related_name='Assets')
 
     def __str__(self):
         return self.name
