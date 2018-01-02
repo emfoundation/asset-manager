@@ -44,6 +44,10 @@ class AssetAdmin(admin.ModelAdmin):
         set_asset_user_metadata(obj, request.user)
         super(AssetAdmin, self).save_model(request, obj, form, change)
 
+    class Media:
+        js = [
+        'file_manager/js/file_size.js',
+        ]
 
 class AssetInline(admin.TabularInline):
     model = models.Asset
