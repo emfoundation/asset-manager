@@ -9,7 +9,7 @@ folder_set_as_own_parent_msg = "A Folder cannot be set as its own Parent! \
 Please choose an alternative Folder or leave blank to create a root level \
 Folder."
 
-invalid_name_msg = "Invalid {0} name, please use only: a-z A-Z 0-9 _ and -"
+invalid_name_msg = "Invalid {0} name, please use only: a-z A-Z 0-9 and these characters: _ - ' \" & , . ( )"
 
 duplicate_file_name_msg = 'A file with the name "{0}" already exists in this \
 Folder: {1}, attached to Asset {2}. Please rename the file.'
