@@ -53,7 +53,8 @@ class AssetInline(admin.TabularInline):
     ordering = ['name', ]
     fields = ['name', ]
     show_change_link = True
-    classes = ['collapse', ]
+    ### Adds the ability to collapse the asset block within the parent folder ###
+    # classes = ['collapse', ]
 
 
 class FolderInline(admin.TabularInline):
@@ -63,7 +64,8 @@ class FolderInline(admin.TabularInline):
     extra = 0
     ordering = ['name', ]
     show_change_link = True
-    classes = ['collapse', ]
+    ### Adds the ability to collaspe the folder structure ###
+    # classes = ['collapse', ]
 
 
 class FolderAdmin(admin.ModelAdmin):
