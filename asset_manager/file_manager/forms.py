@@ -80,9 +80,9 @@ class AssetForm(forms.ModelForm):
             # Catches files that are larger than nginx's max upload size from being uploaded.
             # This should be combined with altering nginx conf file to set a limit that is higher
             # than the one set in Django.
-            
-            readable_size = int(MAX_FILE_SIZE / (1024*1024))
-            if (file._size > MAX_FILE_SIZE):
+
+            readable_size = int(settings.MAX_FILE_SIZE / (1024*1024))
+            if (file._size > settings.MAX_FILE_SIZE):
                 raise forms.ValidationError(strings.file_size_exceeded.format(str(readable_size) + "MB"))
 
         return cleaned_data
