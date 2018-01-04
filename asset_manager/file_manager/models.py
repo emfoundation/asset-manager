@@ -207,7 +207,7 @@ class Asset(S3_Object):
         verbose_name='Type (CE100 Resources only)'
     )
 
-    filetype = models.CharField(max_length=64, null=True)
+    filetype = models.CharField(max_length=128, null=True)
     uploaded_at = models.DateTimeField(null=True)
     last_edit_at = models.DateTimeField(null=True)
 
