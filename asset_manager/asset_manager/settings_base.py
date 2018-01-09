@@ -129,3 +129,6 @@ MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 
 # Logs
 LOGFILE='logs/logs.txt'
+
+# Custom Variables
+MAX_FILE_SIZE = 100000000 # 100MB Note, if you change this you need to change the file_size.js file.

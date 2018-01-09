@@ -76,6 +76,15 @@ class AssetForm(forms.ModelForm):
             if s3_key in filenames:
                 raise forms.ValidationError(strings.duplicate_file_name_msg.format(file.name, parent, name))
 
+            #### VALIDATE FILE SIZE ####
+            # Catches files that are larger than nginx's max upload size from being uploaded.
+            # This should be combined with altering nginx conf file to set a limit that is higher
+            # than the one set in Django.
+
+            readable_size = int(settings.MAX_FILE_SIZE / (1024*1024))
+            if (file._size > settings.MAX_FILE_SIZE):
+                raise forms.ValidationError(strings.file_size_exceeded.format(str(readable_size) + "MB"))
+
         return cleaned_data
 
 
