@@ -3,9 +3,12 @@ asset_manager/asset_manager/settings_secret.py
 
 # Logs
 logs/
+file_manager/scripts/logs/
 
 # Scripts not to be included on the live server
 file_manager/scripts/generate_assets.py
+file_manager/scripts/ce100_migration/temporary_files/
+file_manager/scripts/restore_db.py
 
 # Migrations
 migrations/
