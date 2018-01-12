@@ -33,7 +33,8 @@ class AssetAdmin(admin.ModelAdmin):
     search_fields = ('name', 'file', )
     list_filter = (
         filters.TagListFilter,
-        filters.LocationsListFilter,
+        filters.LocationListFilter,
+        filters.CollectionListFilter,
         filters.ContributorListFilter,
         filters.OwnerListFilter,
         filters.FileTypeListFilter,

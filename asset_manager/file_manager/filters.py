@@ -36,6 +36,18 @@ class BaseListFilter(admin.SimpleListFilter):
         """
         pass
 
+class CollectionListFilter(BaseListFilter):
+
+    title = 'Collection'
+    parameter_name = 'collections'
+    model = models.Collection
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(collections=self.value())
+        return queryset
+
+
 class ContributorListFilter(BaseListFilter):
 
     title = 'Contributor'
@@ -48,7 +60,7 @@ class ContributorListFilter(BaseListFilter):
         return queryset
 
 
-class LocationsListFilter(BaseListFilter):
+class LocationListFilter(BaseListFilter):
 
     title = 'Country'
     parameter_name = 'locations'
