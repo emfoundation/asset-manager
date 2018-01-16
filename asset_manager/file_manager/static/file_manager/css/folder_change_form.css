@@ -1,0 +1,16 @@
+.field-name {
+    font-size: 6px;
+    float:left;
+    border: none;
+}
+
+a.button {
+    -webkit-appearance: button-bevel;
+    -moz-appearance: button-bevel;
+    appearance: button-bevel;
+
+    text-decoration: none;
+    color: white;
+    width: 40px;
+    text-align: center;
+}
