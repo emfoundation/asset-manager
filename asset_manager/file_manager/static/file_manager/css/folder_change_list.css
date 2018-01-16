@@ -1,0 +1,7 @@
+span.action-counter {
+    display: none !important;
+}
+
+p.paginator {
+    display: none;
+}
