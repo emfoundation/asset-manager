@@ -8,6 +8,10 @@
   {% if cl.formset %}
     <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
   {% endif %}
+
+  {# Added link to custom css stylesheet #}
+  <link rel="stylesheet" type="text/css" href="{% static 'file_manager/css/folder_change_list.css' %}" />
+
   {% if cl.formset or action_form %}
     <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
   {% endif %}
