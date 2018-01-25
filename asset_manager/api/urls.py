@@ -4,14 +4,14 @@ from file_manager import models
 
 router = SimpleRouter()
 
-router.register("assets/collection/(?P<id>\d+)", 
-		views.AssetPerCollectionViewSet, 'asset')
-router.register("assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset')
+router.register("assets/collection/(?P<id>\d+)",
+		views.AssetPerCollectionViewSet, 'assets-per-collection')
+router.register("assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset-per-tag')
 router.register("assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)",
-		views.AssetPerCollectionAndTagViewSet, 'asset')
-router.register("assets/collection/(?P<collection_id>\d+)/location/(?P<location_id>\d+)", 
-		views.AssetPerCollectionAndLocationViewSet, 'asset')
-router.register("assets", views.AssetViewSet)
+		views.AssetPerCollectionAndTagViewSet, 'asset-per-collection-tag')
+router.register("assets/collection/(?P<collection_id>\d+)/location/(?P<location_id>\d+)",
+		views.AssetPerCollectionAndLocationViewSet, 'asset-per-collection-location')
+router.register("assets", views.AssetViewSet, 'assets')
 router.register("collections", views.CollectionViewSet)
 router.register("contributors", views.ContributorViewSet)
 router.register("countries", views.CountryTagViewSet)
