@@ -11,6 +11,8 @@ Folder."
 
 invalid_name_msg = "Invalid {0} name, please use only: a-z A-Z 0-9 and these characters: _ - ' \" & , . ( )"
 
+invalid_file_name_msg = "The file you are trying to upload has an invalid name. Please rename it, prior to uploading, using only the following characters: a-z A-Z 0-9 . - _"
+
 duplicate_file_name_msg = 'A file with the name "{0}" already exists in this \
 Folder: {1}, attached to Asset {2}. Please rename the file.'
 
