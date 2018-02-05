@@ -203,8 +203,7 @@ class Asset(S3_Object):
     type_field = models.CharField(
         max_length=2,
         choices = TYPE_CHOICES,
-        blank=True,
-        verbose_name='Type (CE100 Resources only)'
+        verbose_name='Content Type'
     )
 
     filetype = models.CharField(max_length=128, null=True)
