@@ -26,4 +26,4 @@ file_size_exceeded = 'The file you have chosen is too large, please select a fil
 
 # string constants
 VALID_NAME_FORMAT = '^[a-zA-Z0-9-_\'"&,.() ]+$'
-VALID_FILE_NAME_FORMAT = '^[a-zA-Z0-9-_.]+$'
+VALID_FILE_NAME_FORMAT = '^[a-zA-Z0-9!-_.\'()]+$'
