@@ -49,6 +49,9 @@ class AssetAdmin(admin.ModelAdmin):
         js = [
         'file_manager/js/file_size.js',
         ]
+        css = {
+        'all': ('file_manager/css/filter.css',)
+        }
 
 
 class AssetInline(admin.TabularInline):
