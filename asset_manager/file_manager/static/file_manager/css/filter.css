@@ -1,3 +1,12 @@
-.filter-title{
-  color: blue;
+.filter-title {
+  display: inline;
+}
+#changelist-filter h3 {
+  padding-right: 5px;
+}
+.filter-link {
+  font-size: 12px;
+}
+.filter-link:active, .filter-link:focus, .filter-link:visited {
+  text-decoration: none;
 }
