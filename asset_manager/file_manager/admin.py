@@ -48,6 +48,7 @@ class AssetAdmin(admin.ModelAdmin):
     class Media:
         js = [
         'file_manager/js/file_size.js',
+        'file_manager/js/filter.js',
         ]
         css = {
         'all': ('file_manager/css/filter.css',)
