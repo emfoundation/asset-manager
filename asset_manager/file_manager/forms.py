@@ -63,7 +63,7 @@ class AssetForm(forms.ModelForm):
         if(file and not self.instance.tracker.previous('file')):
             pattern = re.compile(strings.VALID_FILE_NAME_FORMAT)
             if not pattern.match(file.name):
-                raise forms.ValidationError(strings.invalid_name_msg.format('file'))
+                raise forms.ValidationError(strings.invalid_file_name_msg)
 
             # Check file name is unique within parent Folder. Note that new
             # files do not yet have their parent's id appended to their name yet.

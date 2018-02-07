@@ -203,8 +203,7 @@ class Asset(S3_Object):
     type_field = models.CharField(
         max_length=2,
         choices = TYPE_CHOICES,
-        blank=True,
-        verbose_name='Type (CE100 Resources only)'
+        verbose_name='Content Type'
     )
 
     filetype = models.CharField(max_length=128, null=True)
@@ -226,15 +225,15 @@ class Asset(S3_Object):
         if not self.id:
             self.update_filetype()
 
-        # if a new file is uploaded, will update filename even if parent has also changed...
+        # if a new file is uploaded, the filename will be updated whether or not the parent has changed
         elif self.tracker.has_changed('file'):
             old_s3_key = settings.MEDIAFILES_LOCATION + '/' + self.tracker.previous('file').name
             s3_utils.delete_s3_object(old_s3_key)
             # update filetype
             self.update_filetype()
 
-        # but if file has not changed and parent has, must be handled manually
-        elif self.tracker.has_changed('parent_id'):
+        # but if a file is already attached, and the parent is changed, this must be handled manually
+        elif self.file and self.tracker.has_changed('parent_id'):
             old_file_name = self.file.name
             self.file.name = str(self.parent.id) + '/' + self.get_filename()
             logging.info('Filename changed from {0} to {1}'.format(old_file_name, self.file.name))
@@ -263,4 +262,7 @@ class Asset(S3_Object):
         """
         Automatically update filetype field based on file field
         """
-        self.filetype = mimetypes.guess_type(self.get_filename())[0]
+        if self.file:
+            self.filetype = mimetypes.guess_type(self.get_filename())[0]
+        else:
+            self.filetype = ''
