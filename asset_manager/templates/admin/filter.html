@@ -1,7 +1,7 @@
 {% load i18n %}
-<a href="" class="js-toggle-filter"><h3 class="filter-title">{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3> (Hide)</a>
+<a class="filter-link js-toggle-filter"><h3 class="filter-title">{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>(Hide)</a>
 
-<ul>
+<ul class="choice-list">
 {% for choice in choices %}
     <li{% if choice.selected %} class="selected"{% endif %}>
     <a href="{{ choice.query_string|iriencode }}" title="{{ choice.display }}">{{ choice.display }}</a></li>

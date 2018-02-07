@@ -6,7 +6,16 @@
 }
 .filter-link {
   font-size: 12px;
+  margin-bottom: 10px;
+  cursor: pointer !important;
+
 }
 .filter-link:active, .filter-link:focus, .filter-link:visited {
   text-decoration: none;
+}
+.choice-list {
+  display: block;
+}
+.hide {
+  display: none;
 }
