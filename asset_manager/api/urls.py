@@ -1,17 +1,18 @@
 from rest_framework.routers import SimpleRouter
 from . import views
 from file_manager import models
+from django.conf.urls import url
 
 router = SimpleRouter()
 
 router.register("assets/collection/(?P<id>\d+)",
-		views.AssetPerCollectionViewSet, 'assets-per-collection')
+		views.AssetPerCollectionViewSet, 'asset-per-collection')
 router.register("assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset-per-tag')
 router.register("assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)",
 		views.AssetPerCollectionAndTagViewSet, 'asset-per-collection-tag')
 router.register("assets/collection/(?P<collection_id>\d+)/location/(?P<location_id>\d+)",
 		views.AssetPerCollectionAndLocationViewSet, 'asset-per-collection-location')
-router.register("assets", views.AssetViewSet, 'assets')
+router.register("assets", views.AssetViewSet,)
 router.register("collections", views.CollectionViewSet)
 router.register("contributors", views.ContributorViewSet)
 router.register("countries", views.CountryTagViewSet)
