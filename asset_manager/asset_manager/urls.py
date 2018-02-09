@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('api.urls', namespace='api')),
     url(r'^jwt-auth/', obtain_jwt_token, name='auth'),
-    url(r'^', include('user_interface.urls'), name='user-interface'),
+    url(r'^', include('user_interface.urls', namespace='user_interface')),
 ]
