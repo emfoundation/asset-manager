@@ -6,12 +6,12 @@ from django.conf.urls import url
 router = SimpleRouter()
 
 router.register("assets/collection/(?P<id>\d+)",
-		views.AssetPerCollectionViewSet, 'asset-per-collection')
-router.register("assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset-per-tag')
+		views.AssetPerCollectionViewSet, 'asset-collection')
+router.register("assets/tag/(?P<id>\d+)", views.AssetPerTagViewSet, 'asset-tag')
 router.register("assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)",
-		views.AssetPerCollectionAndTagViewSet, 'asset-per-collection-tag')
+		views.AssetPerCollectionAndTagViewSet, 'asset-collection-tag')
 router.register("assets/collection/(?P<collection_id>\d+)/location/(?P<location_id>\d+)",
-		views.AssetPerCollectionAndLocationViewSet, 'asset-per-collection-location')
+		views.AssetPerCollectionAndLocationViewSet, 'asset-collection-location')
 router.register("assets", views.AssetViewSet,)
 router.register("collections", views.CollectionViewSet)
 router.register("contributors", views.ContributorViewSet)
