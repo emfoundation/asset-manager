@@ -8,7 +8,6 @@
   font-size: 12px;
   margin-bottom: 10px;
   cursor: pointer !important;
-
 }
 .filter-link:active, .filter-link:focus, .filter-link:visited {
   text-decoration: none;
@@ -18,4 +17,8 @@
 }
 .hide {
   display: none;
+}
+.selected {
+  color: #5b80b2;
+  font-weight: 900 !important;
 }
