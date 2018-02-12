@@ -1,4 +1,11 @@
 {% load i18n %}
+{% load staticfiles %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'file_manager/css/filter.css' %}">
+    <script type="text/javascript" src="{% static 'file_manager/js/filter.js' %}"></script>
+{% endblock %}
+
 <a class="filter-link js-toggle-filter"><h3 class="filter-title">{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>(Hide)</a>
 
 <ul class="choice-list">
