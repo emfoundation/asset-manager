@@ -2,7 +2,6 @@
 
 [run]
 branch = true
-disable_warnings = true
 
 omit = 
     *__init__.py
