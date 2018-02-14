@@ -1,11 +1,18 @@
 # .coveragerc to control coverage.py
 [run]
-branch = True
+branch = false
 omit = 
     *__init__.py
-    file_manager/migrations/*
-    asset_manager/settings*
-    file_manager/scripts/*
+   */migrations/*
+   asset_manager/settings*
+
+include = 
+    ../../asset-manager/*
+    file_manager/*
+    api/*
+    user_interface/*
+    asset_manager/*
+
 
 [report]
 show_missing = True

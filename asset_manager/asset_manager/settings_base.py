@@ -59,7 +59,6 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = [
     '--with-coverage',
     '--cover-html',
-    '--cover-package=asset_manager,file_manager,api,user_interface',
     '--cover-erase',
 ]
 
