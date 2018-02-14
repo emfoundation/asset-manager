@@ -54,14 +54,6 @@ ROOT_URLCONF = 'asset_manager.urls'
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-NOSE_ARGS = [
-    '--with-coverage',
-    '--cover-html',
-    '--cover-erase',
-]
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
