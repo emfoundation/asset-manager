@@ -10,6 +10,9 @@ import pexpect
 import smtplib
 import sys
 
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 import boto3
 from botocore.exceptions import ClientError
 
@@ -30,18 +33,28 @@ logging.basicConfig(
 VENV_DIR = '/Users/georgemillard/programming/projects/virtualenvs/asset_manager_venv/bin/activate'
 TEMP_DIR = settings.BASE_DIR + '/file_manager/scripts/temporary_files/'
 SQL_BACKUP_FILENAME = TEMP_DIR + 'sql_dbexport_temp.pgsql'
-JSON_FILE_NAME = TEMP_DIR + 'json_dbexport_temp.pgsql'
+JSON_FILE_NAME = TEMP_DIR + 'json_dbexport_temp.json'
 
 def send_alert_email():
-    server = smtplib.SMTP_SSL('aspmx.l.google.com')
+    server = smtplib.SMTP('smtp.gmail.com', 587)
     # server.ehlo()
-    # server.starttls()
-    server.login(settings.EMAIL_ADDRESS, settings.EMAIL_PASSWORD)
+    server.starttls()
+    server.login(settings.ADMIN_EMAIL_ADDRESS, settings.ADMIN_EMAIL_PASSWORD)
 
-    msg=" \
-    Mert! Something has broken! Go and fix it quick!!!"
+    COMMASPACE = ', '
 
-    server.sendmail(settings.EMAIL_ADDRESS, settings.EMAIL_ADDRESS, msg)
+    msg = MIMEMultipart()
+    msg['From'] = settings.ADMIN_EMAIL_ADDRESS
+    msg['To'] = COMMASPACE.join(settings.RECIPIENT_EMAIL_ADDRESS)
+    msg['Subject'] = 'DAM backup has encountered an unexpected error'
+
+    body = 'Mert! Something has broken! Go and fix it quick!!!'
+
+    msg.attach(MIMEText(body, 'plain'))
+
+    txt = msg.as_string()
+    server.sendmail(settings.ADMIN_EMAIL_ADDRESS, settings.ADMIN_EMAIL_ADDRESS, txt)
+    server.quit()
 
 def get_code_version():
     git_branch = str(pexpect.run('git rev-parse --abbrev-ref HEAD'))
@@ -54,7 +67,17 @@ def get_code_version():
 
     return git_branch + ' ' + commit_hash
 
-def backup_to_s3(filename, file_extension):
+
+def get_file_extension(filename):
+
+    return '.' + filename.rsplit('.', 1)[1]
+
+
+def delete_local_file(file_path):
+    os.remove(file_path)
+
+
+def backup_to_s3(source_file_path):
     """
     Backup file to S3
     @TODO delete local copy.
@@ -65,15 +88,17 @@ def backup_to_s3(filename, file_extension):
         + datetime.now().strftime('%y-%m-%d %H:%M:%S')
         + ' '
         + get_code_version()
-        + file_extension
+        + get_file_extension(source_file_path)
         )
 
     try:
-        s3.upload_file(SQL_BACKUP_FILENAME, bucket, key)
-        logging.info('Uploaded file {} to S3 Bucket {}, Key {}'.format(filename, bucket, key))
+        s3.upload_file(source_file_path, bucket, key)
+        logging.info('Uploaded file {} to S3 Bucket {}, Key {}'.format(source_file_path, bucket, key))
     except Exception as e:
         logging.error('Encountered an error: {}'.format(e))
 
+    #--- Comment out to allow the system to keep a copy of latest backup ---#
+    # delete_local_file(source_file_path)
 
 def create_sql_dump():
     """
@@ -106,26 +131,14 @@ def create_pg_dump():
     """
     creates a .json file dump of Django's postgres DB
     """
-    child = pexpect.spawn('cd /Users/georgemillard/programming/projects/virtualenvs/asset_manager_venv/bin')
-    child.expect(pexpect.EOF)
-    child.sendline('pwd')
-
-    # print('dir:' + child.before)
-    # child1 = pexpect.run('. /Users/georgemillard/programming/projects/virtualenvs/asset_manager_venv/bin/activate')
-    # print('foo', str(child1))
-    # child2 = pexpect.run('python3 manage.py dumpdata > dump.json')
-    # print('foo', str(child2))
-
-
-def delete_local_file(file_path):
-    os.remove(file_path)
+    p = str(pexpect.run('python manage.py dumpdata -o ' + JSON_FILE_NAME))
 
 
 def run():
-    create_sql_dump()
-    backup_to_s3(SQL_BACKUP_FILENAME, '.pgsql')
-    # delete_local_file(SQL_BACKUP_FILENAME)
+    # create_sql_dump()
+    # backup_to_s3(SQL_BACKUP_FILENAME)
+    #
+    # create_pg_dump()
+    # backup_to_s3(JSON_FILE_NAME)
 
-    create_pg_dump()
-
-    # send_alert_email()
+    send_alert_email()
