@@ -48,7 +48,12 @@ class AssetAdmin(admin.ModelAdmin):
     class Media:
         js = [
         'file_manager/js/file_size.js',
+        'file_manager/js/filter.js'
         ]
+
+        css = {
+        'all':('file_manager/css/filter.css',)
+        }
 
 
 class AssetInline(admin.TabularInline):
@@ -99,7 +104,18 @@ class TagGroupAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     model = models.Tag
     ordering = ['group', 'name', ]
-    list_filter = ('group', )
+    list_filter = (
+        filters.TagGroupListFilter,
+    )
+
+    class Media:
+        js = [
+        'file_manager/js/filter.js'
+        ]
+
+        css = {
+        'all':('file_manager/css/filter.css',)
+        }
 
 
 class ContinentTagGroupAdmin(admin.ModelAdmin):
