@@ -2,7 +2,7 @@ if (!$) {
     $ = django.jQuery;
 }
 
-$(document).ready(function() {
+$(document).ready(function() {    
     $toggleFilter = $('.js-toggle-filter');
     $filters = $('#changelist-filter');
     $choiceList = $filters.find('.choice-list');
@@ -15,10 +15,9 @@ $(document).ready(function() {
         $choiceList = $(filterLink).next();        
         hideList($(filterLink), $choiceList);
     });
-        
 });
 
-function toggleChoiceList($filterLink, $choiceList) {    
+function toggleChoiceList($filterLink, $choiceList) { 
     isHidden = $choiceList.hasClass('hide');
     if (isHidden) { showList($filterLink, $choiceList) }
     else          { hideList($filterLink, $choiceList) }
