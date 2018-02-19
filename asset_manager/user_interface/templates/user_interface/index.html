@@ -1,26 +1,17 @@
-{% load static %}
+{% extends 'user_interface/base.html' %}
 
-<head>
-  <link rel="shortcut icon" type="image/x-icon" href="{% static 'user_interface/images/emf-logo.ico' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'user_interface/css/index.css' %}" />
-  <title>EMF: Digital Asset Manager</title>
-</head>
-
-<header>
-  <a href="https://www.ellenmacarthurfoundation.org/"><img src="{% static "user_interface/images/emf-logo.png" %}" alt="EMF Logo" /></a>
-</header>
-<body>
+{% block content %}
   <div class="background-image"></div>
-    <div class="text-overlay">
-      <h1 id="home-title">THE DIGITAL ASSET MANAGER </h1>
-      <h2>Come back soon to use the DAM, or go to the <a href="{% url 'admin:index' %}">admin</a> if you are an EMF Employee.</h2>
-    </div>
-    <p class="legal-info">
-      Charity Registration No.: 1130306,
-      OSCR Registration No.: SC043120,
-      Company No.: 6897785
-      <br />
-      © Copyright 2017 Ellen MacArthur Foundation.
-        All Rights Reserved
-    </p>
-</body>
+  <div class="text-overlay">
+    <h1 id="home-title">THE DIGITAL ASSET MANAGER </h1>
+    <h2>Come back soon to use the DAM, or go to the <a href="{% url 'admin:index' %}">admin</a> if you are an EMF Employee.</h2>
+  </div>
+  <p class="legal-info">
+    Charity Registration No.: 1130306,
+    OSCR Registration No.: SC043120,
+    Company No.: 6897785
+    <br />
+    © Copyright 2017 Ellen MacArthur Foundation.
+      All Rights Reserved
+  </p>
+{% endblock %}
