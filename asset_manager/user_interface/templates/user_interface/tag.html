@@ -1,16 +1,24 @@
 {% extends 'user_interface/base.html' %}
 
-{% block title %}{{ block.super }} - Tag{% endblock %}
+{% block title %}
+	{{ block.super }} - {{ tagGroup.name |lower|capfirst}}
+{% endblock %}
 
 {% block content %}
-<div class="container">
-	<h2 class="title is-2">Assets</h2>
-	<div class="columns is-multiline">
-  	{% for asset in assets  %}
-  		<div class="column is-half">
-  			<h2>{{ asset.name }}</h2>
-  		</div>
-  	{% endfor %}
-  </div>
-</div>
+<section class="section">
+	<div class="container">
+		<h2 class="title is-2">
+			Assets in {{ tagGroup.name|lower|capfirst }}
+		</h2>
+		<div class="columns is-multiline">
+	  	{% for asset in assets  %}
+	  		<div class="column is-half">
+	  			<a href="{% url 'user_interface:asset' asset.id %}">
+	  				<h2>{{ asset.name }}</h2>
+	  			</a>
+	  		</div>
+	  	{% endfor %}
+	  </div>
+	</div>
+</section>
 {% endblock %}
