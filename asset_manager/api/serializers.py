@@ -27,7 +27,7 @@ class CountryTagSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tag
-        fields = ('id', 'name', 'group', )
+        fields = ('id', 'name', 'group', 'deprecated', )
 
 class TagGroupSerializer(serializers.ModelSerializer):
     class Meta:
