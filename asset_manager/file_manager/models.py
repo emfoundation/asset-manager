@@ -88,6 +88,7 @@ class TagGroup(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=64)
     group = models.ForeignKey(TagGroup, on_delete=models.CASCADE)
+    deprecated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.group.name.title() + ' | ' + self.name
