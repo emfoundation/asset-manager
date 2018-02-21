@@ -14,7 +14,7 @@ def list(request):
 def tag_group(request, tag_group_id):
 	tagGroup = TagGroup.objects.get(id=tag_group_id)
 	subTags = Tag.objects.filter(group__id=tag_group_id)
-	assets = Asset.objects.filter(tags__in=subTags)
+	assets = Asset.objects.filter(tags__in=subTags).distinct()
 	context = { 
 		'tagGroup': tagGroup,
 		'assets': assets
