@@ -209,7 +209,7 @@ class AssetModelFileNameTests(TestCase):
         a = Asset(name='a', parent=f)
         a.file.save('file.txt', ContentFile('Content'.encode('utf-8')))
 
-        a.parent = f
+        a.parent = f2
         a.file.delete()
 
         self.assertEqual(a.file.name, None)
