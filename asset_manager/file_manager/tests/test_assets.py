@@ -41,7 +41,7 @@ class AssetModelFileNameTests(TestCase):
 
     def test_filename_on_create_asset_without_file(self):
         """
-        Tests filename on create asset without file
+        Tests filename on create Asset without file
         """
         logging.info('Test filename on create asset without a file...')
 
@@ -129,7 +129,7 @@ class AssetModelFileNameTests(TestCase):
 
     def test_filename_on_create_asset_with_file(self):
         """
-        Tests filename on create asset
+        Tests filename on create Asset
         """
         logging.info('Test filename on create asset...')
 
@@ -182,7 +182,7 @@ class AssetModelFileNameTests(TestCase):
 
     def test_filename_on_remove_file(self):
         """
-        Test fiename on remove file
+        Test filename on remove file
         """
         logging.info('Test filename on remove file...')
 
@@ -248,7 +248,7 @@ class AssetModelTests(TestCase):
 
     def test_create_asset(self):
         """
-        Tests asset creation
+        Tests Asset creation
         """
         logging.info('Test create asset...')
 
