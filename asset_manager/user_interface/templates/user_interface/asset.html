@@ -13,12 +13,14 @@
 				<a href="{{ asset.link }}" class="button" target="_blank">
 					Link
 				</a>
-			{% else %}
-				<a href="https://{{ bucket }}.s3.amazonaws.com/media/{{ asset.file }}" 
-					 class="button" 
+			{% elif asset.file %}
+				<a href="https://{{ bucket }}.s3.amazonaws.com/media/{{ asset.file }}"
+					 class="button"
 					 target="_blank">
 					Download
 				</a>
+			{% else %}
+				File/link coming soon...
 			{% endif %}
 		</div>
 		<div class="tags">
