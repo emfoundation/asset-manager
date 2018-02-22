@@ -98,7 +98,7 @@ class AssetModelFileNameTests(TestCase):
 
     def test_filename_on_add_file(self):
         """
-        Test flename on add file
+        Test filename on add file
         """
         logging.info('Test filename on add file...')
 
