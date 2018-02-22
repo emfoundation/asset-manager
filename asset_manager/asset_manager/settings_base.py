@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import sys
 
 from asset_manager.settings_secret import *
 
@@ -129,6 +130,16 @@ MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 
 # Logs
 LOGFILE='logs/logs.txt'
+LOGFILE_TEST='logs/logs_test.txt'
 
 # Custom Variables
 MAX_FILE_SIZE = 100000000 # 100MB Note, if you change this you need to change the file_size.js file.
+
+# Test settings
+
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
+if(TESTING):
+    LOGFILE = LOGFILE_TEST
+    AWS_STORAGE_BUCKET_NAME = AWS_TEST_BUCKET_NAME
+    MEDIAFILES_LOCATION = 'test'
