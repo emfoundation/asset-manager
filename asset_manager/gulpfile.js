@@ -6,7 +6,7 @@ var browserSync = require("browser-sync").create();
 var userInterfaceDir = "user_interface/";
 
 var	sassPaths = [
-			'node_modules/bulma',
+			'node_modules',
 		];
 
 gulp.task('sass:dev', function() {

@@ -118,3 +118,6 @@ ENV/
 
 # Mac MetaData Files
 .DS_Store
+
+# Node stuff
+node_modules/

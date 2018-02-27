@@ -5,14 +5,24 @@
 {% block content %}
 <section class="section">
 	<div class="container">
-		<h2 class="title is-2">Topics</h2>
+		<h1 class="title is-2">All EMF resources at your fingertips</h1>
+	</div>
+</section>
+<section class="section">
+	<div class="container">
 		<div class="columns is-multiline">
 	  	{% for tagGroup in tagGroups  %}
 	  		<div class="column is-half">
-	  			<a href="{% url 'user_interface:tag-group' tagGroup.id %}">
-	  				<h2>{{ tagGroup.name }}</h2>
-	  			</a>
-	  		</div>
+		  		<div class="card">
+					  <div class="card-content">
+					    <div class="content">
+					      <a href="{% url 'user_interface:tag-group' tagGroup.id %}">
+					      	<h2 class="is-size-6">{{ tagGroup.name|lower|capfirst }}</h2>
+					      </a>
+					    </div>
+		  			</div>
+				  </div>
+				</div>
 	  	{% endfor %}
 	  </div>
 	</div>
