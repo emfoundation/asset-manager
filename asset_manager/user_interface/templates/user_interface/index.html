@@ -1,17 +1,28 @@
 {% extends 'user_interface/base.html' %}
 
 {% block content %}
-  <div class="background-image"></div>
-  <div class="text-overlay">
-    <h1 id="home-title">THE DIGITAL ASSET MANAGER </h1>
-    <h2>Come back soon to use the DAM, or go to the <a href="{% url 'admin:index' %}">admin</a> if you are an EMF Employee.</h2>
-  </div>
-  <p class="legal-info">
-    Charity Registration No.: 1130306,
-    OSCR Registration No.: SC043120,
-    Company No.: 6897785
-    <br />
-    © Copyright 2017 Ellen MacArthur Foundation.
-      All Rights Reserved
-  </p>
+<section class="section">
+	<div class="container">
+		<h1 class="title is-2">All EMF resources at your fingertips</h1>
+	</div>
+</section>
+<section class="section">
+	<div class="container">
+		<div class="columns is-multiline">
+	  	{% for topic in topics  %}
+	  		<div class="column is-half">
+		  		<div class="card">
+					  <div class="card-content">
+					    <div class="content">
+					      <a href="{% url 'user_interface:topic' topic.id %}">
+					      	<h2 class="is-size-6">{{ topic.name|lower|capfirst }}</h2>
+					      </a>
+					    </div>
+		  			</div>
+				  </div>
+				</div>
+	  	{% endfor %}
+	  </div>
+	</div>
+</section>
 {% endblock %}

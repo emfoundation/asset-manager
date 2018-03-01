@@ -4,22 +4,19 @@ from django.conf import settings
 
 # Create your views here.
 def index(request):
-    return render(request, 'user_interface/index.html')
+	topics = TagGroup.objects.all()
+	context = { 'topics': topics }
+	return render(request, 'user_interface/index.html', context)
 
-def list(request):
-	tagGroups = TagGroup.objects.all()
-	context = { 'tagGroups': tagGroups }
-	return render(request, 'user_interface/list.html', context)
-
-def tag_group(request, tag_group_id):
-	tagGroup = TagGroup.objects.get(id=tag_group_id)
-	subTags = Tag.objects.filter(group__id=tag_group_id)
-	assets = Asset.objects.filter(tags__in=subTags).distinct()
+def topic(request, topic_id):
+	thisTopic = TagGroup.objects.get(id=topic_id)
+	tags = Tag.objects.filter(group__id=topic_id)
+	assets = Asset.objects.filter(tags__in=tags).distinct()
 	context = { 
-		'tagGroup': tagGroup,
+		'topic': thisTopic,
 		'assets': assets
 	}
-	return render(request, 'user_interface/tag.html', context)
+	return render(request, 'user_interface/topic.html', context)
 
 def asset(request, asset_id):
 	item = Asset.objects.get(id=asset_id)
