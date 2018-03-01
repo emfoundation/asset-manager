@@ -1,0 +1,33 @@
+{% extends 'user_interface/base.html' %}
+
+{% block title %}
+	{{ block.super }} - {{ asset.name }}
+{% endblock %}
+
+{% block content %}
+<section class="section">
+	<div class="container">
+		<h2 class="title is-2">{{ asset.name }}</h2>
+		<div class="content">
+			{% if asset.link %}
+				<a href="{{ asset.link }}" class="button" target="_blank">
+					Link
+				</a>
+			{% elif asset.file %}
+				<a href="https://{{ bucket }}.s3.amazonaws.com/media/{{ asset.file }}"
+					 class="button"
+					 target="_blank">
+					Download
+				</a>
+			{% else %}
+				File/link coming soon...
+			{% endif %}
+		</div>
+		<div class="tags">
+			{% for tag in asset.tags.all %}
+				<span class="tag">{{ tag.name }}</span>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+{% endblock %}

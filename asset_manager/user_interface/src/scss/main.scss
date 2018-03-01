@@ -1,0 +1,14 @@
+@import "bulma/sass/utilities/initial-variables";
+// @import "bulma/sass/utilities/functions";
+
+$family-sans-serif: proxima-nova, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+@import 'bulma/bulma';
+
+.dam-shadow-bottom {
+    box-shadow: 0 2px 4px 0 rgba(76, 93, 104, 0.25);
+}
+
+.dam-is-circle {
+    border-radius: 50%;
+}

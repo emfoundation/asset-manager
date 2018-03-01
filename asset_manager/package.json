@@ -1,0 +1,20 @@
+{
+  "name": "asset_manager_frontend_build",
+  "version": "0.0.1",
+  "description": "Front end build tools for the DAM ecosystem",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "bulma": "^0.6.2",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.4"
+  }
+}
