@@ -20,8 +20,12 @@ def topic(request, topic_id):
 
 def asset(request, asset_id):
 	item = Asset.objects.get(id=asset_id)
+	filename = ('https://' + settings.AWS_STORAGE_BUCKET_NAME
+		+ '.s3.amazonaws.com/media/' + item.file.name)
+	topicGroup = request.GET.get('t', '')
 	context = { 
 		'asset': item,
-		'bucket': settings.AWS_STORAGE_BUCKET_NAME
+		'filename': filename,
+		'topicGroup': topicGroup
 	}
 	return render(request, 'user_interface/asset.html', context)

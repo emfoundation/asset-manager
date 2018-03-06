@@ -6510,4 +6510,10 @@ label.panel-block {
 .dam-is-circle {
   border-radius: 50%; }
 
+.dam-tag {
+  border: 1px solid black; }
+
+.dam-nav {
+  justify-content: space-between; }
+
 /*# sourceMappingURL=maps/main.css.map */

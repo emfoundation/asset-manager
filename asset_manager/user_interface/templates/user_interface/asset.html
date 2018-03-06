@@ -5,29 +5,85 @@
 {% endblock %}
 
 {% block content %}
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container">
+      <div class="level">
+        <a href="{% if topicGroup %}{% url 'user_interface:topic' topicGroup %}{% else %}/{% endif %}">
+          < Back
+        </a>
+      </div>
+      <div class="level">{{ asset.get_type_field_display|lower|capfirst }}</div>
+      <h2 class="title is-2">
+        {{ asset.name }}
+      </h2>
+      <div class="content">
+        <p>Uploaded at {{ asset.uploaded_at|date:"jS F, Y" }}</p>
+        {% if asset.link %}
+          <a href="{{ asset.link }}" class="button" target="_blank">
+            Link
+          </a>
+          <a href="mailto:?to=&body={{ asset.link }}&subject={{ asset.name }}"
+             class="button">
+            Share
+          </a>
+        {% elif asset.file %}
+          <a href="{{ filename }}"
+             class="button"
+             target="_blank">
+            Download
+          </a>
+          <a href="mailto:?to=&body={{ filename }}&subject={{ asset.name }}"
+             class="button">
+            Share
+          </a>
+        {% else %}
+          File/link coming soon...
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
 <section class="section">
 	<div class="container">
-		<h2 class="title is-2">{{ asset.name }}</h2>
-		<div class="content">
-			{% if asset.link %}
-				<a href="{{ asset.link }}" class="button" target="_blank">
-					Link
-				</a>
-			{% elif asset.file %}
-				<a href="https://{{ bucket }}.s3.amazonaws.com/media/{{ asset.file }}"
-					 class="button"
-					 target="_blank">
-					Download
-				</a>
-			{% else %}
-				File/link coming soon...
-			{% endif %}
-		</div>
-		<div class="tags">
-			{% for tag in asset.tags.all %}
-				<span class="tag">{{ tag.name }}</span>
-			{% endfor %}
-		</div>
+    {% if asset.description %}
+      <div class="content">
+        <p>{{ asset.description }}</p>
+      </div>
+    {% endif %}
+    {% if asset.contributors.all|length %}
+      <div class="content">
+        <p>Collaborators</p>
+      </div>
+      <div class="columns is-multiline">
+        {% for contributor in asset.contributors.all %}
+        <div class="column is-half">
+          <article class="media">
+            <figure class="media-left">
+              <p class="image is-32x32">
+                <img class="dam-is-circle" src="https://bulma.io/images/placeholders/128x128.png">
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                {{ contributor.name }}
+              </div>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if asset.tags.all|length %}
+      <div class="content">
+        <p>This is about...</p>
+      </div>
+      <div class="tags">
+        {% for tag in asset.tags.all %}
+        <span class="tag is-white is-medium dam-tag">{{ tag.name }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
 	</div>
 </section>
 {% endblock %}
