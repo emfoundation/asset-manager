@@ -1,7 +1,12 @@
 @import "bulma/sass/utilities/initial-variables";
-// @import "bulma/sass/utilities/functions";
+@import "bulma/sass/utilities/functions";
 
 $family-sans-serif: proxima-nova, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+$text: $grey-darker;
+$text-invert: findColorInvert($text);
+
+$section-padding: 2rem 1rem;
 
 @import 'bulma/bulma';
 
@@ -11,4 +16,17 @@ $family-sans-serif: proxima-nova, "Helvetica Neue", "Helvetica", "Arial", sans-s
 
 .dam-is-circle {
     border-radius: 50%;
+}
+
+.dam-tag {
+    border: 1px solid #4f4f4f;
+}
+
+.dam-nav {
+    justify-content: space-between;
+}
+
+.dam-icon {
+    position: relative;
+    top: 0.2rem;
 }

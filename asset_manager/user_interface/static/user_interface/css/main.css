@@ -111,7 +111,7 @@ pre {
   font-family: monospace; }
 
 body {
-  color: #4a4a4a;
+  color: #363636;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5; }
@@ -161,7 +161,7 @@ strong {
 pre {
   -webkit-overflow-scrolling: touch;
   background-color: whitesmoke;
-  color: #4a4a4a;
+  color: #363636;
   font-size: 0.875em;
   overflow-x: auto;
   padding: 1.25rem 1.5rem;
@@ -882,7 +882,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-  color: #4a4a4a;
+  color: #363636;
   display: block;
   padding: 1.25rem; }
   .box:not(:last-child) {
@@ -958,7 +958,7 @@ a.box:active {
   .button.is-text {
     background-color: transparent;
     border-color: transparent;
-    color: #4a4a4a;
+    color: #363636;
     text-decoration: underline; }
     .button.is-text:hover, .button.is-text.is-hovered, .button.is-text:focus, .button.is-text.is-focused {
       background-color: whitesmoke;
@@ -2920,11 +2920,11 @@ a.box:active {
   .progress::-webkit-progress-bar {
     background-color: #dbdbdb; }
   .progress::-webkit-progress-value {
-    background-color: #4a4a4a; }
+    background-color: #363636; }
   .progress::-moz-progress-bar {
-    background-color: #4a4a4a; }
+    background-color: #363636; }
   .progress::-ms-fill {
-    background-color: #4a4a4a;
+    background-color: #363636;
     border: none; }
   .progress.is-white::-webkit-progress-value {
     background-color: white; }
@@ -3145,7 +3145,7 @@ a.box:active {
   align-items: center;
   background-color: whitesmoke;
   border-radius: 3px;
-  color: #4a4a4a;
+  color: #363636;
   display: inline-flex;
   font-size: 0.75rem;
   height: 2em;
@@ -3448,7 +3448,7 @@ a.tag:hover {
       cursor: default;
       pointer-events: none; }
     .breadcrumb li + li::before {
-      color: #4a4a4a;
+      color: #363636;
       content: "\0002f"; }
   .breadcrumb ul, .breadcrumb ol {
     align-items: center;
@@ -3482,7 +3482,7 @@ a.tag:hover {
 .card {
   background-color: white;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-  color: #4a4a4a;
+  color: #363636;
   max-width: 100%;
   position: relative; }
 
@@ -3720,7 +3720,7 @@ a.dropdown-item {
   line-height: 1.25; }
   .menu-list a {
     border-radius: 2px;
-    color: #4a4a4a;
+    color: #363636;
     display: block;
     padding: 0.5em 0.75em; }
     .menu-list a:hover {
@@ -3844,7 +3844,7 @@ a.dropdown-item {
 
 .message-header {
   align-items: center;
-  background-color: #4a4a4a;
+  background-color: #363636;
   border-radius: 3px 3px 0 0;
   color: #fff;
   display: flex;
@@ -3864,7 +3864,7 @@ a.dropdown-item {
 .message-body {
   border: 1px solid #dbdbdb;
   border-radius: 3px;
-  color: #4a4a4a;
+  color: #363636;
   padding: 1em 1.25em; }
   .message-body code,
   .message-body pre {
@@ -4913,7 +4913,7 @@ a.navbar-link.is-active {
       color: #363636; }
 
 .panel-list a {
-  color: #4a4a4a; }
+  color: #363636; }
   .panel-list a:hover {
     color: #3273dc; }
 
@@ -4979,7 +4979,7 @@ label.panel-block {
     border-bottom-color: #dbdbdb;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    color: #4a4a4a;
+    color: #363636;
     display: flex;
     justify-content: center;
     margin-bottom: -1px;
@@ -6493,7 +6493,7 @@ label.panel-block {
   padding: 3rem 1.5rem; }
 
 .section {
-  padding: 3rem 1.5rem; }
+  padding: 2rem 1rem; }
   @media screen and (min-width: 1024px) {
     .section.is-medium {
       padding: 9rem 1.5rem; }
@@ -6509,5 +6509,15 @@ label.panel-block {
 
 .dam-is-circle {
   border-radius: 50%; }
+
+.dam-tag {
+  border: 1px solid #4f4f4f; }
+
+.dam-nav {
+  justify-content: space-between; }
+
+.dam-icon {
+  position: relative;
+  top: 0.2rem; }
 
 /*# sourceMappingURL=maps/main.css.map */
