@@ -105,25 +105,24 @@ def verify_bucket_backup(source_bucket, destination_bucket, destination_folder):
     # Now check for equality
     bucket_backup_verified = True
 
-    print('Verifying S3 Bucket backup')
-    # first check they are the same length
+    print('Verifying S3 Bucket backup...')
+    # first check if the lengths differ
     if len(source_list) != len(destination_list):
         bucket_backup_verified = False
-        print('foo')
-    
-    # # are they the same length
-    # if not len(source_list) == len(destination_list):
-    #     bucket_backup_verified = False
-    #     # for each element in source, does its match appear in destination
-    #     for obj in source_list:
-    #         # 1. Check if source key appears in destination key list:
-    #         if obj['Key'] in destination_key_list:
-    #             # 2. Check if source key's ETag matches destination key's ETag
-    #             print('>>>', obj, destination_list[obj['Key']])
-    #             if obj['ETag'] != destination_list[obj['key']]:
-    #                 bucket_backup_verified = False
-    #         else:
-    #             bucket_backup_verified = False
+        print('Number of objects differs. Source: {} contains {} objects, Destination: {} contains {} objects.'.format(source_bucket, len(source_list), destination_bucket, len(destination_list)))
+
+    else:
+        # for each key in source, does its match appear in destination
+        for key in source_list:
+            try:
+                backup_etag = destination_list[key]
+                print('key: {}\tsource etag: {}\tdestination etag: {}'.format(key, backup_etag, destination_list[key]))
+                if source_list[key] != backup_etag:
+                    bucket_backup_verified = False
+                    print('ETags differ for key: {} ({} != {})')
+            except KeyError as e:
+                bucket_backup_verified = False
+                print('KeyError: {} not found in {}'.format(e, destination_bucket+'/'+destination_folder))
 
 def send_alert_email(message):
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -233,8 +232,8 @@ def run():
     # verify_bucket_backup(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME, 'foo')
     # print(get_media_path('jkh/media/foo'))
 
-    backup_folder = backup_bucket(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME)
-    verify_bucket_backup(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME, backup_folder)
+    # backup_folder = backup_bucket(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME)
+    verify_bucket_backup(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME, 'dam-assets-backups/dams-assets 18-03-06 15:26:30/')
 
     # print(remove_backup_folder_from_path('a b c/foo', 'a b c/'))
     # print(remove_backup_folder_from_path('bar-rum/foo', 'rum/'))
