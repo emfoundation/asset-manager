@@ -55,7 +55,7 @@ def get_bucket_contents(bucket, folder = ''):
     # list_objects_v2 returns up to 1000 objects. When the number of Assets on the DAM exceeds this,
     # an alternative method will be needed. Fire a warning when we reach 800.
     if len(bucket_contents) > 800:
-        send_alert_email(message='800/1000 assets stored on the DAM. Please look into alternative backup methods.')
+        log_error('800/1000 assets stored on the DAM. Please look into alternative backup methods.')
 
     return bucket_contents
 
@@ -78,8 +78,7 @@ def backup_bucket(source_bucket, destination_bucket):
             print('\r', end='')
 
         except Exception as e:
-            logging.error('Encountered an error: {}'.format(e))
-            send_alert_email('An error has occurred: {} Please check the logs.'.format(e))
+            log_error('An error has occurred: {} Please check the logs.'.format(e))
 
     print('Backing up S3 Bucket: {} to {} 100%'.format(source_bucket, destination_bucket+'/'+key_prefix))
     return key_prefix
@@ -106,25 +105,34 @@ def verify_bucket_backup(source_bucket, destination_bucket, destination_folder):
     bucket_backup_verified = True
 
     print('Verifying S3 Bucket backup...')
+    msg = 'Verifying backup of {} into {}/{} - '.format(source_bucket, destination_bucket, destination_folder)
     # first check if the lengths differ
     if len(source_list) != len(destination_list):
         bucket_backup_verified = False
-        print('Number of objects differs. Source: {} contains {} objects, Destination: {} contains {} objects.'.format(source_bucket, len(source_list), destination_bucket, len(destination_list)))
+
+        log_error(msg + 'Number of objects differs. Source: {} contains {} objects, Destination: {} contains {} objects.'.format(source_bucket, len(source_list), destination_bucket, len(destination_list)))
 
     else:
         # for each key in source, does its match appear in destination
         for key in source_list:
             try:
                 backup_etag = destination_list[key]
-                print('key: {}\tsource etag: {}\tdestination etag: {}'.format(key, backup_etag, destination_list[key]))
+
                 if source_list[key] != backup_etag:
                     bucket_backup_verified = False
-                    print('ETags differ for key: {} ({} != {})')
+
+                    log_error(msg + 'ETags differ for key: {} ({} != {})'.format(key, source_list[key], destination_list[key]))
+
             except KeyError as e:
                 bucket_backup_verified = False
-                print('KeyError: {} not found in {}'.format(e, destination_bucket+'/'+destination_folder))
 
-def send_alert_email(message):
+                log_error(msg + 'KeyError: {} not found in {}'.format(e, destination_bucket+'/'+destination_folder))
+
+    return verify_bucket_backup
+
+def log_error(message):
+    logging.error(message)
+
     server = smtplib.SMTP('smtp.gmail.com', 587)
     # server.ehlo()
     server.starttls()
@@ -181,7 +189,7 @@ def backup_to_s3(source_file_path):
         s3.upload_file(source_file_path, settings.AWS_BACKUP_BUCKET_NAME, key)
         logging.info('Uploaded file {} to S3 Bucket {}, Key {}'.format(source_file_path, bucket, key))
     except Exception as e:
-        logging.error('Encountered an error: {}'.format(e))
+        log_error('Encountered an error: {}'.format(e))
 
     #--- Comment out to allow the system to keep a copy of latest backup ---#
     # delete_local_file(source_file_path)
@@ -232,8 +240,8 @@ def run():
     # verify_bucket_backup(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME, 'foo')
     # print(get_media_path('jkh/media/foo'))
 
-    # backup_folder = backup_bucket(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME)
-    verify_bucket_backup(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME, 'dam-assets-backups/dams-assets 18-03-06 15:26:30/')
+    backup_folder = backup_bucket(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME)
+    verify_bucket_backup(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME, 'dam-assets-backups/dams-assets 18-03-06 16:50:47/')
 
     # print(remove_backup_folder_from_path('a b c/foo', 'a b c/'))
     # print(remove_backup_folder_from_path('bar-rum/foo', 'rum/'))
