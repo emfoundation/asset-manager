@@ -13,6 +13,11 @@ AWS_SECRET_ACCESS_KEY = ''
 
 AWS_TEST_BUCKET_NAME = ''
 
+# Email settings
+
+ADMIN_EMAIL_ADDRESS = ''
+ADMIN_EMAIL_PASSWORD = ''
+RECIPIENT_EMAIL_ADDRESS = ''
 
 # Database settings
 
