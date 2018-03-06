@@ -24,7 +24,8 @@ def topic(request, topic_id):
 	assets = Asset.objects.filter(tags__in=tags).distinct()
 	context = { 
 		'topic': thisTopic,
-		'assets': assets
+		'assets': assets,
+		'formatToIcon': formatToIcon
 	}
 	return render(request, 'user_interface/topic.html', context)
 

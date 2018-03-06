@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero is-light">
+<section class="hero is-light is-small">
   <div class="hero-body">
     <div class="container">
       <div class="level">
@@ -24,14 +24,14 @@
 	  		<div class="column is-half">
           <article class="media">
             <figure class="media-left">
-              <p class="image is-48x48">
-                <img class="dam-is-circle" src="https://bulma.io/images/placeholders/128x128.png">
-              </p>
+              <span class="icon is-medium dam-icon dam-is-circle">
+                <i class="fas fa-{{ formatToIcon.OT }}"></i>
+              </span>
             </figure>
             <div class="media-content">
               <div class="content">
                 <a href="{% url 'user_interface:asset' asset.id %}?t={{ topic.id }}">
-                  <h2 class="title is-5">{{ asset.name }}</h2>
+                  <h2 class="title is-5 has-text-weight-bold">{{ asset.name }}</h2>
                 </a>
               </div>
             </div>
