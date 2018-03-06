@@ -207,6 +207,25 @@ class Asset(S3_Object):
         verbose_name='Content Type'
     )
 
+    AUDIO = 'AU'
+    DOCUMENT = 'DO'
+    OTHER = 'OT'
+    FORMAT_CHOICES = (
+        (IMAGE, 'Image'),
+        (VIDEO, 'Video'),
+        (PRESENTATION, 'Presentation'),
+        (LINK, 'Web link'),
+        (AUDIO, 'Audio'),
+        (DOCUMENT, 'Document'),
+        (OTHER, 'Other')
+    )
+    format = models.CharField(
+        max_length=2,
+        choices = FORMAT_CHOICES,
+        default = OTHER,
+        verbose_name='Format'
+    )
+
     filetype = models.CharField(max_length=128, null=True)
     uploaded_at = models.DateTimeField(null=True)
     last_edit_at = models.DateTimeField(null=True)
