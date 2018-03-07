@@ -8,67 +8,68 @@
 <section class="hero is-light is-medium">
   <div class="hero-body dam-hero dam-asset-hero">
     <div class="container">
-      <div class="dam-back">
+      <div class="">
         <a href="{% if topicGroup %}{% url 'user_interface:topic' topicGroup %}{% else %}/{% endif %}"
            class="has-text-grey">
           < Back
         </a>
       </div>
-      <div class="level">
-        <div class="level-left">
-          <span class="icon dam-icon">
-            <i class="fas fa-{{ icon }}"></i>
-          </span>
-          <span>{{ asset.get_type_field_display|lower|capfirst }}</span>
+      <br>
+      <div class="dam-container-narrow">
+        <div class="content">
+          <p>
+            <span class="icon dam-icon">
+              <i class="fas fa-{{ icon }}"></i>
+            </span>
+            <span>{{ asset.get_type_field_display|lower|capfirst }}</span>
+          </p>
+          <h1 class="title has-text-weight-bold is-3">
+            {{ asset.name }}
+          </h1>
+        
+          <p class="has-text-grey">Uploaded at {{ asset.uploaded_at|date:"jS F, Y" }}</p>
+          <p>
+            {% if asset.link %}
+              <a href="{{ asset.link }}" class="button dam-button" target="_blank">
+                LINK
+              </a>
+              <a href="mailto:?to=&body={{ asset.link }}&subject={{ asset.name }}"
+                class="button dam-button">
+                SHARE
+              </a>
+            {% elif asset.file %}
+              <a href="{{ filename }}"
+                class="button dam-button"
+                target="_blank">
+                DOWNLOAD
+              </a>
+              <a href="mailto:?to=&body={{ filename }}&subject={{ asset.name }}"
+                class="button dam-button">
+                SHARE
+              </a>
+            {% else %}
+              File/link coming soon...
+            {% endif %}
+          </p>
         </div>
-      </div>
-      <h1 class="title is-2">
-        {{ asset.name }}
-      </h1>
-    </div>
-  </div>
-  <div class="hero-foot dam-foot">
-    <div class="container">
-      <div class="content has-text-grey">
-        <p>Uploaded at {{ asset.uploaded_at|date:"jS F, Y" }}</p>
-        {% if asset.link %}
-          <a href="{{ asset.link }}" class="button dam-button" target="_blank">
-            Link
-          </a>
-          <a href="mailto:?to=&body={{ asset.link }}&subject={{ asset.name }}"
-             class="button">
-            Share
-          </a>
-        {% elif asset.file %}
-          <a href="{{ filename }}"
-             class="button dam-button"
-             target="_blank">
-            Download
-          </a>
-          <a href="mailto:?to=&body={{ filename }}&subject={{ asset.name }}"
-             class="button dam-button">
-            Share
-          </a>
-        {% else %}
-          File/link coming soon...
-        {% endif %}
       </div>
     </div>
   </div>
 </section>
 
-<section class="section">
-	<div class="container">
-    {% if asset.description %}
+{% if asset.description %}
+  <section class="section">
+    <div class="container dam-container-narrow">
       <div class="content">
         <p>{{ asset.description }}</p>
       </div>
-    {% endif %}
-  </div>
-</section>
-<section class="section">
-  <div class="container">
-    {% if asset.contributors.all|length %}
+    </div>
+  </section>
+{% endif %}
+
+{% if asset.contributors.all|length %}
+  <section class="section">
+    <div class="container dam-container-narrow">
       <div class="content">
         <p>Collaborators</p>
       </div>
@@ -90,12 +91,13 @@
         </div>
         {% endfor %}
       </div>
-    {% endif %}
-  </div>
-</section>
-<section class="section">
-  <div class="container">
-    {% if asset.tags.all|length %}
+    </div>
+  </section>
+{% endif %}
+
+{% if asset.tags.all|length %}
+  <section class="section">
+    <div class="container dam-container-narrow">
       <div class="content">
         <p>This is about...</p>
       </div>
@@ -104,7 +106,7 @@
         <span class="tag is-white is-medium dam-tag">{{ tag.name }}</span>
         {% endfor %}
       </div>
-    {% endif %}
-	</div>
-</section>
+	  </div>
+  </section>
+{% endif %}
 {% endblock %}
