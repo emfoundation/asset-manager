@@ -1,5 +1,7 @@
 {% extends 'user_interface/base.html' %}
 
+{% load custom_filters %}
+
 {% block title %}
 	{{ block.super }} - {{ topic.name |lower|capfirst}}
 {% endblock %}
@@ -11,34 +13,40 @@
       <div class="level">
         <a href="/">< Back</a>
       </div>
-      <h2 class="title is-2">
+      <h1 class="title is-2">
         {{ topic.name|lower|capfirst }}
-      </h2>
+      </h1>
     </div>
 	</div>
 </section>
+
+{% regroup assets by type_field as assets_by_type %}
+
 <section class="section">
   <div class="container">
-    <div class="columns is-multiline">
-	  	{% for asset in assets  %}
-	  		<div class="column is-half">
-          <article class="media">
-            <figure class="media-left">
-              <span class="icon is-medium dam-icon dam-is-circle">
-                <i class="fas fa-{{ formatToIcon.OT }}"></i>
-              </span>
-            </figure>
-            <div class="media-content">
-              <div class="content">
-                <a href="{% url 'user_interface:asset' asset.id %}?t={{ topic.id }}">
-                  <h2 class="title is-5 has-text-weight-bold">{{ asset.name }}</h2>
-                </a>
+    {% for type in assets_by_type %}
+      <h2 class="title is-5">{{ typeChoices|get_item:type.grouper|lower|capfirst }}</h2>
+      <div class="columns is-multiline">
+        {% for asset in type.list %}
+          <div class="column is-half">
+            <article class="media">
+              <figure class="media-left">
+                <span class="icon is-medium dam-icon dam-is-circle">
+                  <i class="fas fa-{{ formatToIcon|get_item:asset.format }}"></i>
+                </span>
+              </figure>
+              <div class="media-content">
+                <div class="content">
+                  <a href="{% url 'user_interface:asset' asset.id %}?t={{ topic.id }}">
+                    <h3 class="title is-5 has-text-weight-bold">{{ asset.name }}</h3>
+                  </a>
+                </div>
               </div>
-            </div>
-          </article>
-	  		</div>
-	  	{% endfor %}
-	  </div>
+            </article>
+          </div>
+        </div>
+        {% endfor %}
+      {% endfor %}
   </div>
 </section>
 {% endblock %}
