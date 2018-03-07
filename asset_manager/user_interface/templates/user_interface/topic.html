@@ -20,7 +20,7 @@
 	</div>
 </section>
 
-{% regroup assets by type_field as assets_by_type %}
+{% regroup assets|dictsort:'type_field' by type_field as assets_by_type %}
 
 <section class="section">
   <div class="container">
@@ -44,8 +44,8 @@
               </div>
             </article>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       {% endfor %}
   </div>
 </section>
