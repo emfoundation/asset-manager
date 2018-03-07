@@ -5076,7 +5076,7 @@ label.panel-block {
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
-  padding: 0.75rem; }
+  padding: 1rem; }
   .columns.is-mobile > .column.is-narrow {
     flex: none; }
   .columns.is-mobile > .column.is-full {
@@ -5855,13 +5855,13 @@ label.panel-block {
       margin-left: 100%; } }
 
 .columns {
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
-  margin-top: -0.75rem; }
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-top: -1rem; }
   .columns:last-child {
-    margin-bottom: -0.75rem; }
+    margin-bottom: -1rem; }
   .columns:not(:last-child) {
-    margin-bottom: calc(1.5rem - 0.75rem); }
+    margin-bottom: calc(1.5rem - 1rem); }
   .columns.is-centered {
     justify-content: center; }
   .columns.is-gapless {
@@ -6520,5 +6520,38 @@ label.panel-block {
 .dam-icon {
   position: relative;
   top: 0.2rem; }
+
+.dam-hero {
+  position: relative;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem; }
+  @media screen and (max-width: 768px) {
+    .dam-hero {
+      padding-top: 5rem;
+      padding-bottom: 5rem; } }
+
+.dam-hero.dam-asset-hero {
+  padding-bottom: 0.5rem; }
+
+.dam-foot {
+  padding: 1rem; }
+
+.dam-back {
+  position: absolute;
+  top: -3rem;
+  left: 0; }
+  @media screen and (min-width: 769px), print {
+    .dam-back {
+      top: -7rem; } }
+
+.dam-padding {
+  padding-top: 1.5rem;
+  padding-bottom: 3rem; }
+
+.dam-button {
+  min-width: 8rem; }
+
+.card-content {
+  padding: 1rem; }
 
 /*# sourceMappingURL=maps/main.css.map */

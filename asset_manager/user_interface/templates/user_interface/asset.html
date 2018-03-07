@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero is-light is-small">
-  <div class="hero-body">
+<section class="hero is-light is-medium">
+  <div class="hero-body dam-hero dam-asset-hero">
     <div class="container">
-      <div class="level">
+      <div class="dam-back">
         <a href="{% if topicGroup %}{% url 'user_interface:topic' topicGroup %}{% else %}/{% endif %}"
            class="has-text-grey">
           < Back
@@ -25,10 +25,14 @@
       <h1 class="title is-2">
         {{ asset.name }}
       </h1>
+    </div>
+  </div>
+  <div class="hero-foot dam-foot">
+    <div class="container">
       <div class="content has-text-grey">
         <p>Uploaded at {{ asset.uploaded_at|date:"jS F, Y" }}</p>
         {% if asset.link %}
-          <a href="{{ asset.link }}" class="button" target="_blank">
+          <a href="{{ asset.link }}" class="button dam-button" target="_blank">
             Link
           </a>
           <a href="mailto:?to=&body={{ asset.link }}&subject={{ asset.name }}"
@@ -37,12 +41,12 @@
           </a>
         {% elif asset.file %}
           <a href="{{ filename }}"
-             class="button"
+             class="button dam-button"
              target="_blank">
             Download
           </a>
           <a href="mailto:?to=&body={{ filename }}&subject={{ asset.name }}"
-             class="button">
+             class="button dam-button">
             Share
           </a>
         {% else %}
@@ -52,6 +56,7 @@
     </div>
   </div>
 </section>
+
 <section class="section">
 	<div class="container">
     {% if asset.description %}
@@ -59,6 +64,10 @@
         <p>{{ asset.description }}</p>
       </div>
     {% endif %}
+  </div>
+</section>
+<section class="section">
+  <div class="container">
     {% if asset.contributors.all|length %}
       <div class="content">
         <p>Collaborators</p>
@@ -82,6 +91,10 @@
         {% endfor %}
       </div>
     {% endif %}
+  </div>
+</section>
+<section class="section">
+  <div class="container">
     {% if asset.tags.all|length %}
       <div class="content">
         <p>This is about...</p>
