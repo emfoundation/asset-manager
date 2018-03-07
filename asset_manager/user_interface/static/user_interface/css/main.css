@@ -6508,7 +6508,8 @@ label.panel-block {
   box-shadow: 0 2px 4px 0 rgba(76, 93, 104, 0.25); }
 
 .dam-is-circle {
-  border-radius: 50%; }
+  border-radius: 50%;
+  background: lightgray; }
 
 .dam-tag {
   border: 1px solid #4f4f4f; }

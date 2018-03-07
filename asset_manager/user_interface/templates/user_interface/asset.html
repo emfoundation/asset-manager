@@ -22,9 +22,9 @@
           <span>{{ asset.get_type_field_display|lower|capfirst }}</span>
         </div>
       </div>
-      <h2 class="title is-2">
+      <h1 class="title is-2">
         {{ asset.name }}
-      </h2>
+      </h1>
       <div class="content has-text-grey">
         <p>Uploaded at {{ asset.uploaded_at|date:"jS F, Y" }}</p>
         {% if asset.link %}
