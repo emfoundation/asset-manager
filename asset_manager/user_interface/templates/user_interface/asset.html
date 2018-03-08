@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero is-light is-medium">
+<section class="hero is-medium">
   <div class="hero-body dam-hero dam-asset-hero">
     <div class="container">
       <div class="">
@@ -18,10 +18,10 @@
       <div class="dam-container-narrow">
         <div class="content">
           <p>
-            <span class="icon dam-icon">
+            <span class="icon is-medium dam-icon dam-is-circle">
               <i class="fas fa-{{ icon }}"></i>
             </span>
-            <span>{{ asset.get_type_field_display|lower|capfirst }}</span>
+            <span class="dam-margin-left">{{ asset.get_type_field_display|lower|capfirst }}</span>
           </p>
           <h1 class="title has-text-weight-bold is-3">
             {{ asset.name }}
@@ -30,21 +30,21 @@
           <p class="has-text-grey">Uploaded at {{ asset.uploaded_at|date:"jS F, Y" }}</p>
           <p>
             {% if asset.link %}
-              <a href="{{ asset.link }}" class="button dam-button" target="_blank">
+              <a href="{{ asset.link }}" class="button is-primary dam-button" target="_blank">
                 LINK
               </a>
               <a href="mailto:?to=&body={{ asset.link }}&subject={{ asset.name }}"
-                class="button dam-button">
+                class="button is-primary dam-button">
                 SHARE
               </a>
             {% elif asset.file %}
               <a href="{{ filename }}"
-                class="button dam-button"
+                class="button is-primary dam-button"
                 target="_blank">
                 DOWNLOAD
               </a>
               <a href="mailto:?to=&body={{ filename }}&subject={{ asset.name }}"
-                class="button dam-button">
+                class="button is-primary dam-button">
                 SHARE
               </a>
             {% else %}
@@ -78,9 +78,9 @@
         <div class="column is-half">
           <article class="media">
             <figure class="media-left">
-              <p class="image is-32x32">
-                <img class="dam-is-circle" src="https://bulma.io/images/placeholders/128x128.png">
-              </p>
+                <span class="icon is-medium dam-is-circle dam-icon-full">
+                  <i class="fas fa-user"></i>
+                </span>
             </figure>
             <div class="media-content">
               <div class="content">
