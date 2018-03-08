@@ -6,11 +6,13 @@ $family-sans-serif: proxima-nova, "Helvetica Neue", "Helvetica", "Arial", sans-s
 $text: $grey-darker;
 $text-invert: findColorInvert($text);
 
+$column-gap: 0.5rem;
 $section-padding: 2rem 1rem;
 
 @import 'bulma/bulma';
 
 .dam-shadow-bottom {
+    position: relative;
     box-shadow: 0 2px 4px 0 rgba(76, 93, 104, 0.25);
 }
 
@@ -30,4 +32,60 @@ $section-padding: 2rem 1rem;
 .dam-icon {
     position: relative;
     top: 0.2rem;
+}
+
+.dam-hero {
+    position: relative;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    @include mobile() {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+}
+.dam-hero.dam-asset-hero {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    @include tablet() {
+        // padding-top: 5rem !important;
+        padding-bottom: 5rem !important;
+    }
+}
+
+.dam-foot {
+    padding: 1rem;
+}
+
+.dam-back {
+    position: absolute;
+    top: -3rem;
+    left: 0;
+    @include tablet() {
+        top: -7rem;
+    }
+}
+
+.dam-padding {
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+}
+
+.dam-button {
+    min-width: 8rem;
+}
+
+.dam-media {
+    margin-bottom: 1rem;
+}
+
+.dam-container-narrow {
+    @include tablet() {
+        width: 50rem;
+        margin: 0 auto;
+    }
+}
+
+// NOTE: direct Bulma override, not ideal
+.card-content {
+    padding: 1rem;
 }

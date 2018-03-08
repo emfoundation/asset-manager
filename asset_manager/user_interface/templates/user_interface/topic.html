@@ -7,13 +7,13 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero is-light is-small">
-  <div class="hero-body">
+<section class="hero is-light is-medium">
+  <div class="hero-body dam-hero">
     <div class="container">
-      <div class="level">
+      <div class="dam-back has-text-grey">
         <a href="/">< Back</a>
       </div>
-      <h1 class="title is-2">
+      <h1 class="title is-3">
         {{ topic.name|lower|capfirst }}
       </h1>
     </div>
@@ -25,11 +25,15 @@
 <section class="section">
   <div class="container">
     {% for type in assets_by_type %}
-      <h2 class="title is-5">{{ typeChoices|get_item:type.grouper|lower|capfirst }}</h2>
+      <div class="dam-padding">
+        <h2 class="title is-6 has-text-weight-normal">
+          {{ typeChoices|get_item:type.grouper|lower|capfirst }}
+        </h2>
+      </div>
       <div class="columns is-multiline">
         {% for asset in type.list %}
-          <div class="column is-half">
-            <article class="media">
+          <div class="column is-half is-one-quarter-desktop">
+            <article class="media dam-media">
               <figure class="media-left">
                 <span class="icon is-medium dam-icon dam-is-circle">
                   <i class="fas fa-{{ formatToIcon|get_item:asset.format }}"></i>
@@ -38,7 +42,7 @@
               <div class="media-content">
                 <div class="content">
                   <a href="{% url 'user_interface:asset' asset.id %}?t={{ topic.id }}">
-                    <h3 class="title is-5 has-text-weight-bold">{{ asset.name }}</h3>
+                    <h3 class="is-size-6 has-text-weight-bold">{{ asset.name }}</h3>
                   </a>
                 </div>
               </div>

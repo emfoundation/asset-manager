@@ -1,16 +1,19 @@
 {% extends 'user_interface/base.html' %}
 
 {% block content %}
-<section class="section">
-	<div class="container">
-		<h1 class="title is-2">All EMF resources at your fingertips</h1>
+<section class="hero is-light is-medium">
+	<div class="hero-body dam-hero">
+		<div class="container">
+			<h1 class="title is-3">All EMF resources at your fingertips</h1>
+		</div>
 	</div>
 </section>
+
 <section class="section">
 	<div class="container">
 		<div class="columns is-multiline">
 	  	{% for topic in topics  %}
-	  		<div class="column is-half">
+	  		<div class="column is-half is-one-quarter-desktop">
 		  		<div class="card">
 					  <div class="card-content">
 					    <div class="content">
