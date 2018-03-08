@@ -1,7 +1,7 @@
 {% extends 'user_interface/base.html' %}
 
 {% block content %}
-<section class="hero is-light is-medium">
+<section class="hero is-medium">
 	<div class="hero-body dam-hero">
 		<div class="container">
 			<h1 class="title is-3">All EMF resources at your fingertips</h1>
@@ -13,16 +13,16 @@
 	<div class="container">
 		<div class="columns is-multiline">
 	  	{% for topic in topics  %}
-	  		<div class="column is-half is-one-quarter-desktop">
-		  		<div class="card">
-					  <div class="card-content">
-					    <div class="content">
-					      <a href="{% url 'user_interface:topic' topic.id %}">
+	  		<div class="column is-half is-one-third-desktop">
+					<a href="{% url 'user_interface:topic' topic.id %}">
+						<div class="card">
+							<div class="card-content">
+								<div class="content">
 					      	<h2 class="is-size-6">{{ topic.name|lower|capfirst }}</h2>
-					      </a>
-					    </div>
-		  			</div>
-				  </div>
+								</div>
+							</div>
+						</div>
+					</a>
 				</div>
 	  	{% endfor %}
 	  </div>
