@@ -45,3 +45,6 @@ def asset(request, asset_id):
 		'icon': icon
 	}
 	return render(request, 'user_interface/asset.html', context)
+
+def search(request):
+	return render(request, 'user_interface/search.html')
