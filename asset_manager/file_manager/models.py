@@ -199,11 +199,12 @@ class Asset(S3_Object):
         (REPORT, 'REPORT'),
         (VIDEO, 'VIDEO'),
         (WORKSHOP_SUMMARY, 'WORKSHOP SUMMARY'),
+        ('OT', 'OTHER') # change this line to use OTHER which already exists on dev
     )
     type_field = models.CharField(
+        default='OT',
         max_length=2,
         choices = TYPE_CHOICES,
-        blank=True,
         verbose_name='Type (CE100 Resources only)'
     )
 
