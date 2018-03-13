@@ -183,35 +183,35 @@ class Asset(S3_Object):
 
     CASE_STUDY = 'CS'
     CO_PROJECT = 'CP'
-    IMAGE = 'IM'
-    LINK = 'LN'
     PAPER = 'PA'
-    PRESENTATION = 'PR'
     REPORT = 'RT'
-    VIDEO = 'VI'
-    WORKSHOP_SUMMARY = 'WS'
+    INFOGRAPHIC = 'IG'
+    TEACHING_LEARNING = 'TL'
+    OTHER = 'OT'
+
     TYPE_CHOICES = (
-        (CASE_STUDY, 'CASE STUDY'),
-        (CO_PROJECT, 'CO.PROJECT'),
-        (IMAGE, 'IMAGE'),
-        (LINK, 'LINK'),
-        (PAPER, 'PAPER'),
-        (PRESENTATION, 'PRESENTATION'),
-        (REPORT, 'REPORT'),
-        (VIDEO, 'VIDEO'),
-        (WORKSHOP_SUMMARY, 'WORKSHOP SUMMARY'),
-        ('OT', 'OTHER') # change this line to use OTHER which already exists on dev
+        (CASE_STUDY, 'Case study'),
+        (CO_PROJECT, 'Co.Project'),
+        (PAPER, 'Paper'),
+        (REPORT, 'Report'),
+        (INFOGRAPHIC, 'Infographic'),
+        (TEACHING_LEARNING, 'Teaching & learning resource'),
+        (OTHER, 'Other')
     )
     type_field = models.CharField(
-        default='OT',
+        default=OTHER,
         max_length=2,
         choices = TYPE_CHOICES,
         verbose_name='Content Type'
     )
 
+    IMAGE = 'IM'
+    VIDEO = 'VI'
+    PRESENTATION = 'PR'
+    LINK = 'LN'
     AUDIO = 'AU'
     DOCUMENT = 'DO'
-    OTHER = 'OT'
+
     FORMAT_CHOICES = (
         (IMAGE, 'Image'),
         (VIDEO, 'Video'),
