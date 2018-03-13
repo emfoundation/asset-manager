@@ -200,10 +200,13 @@ class Asset(S3_Object):
         (REPORT, 'REPORT'),
         (VIDEO, 'VIDEO'),
         (WORKSHOP_SUMMARY, 'WORKSHOP SUMMARY'),
+        ('OT', 'OTHER') # change this line to use OTHER which already exists on dev
     )
     type_field = models.CharField(
+        default='OT',
         max_length=2,
         choices = TYPE_CHOICES,
+<<<<<<< HEAD
         verbose_name='Content Type'
     )
 
@@ -224,6 +227,9 @@ class Asset(S3_Object):
         choices = FORMAT_CHOICES,
         default = OTHER,
         verbose_name='Format'
+=======
+        verbose_name='Type (CE100 Resources only)'
+>>>>>>> 257-other-option
     )
 
     filetype = models.CharField(max_length=128, null=True)
