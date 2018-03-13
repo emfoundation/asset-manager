@@ -1,0 +1,82 @@
+.dam-title {
+    margin-top: 1.5rem !important;
+}
+
+.dam-tag {
+    border: 1px solid #4f4f4f;
+}
+
+.dam-nav {
+    justify-content: space-between;
+    background: white;
+}
+
+.dam-icon {
+    position: relative;
+    top: 0.2rem;
+    color: $primary;
+}
+.dam-icon-border {
+    position: relative;
+    top: 0.2rem;
+    border: 2px solid $primary;
+    color: $primary;
+}
+.dam-icon-full {
+    position: relative;
+    top: -0.2rem;
+    background: $primary;
+    color: white;
+}
+
+.dam-hero {
+    position: relative;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    @include mobile() {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+}
+.dam-hero.dam-asset-hero {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    @include tablet() {
+        // padding-top: 5rem !important;
+        padding-bottom: 5rem !important;
+    }
+}
+
+.dam-foot {
+    padding: 1rem;
+}
+
+.dam-back {
+    position: absolute;
+    top: -3rem;
+    left: 0;
+    @include tablet() {
+        top: -7rem;
+    }
+    a {
+        color: $grey;
+    }
+}
+
+.dam-button {
+    min-width: 8rem;
+}
+
+.dam-media {
+    margin-bottom: 1rem;
+    @include tablet() {
+        padding-right: 1rem;
+    }
+}
+
+.dam-container-narrow {
+    @include tablet() {
+        width: 50rem;
+        margin: 0 auto;
+    }
+}
