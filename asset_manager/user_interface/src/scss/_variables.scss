@@ -1,0 +1,16 @@
+$family-sans-serif: proxima-nova, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+$primary: #3E4DB9;
+
+$link: $primary;
+
+$text: $grey-darker;
+$text-invert: findColorInvert($text);
+
+$column-gap: 0.5rem;
+$section-padding: 2rem 1rem;
+
+$card-shadow: 0 1px 1px 0 rgba(10, 16, 34, .2);
+$navbar-item-hover-background-color: transparent;
+
+$dam-color-light: #f9f9fa;

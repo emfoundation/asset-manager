@@ -13,7 +13,7 @@
       <div class="dam-back has-text-grey">
         <a href="/">< Back</a>
       </div>
-      <h1 class="title is-3">
+      <h1 class="has-text-weight-bold is-size-3-touch is-size-1-desktop">
         {{ topic.name|lower|capfirst }}
       </h1>
     </div>
@@ -35,7 +35,7 @@
           <div class="column is-half is-one-third-desktop">
             <article class="media dam-media">
               <figure class="media-left">
-                <span class="icon is-medium dam-icon dam-is-circle">
+                <span class="icon is-medium dam-icon-border dam-is-circle">
                   <i class="fas fa-{{ formatToIcon|get_item:asset.format }}"></i>
                 </span>
               </figure>
