@@ -1,0 +1,19 @@
+{
+    "name": "Ellen MacArthur Foundation resources",
+    "short_name": "EMF",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#3e4db9",
+    "background_color": "#3e4db9",
+    "display": "standalone"
+}
