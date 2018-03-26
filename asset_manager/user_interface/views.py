@@ -12,10 +12,30 @@ formatToIcon = {
 	'OT': 'file'
 }
 
+# very brittle: we should consider creating a field on TagGroup to hold the svg file
+tagGroupToIcon = {
+	'BIOCYCLE': 'bug',
+	'BUILT ENVIRONMENT': 'building',
+	'BUSINESS': 'briefcase',
+	'DESIGN': 'brush',
+	'ECONOMICS': 'pie-chart',
+	'EDUCATION (LEARNING)': 'map',
+	'ENERGY': 'lightning',
+	'FINANCE & LEGAL': 'balance',
+	'GOVERNMENT': 'bank',
+	'MANUFACTURING & ENGINEERING': 'idea',
+	'MATERIALS': 'lab',
+	'TECHNICAL CYCLE': 'gears',
+	'TECHNOLOGY': 'touch'
+}
+
 # Create your views here.
 def index(request):
 	topics = TagGroup.objects.all()
-	context = { 'topics': topics }
+	context = { 
+		'topics': topics,
+		'tagGroupToIcon': tagGroupToIcon
+	}
 	return render(request, 'user_interface/index.html', context)
 
 def topic(request, topic_id):
