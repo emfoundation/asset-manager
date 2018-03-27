@@ -201,8 +201,8 @@
 					]
 				}
 			">
-				<polyline fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="23,7 37,7 37,53 27,53 27,41 19,41 19,53 9,53 9,7 23,7"/>
-				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" points="15,25 17,25 17,35 13,35 13,25 15,25" data-animdata="
+				<polyline fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="23,7 37,7 37,53 27,53 27,41 19,41 19,53 9,53 9,7 23,7"/>
+				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-miterlimit="10" points="15,25 17,25 17,35 13,35 13,25 15,25" data-animdata="
 					{
 						'steps':[
 							{
@@ -222,7 +222,7 @@
 						]
 					}
 				"/>
-				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" points="23,11 25,11 25,21 21,21 21,11 23,11" data-animdata="
+				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-miterlimit="10" points="23,11 25,11 25,21 21,21 21,11 23,11" data-animdata="
 					{
 						'steps':[
 							{
@@ -242,7 +242,7 @@
 						]
 					}
 				"/>
-				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" points="31,25 33,25 33,35 29,35 29,25 31,25" data-animdata="
+				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-miterlimit="10" points="31,25 33,25 33,35 29,35 29,25 31,25" data-animdata="
 					{
 						'steps':[
 							{
@@ -262,7 +262,7 @@
 						]
 					}
 				"/>
-				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" points="15,11 17,11 17,21 13,21 13,11 15,11" data-animdata="
+				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-miterlimit="10" points="15,11 17,11 17,21 13,21 13,11 15,11" data-animdata="
 					{
 						'steps':[
 							{
@@ -282,7 +282,7 @@
 						]
 					}
 				"/>
-				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" points="23,25 25,25 25,35 21,35 21,25 23,25" data-animdata="
+				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-miterlimit="10" points="23,25 25,25 25,35 21,35 21,25 23,25" data-animdata="
 					{
 						'steps':[
 							{
@@ -302,7 +302,7 @@
 						]
 					}
 				"/>
-				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" points="31,11 33,11 33,21 29,21 29,11 31,11" data-animdata="
+				<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-miterlimit="10" points="31,11 33,11 33,21 29,21 29,11 31,11" data-animdata="
 					{
 						'steps':[
 							{
@@ -345,8 +345,8 @@
 						]
 					}
 				">
-					<polyline fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="40,11 51,11 51,53 43,53 43,43 37,43 37,11 40,11"/>
-					<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" points="45.5,15 47,15 47,23 44,23 44,15 45.5,15" data-animdata="
+					<polyline fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="40,11 51,11 51,53 43,53 43,43 37,43 37,11 40,11"/>
+					<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-miterlimit="10" points="45.5,15 47,15 47,23 44,23 44,15 45.5,15" data-animdata="
 						{
 							'steps':[
 								{
@@ -366,7 +366,7 @@
 							]
 						}
 					"/>
-					<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" points="45.5,27 47,27 47,35 44,35 44,27 45.5,27" data-animdata="
+					<polyline class="lievo-solidbg" fill="#FFFFFF" stroke="#3E4DB9" stroke-width="2" stroke-miterlimit="10" points="45.5,27 47,27 47,35 44,35 44,27 45.5,27" data-animdata="
 						{
 							'steps':[
 								{

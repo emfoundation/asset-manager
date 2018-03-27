@@ -32,7 +32,7 @@
 				</clipPath>
 			</defs>
 			
-			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="#3E4DB9" cx="27" cy="0" r="6" opacity="0" data-animdata="
+			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="none" cx="27" cy="0" r="6" opacity="0" data-animdata="
 				{
 					'steps':[
 						{
@@ -64,7 +64,7 @@
 					]
 				}
 			"/>
-			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="#3E4DB9" cx="28.5" cy="0" r="6" opacity="0" data-animdata="
+			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="none" cx="28.5" cy="0" r="6" opacity="0" data-animdata="
 				{
 					'steps':[
 						{
@@ -96,7 +96,7 @@
 					]
 				}
 			"/>
-			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="#3E4DB9" cx="30" cy="0" r="6" opacity="0" data-animdata="
+			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="none" cx="30" cy="0" r="6" opacity="0" data-animdata="
 				{
 					'steps':[
 						{
@@ -128,7 +128,7 @@
 					]
 				}
 			"/>
-			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="#3E4DB9" cx="31.5" cy="0" r="6" opacity="0" data-animdata="
+			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="none" cx="31.5" cy="0" r="6" opacity="0" data-animdata="
 				{
 					'steps':[
 						{
@@ -160,7 +160,7 @@
 					]
 				}
 			"/>
-			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="#3E4DB9" cx="33" cy="0" r="6" opacity="0" data-animdata="
+			<circle class="lievo-donotdraw lievo-likestroke lievo-altstroke" fill="none" cx="33" cy="0" r="6" opacity="0" data-animdata="
 				{
 					'steps':[
 						{
@@ -194,7 +194,7 @@
 			"/>
 
 			<g clip-path="url(#livicon_lab)">
-				<path class="lievo-altstroke" fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" d="M20,29c11,0,9-2,19-2h10v30H11V29H20z" data-animdata="
+				<path class="lievo-altstroke" fill="none" stroke="#3E4DB9" stroke-width="2" d="M20,29c11,0,9-2,19-2h10v30H11V29H20z" data-animdata="
 					{
 						'steps':[
 							{

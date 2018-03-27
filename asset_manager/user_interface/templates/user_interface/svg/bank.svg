@@ -2,7 +2,7 @@
 	<g class="lievo-main">
 		<g class="lievo-common">
 			<g>
-				<path class="lievo-altstroke" fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M15,27h2v18h-4V27H15z" data-animdata="
+				<path class="lievo-altstroke" fill="none" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M15,27h2v18h-4V27H15z" data-animdata="
 					{
 						'steps':[
 							{
@@ -25,7 +25,7 @@
 						]
 					}
 				"/>
-				<path class="lievo-altstroke" fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M25,27h2v18h-4V27H25z" data-animdata="
+				<path class="lievo-altstroke" fill="none" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M25,27h2v18h-4V27H25z" data-animdata="
 					{
 						'steps':[
 							{
@@ -48,7 +48,7 @@
 						]
 					}
 				"/>
-				<path class="lievo-altstroke" fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M35,27h2v18h-4V27H35z" data-animdata="
+				<path class="lievo-altstroke" fill="none" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M35,27h2v18h-4V27H35z" data-animdata="
 					{
 						'steps':[
 							{
@@ -71,7 +71,7 @@
 						]
 					}
 				"/>
-				<path class="lievo-altstroke" fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M45,27h2v18h-4V27H45z" data-animdata="
+				<path class="lievo-altstroke" fill="none" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M45,27h2v18h-4V27H45z" data-animdata="
 					{
 						'steps':[
 							{
@@ -96,7 +96,7 @@
 				"/>
 			</g>
 
-			<path fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M30,45h19v1h2v3H9v-3h2v-1H30z" data-animdata="
+			<path fill="none" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M30,45h19v1h2v3H9v-3h2v-1H30z" data-animdata="
 				{
 					'steps':[
 						{
@@ -119,7 +119,7 @@
 				}
 			"/>
 
-			<path fill="#3E4DB9" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M30,23H11v-2H9v-3l21-9l21,9v3h-2v2H30z" data-animdata="
+			<path fill="none" stroke="#3E4DB9" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M30,23H11v-2H9v-3l21-9l21,9v3h-2v2H30z" data-animdata="
 				{
 					'steps':[
 						{
