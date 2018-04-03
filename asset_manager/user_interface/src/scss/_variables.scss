@@ -14,3 +14,8 @@ $card-shadow: 0 1px 1px 0 rgba(10, 16, 34, .2);
 $navbar-item-hover-background-color: transparent;
 
 $dam-color-light: #f9f9fa;
+
+// Helper classes for variables
+.is-primary {
+    color: $primary;
+}
