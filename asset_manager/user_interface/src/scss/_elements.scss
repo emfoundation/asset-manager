@@ -75,7 +75,7 @@
 }
 
 .dam-media-left {
-    @extend .media-left;
+    margin-right: 1rem;
     @include desktop() {
         margin-right: 0;
     }
