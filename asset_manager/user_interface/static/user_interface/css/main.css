@@ -6517,6 +6517,12 @@ body {
 .dam-margin-left {
   margin-left: 0.5rem; }
 
+.dam-margin-left-large {
+  margin-left: 1rem; }
+
+.dam-margin-left-small {
+  margin-left: 0.2rem; }
+
 .dam-margin-bottom {
   margin-bottom: 3rem !important; }
 
@@ -6589,10 +6595,21 @@ body {
     .dam-media {
       padding-right: 1rem; } }
 
+.dam-media-left {
+  margin-right: 1rem; }
+  @media screen and (min-width: 1024px) {
+    .dam-media-left {
+      margin-right: 0; } }
+
 @media screen and (min-width: 769px), print {
   .dam-container-narrow {
     width: 50rem;
     margin: 0 auto; } }
+
+.dam-format-text {
+  margin-left: -50%;
+  max-width: 100px;
+  min-width: 65px; }
 
 .dam-card-svg {
   text-align: center; }
