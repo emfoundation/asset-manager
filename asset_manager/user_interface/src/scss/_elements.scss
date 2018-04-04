@@ -74,9 +74,22 @@
     }
 }
 
+.dam-media-left {
+    @extend .media-left;
+    @include desktop() {
+        margin-right: 0;
+    }
+}
+
 .dam-container-narrow {
     @include tablet() {
         width: 50rem;
         margin: 0 auto;
     }
+}
+
+.dam-format-text {
+    margin-left: -50%;
+    max-width: 100px;
+    min-width: 65px;
 }

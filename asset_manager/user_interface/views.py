@@ -23,12 +23,14 @@ def topic(request, topic_id):
 	tags = Tag.objects.filter(group__id=topic_id)
 	assets = Asset.objects.filter(tags__in=tags).distinct()
 	typeChoices = { k:v for (k,v) in Asset.TYPE_CHOICES }
+	formatChoices = { k:v for (k,v) in Asset.FORMAT_CHOICES }
 
 	context = { 
 		'topic': thisTopic,
 		'assets': assets,
 		'formatToIcon': formatToIcon,
-		'typeChoices': typeChoices
+		'typeChoices': typeChoices,
+		'formatChoices': formatChoices
 	}
 	return render(request, 'user_interface/topic.html', context)
 

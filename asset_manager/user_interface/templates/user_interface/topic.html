@@ -34,11 +34,13 @@
         {% for asset in type.list %}
           <div class="column is-half is-one-third-desktop">
             <article class="media dam-media">
-              <figure class="media-left">
+              <figure class="dam-media-left">
                 <span class="icon is-medium dam-icon-border dam-is-circle">
                   <i class="fas fa-{{ formatToIcon|get_item:asset.format }}"></i>
                 </span>
-                <figcaption class="is-size-7 is-primary has-text-centered">{{ formatToIcon|get_item:asset.format|capfirst }}</figcaption>
+                <figcaption class="dam-format-text dam-icon is-size-7 has-text-primary has-text-centered is-hidden-touch">
+                  {{ formatChoices|get_item:asset.format |capfirst }}
+                </figcaption>
               </figure>
               <div class="media-content">
                 <div class="content">
