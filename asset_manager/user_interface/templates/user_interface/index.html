@@ -1,5 +1,7 @@
 {% extends 'user_interface/base.html' %}
 
+{% load custom_filters %}
+
 {% block content %}
 <section class="hero is-medium">
 	<div class="hero-body dam-hero">
@@ -18,7 +20,12 @@
 						<div class="card">
 							<div class="card-content">
 								<div class="content">
-					      	<h2 class="is-size-6">{{ topic.name|lower|capfirst }}</h2>
+                  <h2 class="is-size-6">{{ topic.name|lower|capfirst }}</h2>
+                  <div class="dam-card-svg">
+                    {% with filename=tagGroupToIcon|get_item:topic.name %}
+                      {% include 'user_interface/svg/'|add:filename|add:'.svg' %}
+                    {% endwith %}
+                  </div>
 								</div>
 							</div>
 						</div>

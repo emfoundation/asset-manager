@@ -6594,6 +6594,11 @@ body {
     width: 50rem;
     margin: 0 auto; } }
 
+.dam-card-svg {
+  text-align: center; }
+  .dam-card-svg svg {
+    width: 100px; }
+
 .card-content {
   padding: 1rem; }
 
