@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
