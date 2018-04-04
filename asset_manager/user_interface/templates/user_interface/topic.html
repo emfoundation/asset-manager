@@ -39,7 +39,7 @@
                   <i class="fas fa-{{ formatToIcon|get_item:asset.format }}"></i>
                 </span>
                 <figcaption class="dam-format-text dam-icon is-size-7 has-text-primary has-text-centered is-hidden-touch">
-                  {{ formatChoices|get_item:asset.format |capfirst }}
+                  {{ asset.get_format_display }}
                 </figcaption>
               </figure>
               <div class="media-content">
