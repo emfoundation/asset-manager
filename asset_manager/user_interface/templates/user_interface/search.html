@@ -28,7 +28,7 @@
 <section class="section">
   <div class="container">
     {% if assets %}
-      {% regroup assets|dictsort:'type_field' by type_field as assets_by_type %}
+      {% regroup assets by type_field as assets_by_type %}
       {% for type in assets_by_type %}
         <div class="dam-padding">
           <h2 class="title is-6 has-text-weight-normal">

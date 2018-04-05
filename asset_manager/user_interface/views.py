@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.contrib.postgres.search import SearchVector, SearchQuery
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.aggregates import StringAgg
 from file_manager.models import TagGroup, Tag, Asset
 from django.conf import settings
 
@@ -75,10 +76,17 @@ def search(request):
 		query = queries.pop()
 		for item in queries:
 			query &= item
+
+		vector = (
+			SearchVector('name', weight='A') +
+			SearchVector('file', weight='B') +
+			SearchVector('link', weight='B') +
+			SearchVector('description', weight='A') +
+			SearchVector(StringAgg('tags__name', delimiter=' '), weight='B')
+		)
 		
-		assets = Asset.objects.annotate(
-			search=SearchVector('name', 'description')
-		).filter(search=query)
+		assets = Asset.objects.annotate(document=vector, rank=SearchRank(vector, query))\
+					  .filter(document=query).order_by('type_field', '-rank')
 	else:
 		assets = None
 	typeChoices = { k:v for (k,v) in Asset.TYPE_CHOICES }
