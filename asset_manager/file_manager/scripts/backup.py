@@ -41,12 +41,6 @@ def get_bucket_contents(bucket, folder=''):
         for obj in contents['Contents']:
             bucket_contents[obj['Key']] = obj['ETag']
 
-            # append({
-            #     'Key':obj['Key'],
-            #     'ETag':obj['ETag']
-            # })
-            # bucket_contents.append([obj['Key'], obj['ETag']])
-
     # list_objects_v2 returns up to 1000 objects. When the number of Assets on the DAM exceeds this,
     # an alternative method will be needed. Fire a warning when we reach 800.
     if len(bucket_contents) > 800:
@@ -146,6 +140,7 @@ def verify_bucket_backup(source_bucket, destination_bucket, destination_folder):
                     error, destination_bucket+'/'+destination_folder))
 
     if bucket_backup_verified:
+        print('S3 Bucket backup verified')
         logging.info(msg + 'Success')
         success_subject = '{} successfully backed up - {}'.format(source_bucket,\
             datetime.now().strftime('%y-%m-%d %H:%M:%S'))
@@ -226,6 +221,8 @@ def backup_to_s3(source_file_path):
           )
 
     try:
+        print('Uploading file {} to S3 Bucket {}, Key {}'.format(
+            source_file_path, settings.AWS_BACKUP_BUCKET_NAME, key))
         s3.upload_file(source_file_path, settings.AWS_BACKUP_BUCKET_NAME, key)
         logging.info('Uploaded file {} to S3 Bucket {}, Key {}'.format(
             source_file_path, settings.AWS_BACKUP_BUCKET_NAME, key))
@@ -279,6 +276,6 @@ def run():
     create_pg_dump()
     backup_to_s3(JSON_FILE_NAME)
 
-    # backup_folder = backup_bucket(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME)
+    backup_folder = backup_bucket(settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME)
     verify_bucket_backup(
-        settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME, 'dam-assets-backups/dams-assets 18-03-15 16:07:54/')
+        settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_BACKUP_BUCKET_NAME, backup_folder)
