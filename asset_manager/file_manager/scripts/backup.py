@@ -167,7 +167,7 @@ def send_mail(subject, message):
     msg.attach(MIMEText(body, 'plain'))
 
     txt = msg.as_string()
-    server.sendmail(settings.ADMIN_EMAIL_ADDRESS, settings.ADMIN_EMAIL_ADDRESS, txt)
+    server.sendmail(settings.ADMIN_EMAIL_ADDRESS, settings.RECIPIENT_EMAIL_ADDRESS, txt)
     server.quit()
 
 def log_error(message):
