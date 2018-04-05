@@ -6539,6 +6539,11 @@ body {
 .dam-nav {
   justify-content: space-between;
   background: white; }
+  .dam-nav-link {
+    color: #363636 !important;
+    opacity: 0.6; }
+    .dam-nav-link:hover {
+      opacity: 1; }
 
 .dam-icon {
   position: relative;
@@ -6595,11 +6600,9 @@ body {
     .dam-media {
       padding-right: 1rem; } }
 
-.dam-media-left {
-  margin-right: 1rem; }
-  @media screen and (min-width: 1024px) {
-    .dam-media-left {
-      margin-right: 0; } }
+@media screen and (min-width: 1024px) {
+  .dam-media-left {
+    margin-right: 0; } }
 
 @media screen and (min-width: 769px), print {
   .dam-container-narrow {

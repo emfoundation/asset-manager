@@ -29,13 +29,13 @@
 <body>
 	<nav class="dam-shadow-bottom" role="navigation" aria-label="main navigation">
 	  <div class="navbar-brand dam-nav">
-	    <a class="navbar-item" href="/">
+	    <a class="navbar-item dam-nav-link" href="/">
 	      <img src="{% static 'user_interface/images/emf-logo.png' %}" alt="Ellen MacArthur Foundation resources">
 			</a>
 			<div class="navbar-item">
 				<strong>RESOURCES</strong>
 			</div>
-			<a href="{% url 'user_interface:search' %}" class="navbar-item">
+			<a href="{% url 'user_interface:search' %}" class="navbar-item dam-nav-link">
 				<span class="icon">
 					<i class="fas fa-lg fa-search"></i>
 				</span>
