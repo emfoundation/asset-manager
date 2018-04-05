@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.aggregates import StringAgg
 from file_manager.models import TagGroup, Tag, Asset
 from django.conf import settings
 
@@ -67,4 +69,33 @@ def asset(request, asset_id):
 	return render(request, 'user_interface/asset.html', context)
 
 def search(request):
-	return render(request, 'user_interface/search.html')
+	searchTerm = request.GET.get('q', '')
+
+	if searchTerm:
+		queries = [SearchQuery(term) for term in searchTerm.split(' ')]
+		query = queries.pop()
+		for item in queries:
+			query &= item
+
+		vector = (
+			SearchVector('name', weight='A') +
+			SearchVector('file', weight='B') +
+			SearchVector('link', weight='B') +
+			SearchVector('description', weight='A') +
+			SearchVector(StringAgg('tags__name', delimiter=' '), weight='B')
+		)
+		
+		assets = Asset.objects.annotate(document=vector, rank=SearchRank(vector, query))\
+					  .filter(document=query).order_by('type_field', '-rank')
+	else:
+		assets = None
+	typeChoices = { k:v for (k,v) in Asset.TYPE_CHOICES }
+
+	context = { 
+		'searchTerm': searchTerm,
+		'assets': assets,
+		'formatToIcon': formatToIcon,
+		'typeChoices': typeChoices
+	}
+
+	return render(request, 'user_interface/search.html', context)
