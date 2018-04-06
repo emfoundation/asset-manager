@@ -70,13 +70,14 @@
 .dam-media {
     margin-bottom: 1rem;
     @include tablet() {
-        padding-right: 1rem;
+        padding-right: 2rem;
     }
 }
 
 .dam-media-left {
+    position: relative;
     @include desktop() {
-        margin-right: 0;
+        margin-right: 1.6rem;
     }
 }
 
@@ -88,8 +89,10 @@
 }
 
 .dam-format-text {
-    margin-left: -50%;
-    max-width: 100px;
+    position: absolute;
+    left: -50%;
+    right: 0;
+    top: 35px;
     min-width: 65px;
 }
 
