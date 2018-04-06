@@ -6,7 +6,7 @@
 <section class="hero is-medium">
 	<div class="hero-body dam-hero">
 		<div class="container">
-			<h1 class="has-text-weight-bold is-size-3-touch is-size-1-desktop">All EMF resources at your fingertips</h1>
+			<h1 class="has-text-weight-bold is-size-3-touch is-size-1-desktop">Circular economy resources at your fingertips</h1>
 		</div>
 	</div>
 </section>
@@ -20,7 +20,7 @@
 						<div class="card">
 							<div class="card-content">
 								<div class="content">
-                  <h2 class="is-size-6">{{ topic.name|lower|capfirst }}</h2>
+                  <h2 class="is-size-6 has-text-primary">{{ topic.name|lower|capfirst }}</h2>
                   <div class="dam-card-svg">
                     {% with filename=tagGroupToIcon|get_item:topic.name %}
                       {% include 'user_interface/svg/'|add:filename|add:'.svg' %}
