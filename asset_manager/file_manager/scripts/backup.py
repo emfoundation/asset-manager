@@ -25,7 +25,6 @@ s3 = boto3.client(
     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
 
-VENV_DIR = '/Users/georgemillard/programming/projects/virtualenvs/asset_manager_venv/bin/activate'
 TEMP_DIR = settings.BASE_DIR + '/file_manager/scripts/temporary_files/'
 SQL_BACKUP_FILENAME = TEMP_DIR + 'sql_dbexport_temp.pgsql'
 JSON_FILE_NAME = TEMP_DIR + 'json_dbexport_temp.json'
