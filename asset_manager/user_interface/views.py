@@ -79,10 +79,10 @@ def search(request):
 
 		vector = (
 			SearchVector('name', weight='A') +
-			SearchVector('file', weight='B') +
-			SearchVector('link', weight='B') +
 			SearchVector('description', weight='A') +
-			SearchVector(StringAgg('tags__name', delimiter=' '), weight='B')
+			SearchVector(StringAgg('tags__name', delimiter=' '), weight='B') +
+			SearchVector(StringAgg('locations__name', delimiter=' '), weight='B') +
+			SearchVector(StringAgg('contributors__name', delimiter=' '), weight='B')
 		)
 		
 		assets = Asset.objects.annotate(document=vector, rank=SearchRank(vector, query))\

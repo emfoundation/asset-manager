@@ -10,7 +10,7 @@
       <form action="{% url 'user_interface:search' %}">
         <div class="field has-addons">
           <div class="control">
-            <input class="input" name="q" value="{{ searchTerm }}" type="text" placeholder="Find an asset">
+            <input class="input" name="q" value="{{ searchTerm }}" type="text" placeholder="Find a resource">
           </div>
           <div class="control">
             <button type="submit" class="button is-primary">
@@ -60,7 +60,7 @@
           </div>
         {% endfor %}
       {% else %}
-        <p>No results found for your search term.</p>
+        <p>No results found for <strong>{{ searchTerm }}</strong>.</p>
       {% endif %}
   </div>
 </section>
