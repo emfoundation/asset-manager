@@ -128,13 +128,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_ROOT = 'static'
-
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-STATICFILES_LOCATION = 'static'
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
+
+# This will be used, along with custom_storages.StaticStorage, if we store static files on S3
+STATICFILES_LOCATION = 'static'
+
+# Media files
 
 DEFAULT_FILE_STORAGE = 'file_manager.custom_storages.MediaStorage'
 MEDIAFILES_LOCATION = 'media'

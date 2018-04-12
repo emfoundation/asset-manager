@@ -12,6 +12,8 @@ from email.mime.text import MIMEText
 import boto3
 from botocore.exceptions import ClientError
 
+from file_manager import s3_utils
+
 import logging
 logging.basicConfig(
     filename=settings.LOGFILE,
@@ -20,10 +22,7 @@ logging.basicConfig(
     )
 # logging.disable(logging.CRITICAL)
 
-s3 = boto3.client(
-    's3',
-    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+s3 = s3_utils.s3
 
 TEMP_DIR = settings.BASE_DIR + '/file_manager/scripts/temporary_files/'
 SQL_BACKUP_FILENAME = TEMP_DIR + 'sql_dbexport_temp.pgsql'
