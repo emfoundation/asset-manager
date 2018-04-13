@@ -221,7 +221,7 @@ table th {
   font-size: 1rem !important; }
 
 .is-size-7 {
-  font-size: 0.75rem !important; }
+  font-size: 0.7rem !important; }
 
 @media screen and (max-width: 768px) {
   .is-size-1-mobile {
@@ -237,7 +237,7 @@ table th {
   .is-size-6-mobile {
     font-size: 1rem !important; }
   .is-size-7-mobile {
-    font-size: 0.75rem !important; } }
+    font-size: 0.7rem !important; } }
 
 @media screen and (min-width: 769px), print {
   .is-size-1-tablet {
@@ -253,7 +253,7 @@ table th {
   .is-size-6-tablet {
     font-size: 1rem !important; }
   .is-size-7-tablet {
-    font-size: 0.75rem !important; } }
+    font-size: 0.7rem !important; } }
 
 @media screen and (max-width: 1023px) {
   .is-size-1-touch {
@@ -269,7 +269,7 @@ table th {
   .is-size-6-touch {
     font-size: 1rem !important; }
   .is-size-7-touch {
-    font-size: 0.75rem !important; } }
+    font-size: 0.7rem !important; } }
 
 @media screen and (min-width: 1024px) {
   .is-size-1-desktop {
@@ -285,7 +285,7 @@ table th {
   .is-size-6-desktop {
     font-size: 1rem !important; }
   .is-size-7-desktop {
-    font-size: 0.75rem !important; } }
+    font-size: 0.7rem !important; } }
 
 @media screen and (min-width: 1216px) {
   .is-size-1-widescreen {
@@ -301,7 +301,7 @@ table th {
   .is-size-6-widescreen {
     font-size: 1rem !important; }
   .is-size-7-widescreen {
-    font-size: 0.75rem !important; } }
+    font-size: 0.7rem !important; } }
 
 @media screen and (min-width: 1408px) {
   .is-size-1-fullhd {
@@ -317,7 +317,7 @@ table th {
   .is-size-6-fullhd {
     font-size: 1rem !important; }
   .is-size-7-fullhd {
-    font-size: 0.75rem !important; } }
+    font-size: 0.7rem !important; } }
 
 .has-text-centered {
   text-align: center !important; }
@@ -563,7 +563,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
   color: #7a7a7a !important; }
 
 .has-text-grey-light {
-  color: #b5b5b5 !important; }
+  color: #7a7a7a !important; }
 
 .has-text-grey-lighter {
   color: #dbdbdb !important; }
@@ -945,7 +945,7 @@ a.box:active {
     margin-left: calc(-0.375em - 1px);
     margin-right: calc(-0.375em - 1px); }
   .button:hover, .button.is-hovered {
-    border-color: #b5b5b5;
+    border-color: #7a7a7a;
     color: #363636; }
   .button:focus, .button.is-focused {
     border-color: #3273dc;
@@ -1572,7 +1572,7 @@ a.box:active {
         color: #fff; }
   .button.is-small {
     border-radius: 2px;
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .button.is-medium {
     font-size: 1.25rem; }
   .button.is-large {
@@ -1804,7 +1804,7 @@ a.box:active {
     border-bottom-width: 0; }
 
 .content.is-small {
-  font-size: 0.75rem; }
+  font-size: 0.7rem; }
 
 .content.is-medium {
   font-size: 1.25rem; }
@@ -1861,7 +1861,7 @@ a.box:active {
   .input:hover, .input.is-hovered,
   .textarea:hover,
   .textarea.is-hovered {
-    border-color: #b5b5b5; }
+    border-color: #7a7a7a; }
   .input:focus, .input.is-focused, .input:active, .input.is-active,
   .textarea:focus,
   .textarea.is-focused,
@@ -1983,7 +1983,7 @@ a.box:active {
   .input.is-small,
   .textarea.is-small {
     border-radius: 2px;
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .input.is-medium,
   .textarea.is-medium {
     font-size: 1.25rem; }
@@ -2110,7 +2110,7 @@ a.box:active {
     .select select:-ms-input-placeholder {
       color: rgba(54, 54, 54, 0.3); }
     .select select:hover, .select select.is-hovered {
-      border-color: #b5b5b5; }
+      border-color: #7a7a7a; }
     .select select:focus, .select select.is-focused, .select select:active, .select select.is-active {
       border-color: #3E4DB9;
       box-shadow: 0 0 0 0.125em rgba(62, 77, 185, 0.25); }
@@ -2182,7 +2182,7 @@ a.box:active {
       box-shadow: 0 0 0 0.125em rgba(255, 56, 96, 0.25); }
   .select.is-small {
     border-radius: 2px;
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .select.is-medium {
     font-size: 1.25rem; }
   .select.is-large {
@@ -2210,7 +2210,7 @@ a.box:active {
     top: 0.625em;
     transform: none; }
   .select.is-loading.is-small:after {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .select.is-loading.is-medium:after {
     font-size: 1.25rem; }
   .select.is-loading.is-large:after {
@@ -2387,7 +2387,7 @@ a.box:active {
     border-color: transparent;
     color: #fff; }
   .file.is-small {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .file.is-medium {
     font-size: 1.25rem; }
     .file.is-medium .file-icon .fa {
@@ -2539,7 +2539,7 @@ a.box:active {
   .label:not(:last-child) {
     margin-bottom: 0.5em; }
   .label.is-small {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .label.is-medium {
     font-size: 1.25rem; }
   .label.is-large {
@@ -2547,7 +2547,7 @@ a.box:active {
 
 .help {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   margin-top: 0.25rem; }
   .help.is-white {
     color: white; }
@@ -2671,7 +2671,7 @@ a.box:active {
     margin-right: 1.5rem;
     text-align: right; }
     .field-label.is-small {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       padding-top: 0.375em; }
     .field-label.is-normal {
       padding-top: 0.375em; }
@@ -2715,7 +2715,7 @@ a.box:active {
   .control.has-icon .input:focus + .icon {
     color: #7a7a7a; }
   .control.has-icon .input.is-small + .icon {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .control.has-icon .input.is-medium + .icon {
     font-size: 1.25rem; }
   .control.has-icon .input.is-large + .icon {
@@ -2735,7 +2735,7 @@ a.box:active {
   .control.has-icons-left .input.is-small ~ .icon,
   .control.has-icons-left .select.is-small ~ .icon, .control.has-icons-right .input.is-small ~ .icon,
   .control.has-icons-right .select.is-small ~ .icon {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .control.has-icons-left .input.is-medium ~ .icon,
   .control.has-icons-left .select.is-medium ~ .icon, .control.has-icons-right .input.is-medium ~ .icon,
   .control.has-icons-right .select.is-medium ~ .icon {
@@ -2778,7 +2778,7 @@ a.box:active {
     top: 0.625em;
     z-index: 4; }
   .control.is-loading.is-small:after {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .control.is-loading.is-medium:after {
     font-size: 1.25rem; }
   .control.is-loading.is-large:after {
@@ -2987,7 +2987,7 @@ a.box:active {
   .progress.is-danger::-ms-fill {
     background-color: #ff3860; }
   .progress.is-small {
-    height: 0.75rem; }
+    height: 0.7rem; }
   .progress.is-medium {
     height: 1.25rem; }
   .progress.is-large {
@@ -3147,7 +3147,7 @@ a.box:active {
   border-radius: 3px;
   color: #363636;
   display: inline-flex;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   height: 2em;
   justify-content: center;
   line-height: 1.5;
@@ -3276,7 +3276,7 @@ a.tag:hover {
   .title.is-6 {
     font-size: 1rem; }
   .title.is-7 {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
 
 .subtitle {
   color: #4a4a4a;
@@ -3301,7 +3301,7 @@ a.tag:hover {
   .subtitle.is-6 {
     font-size: 1rem; }
   .subtitle.is-7 {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
 
 .block:not(:last-child) {
   margin-bottom: 1.5rem; }
@@ -3465,7 +3465,7 @@ a.tag:hover {
   .breadcrumb.is-right ol, .breadcrumb.is-right ul {
     justify-content: flex-end; }
   .breadcrumb.is-small {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .breadcrumb.is-medium {
     font-size: 1.25rem; }
   .breadcrumb.is-large {
@@ -3710,7 +3710,7 @@ a.dropdown-item {
 .menu {
   font-size: 1rem; }
   .menu.is-small {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .menu.is-medium {
     font-size: 1.25rem; }
   .menu.is-large {
@@ -3756,7 +3756,7 @@ a.dropdown-item {
     color: currentColor;
     text-decoration: underline; }
   .message.is-small {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .message.is-medium {
     font-size: 1.25rem; }
   .message.is-large {
@@ -4718,7 +4718,7 @@ a.navbar-link.is-active {
   font-size: 1rem;
   margin: -0.25rem; }
   .pagination.is-small {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .pagination.is-medium {
     font-size: 1.25rem; }
   .pagination.is-large {
@@ -4799,7 +4799,7 @@ a.navbar-link.is-active {
   .pagination-previous:hover,
   .pagination-next:hover,
   .pagination-link:hover {
-    border-color: #b5b5b5;
+    border-color: #7a7a7a;
     color: #363636; }
   .pagination-previous:focus,
   .pagination-next:focus,
@@ -4830,7 +4830,7 @@ a.navbar-link.is-active {
   color: #fff; }
 
 .pagination-ellipsis {
-  color: #b5b5b5;
+  color: #7a7a7a;
   pointer-events: none; }
 
 .pagination-list {
@@ -5041,7 +5041,7 @@ label.panel-block {
     position: relative; }
     .tabs.is-toggle a:hover {
       background-color: whitesmoke;
-      border-color: #b5b5b5;
+      border-color: #7a7a7a;
       z-index: 2; }
   .tabs.is-toggle li + li {
     margin-left: -1px; }
@@ -5065,7 +5065,7 @@ label.panel-block {
     border-top-right-radius: 290486px;
     padding-right: 1.25em; }
   .tabs.is-small {
-    font-size: 0.75rem; }
+    font-size: 0.7rem; }
   .tabs.is-medium {
     font-size: 1.25rem; }
   .tabs.is-large {
@@ -6598,11 +6598,13 @@ body {
   margin-bottom: 1rem; }
   @media screen and (min-width: 769px), print {
     .dam-media {
-      padding-right: 1rem; } }
+      padding-right: 2rem; } }
 
-@media screen and (min-width: 1024px) {
-  .dam-media-left {
-    margin-right: 0; } }
+.dam-media-left {
+  position: relative; }
+  @media screen and (min-width: 1024px) {
+    .dam-media-left {
+      margin-right: 1.6rem; } }
 
 @media screen and (min-width: 769px), print {
   .dam-container-narrow {
@@ -6610,8 +6612,10 @@ body {
     margin: 0 auto; } }
 
 .dam-format-text {
-  margin-left: -50%;
-  max-width: 100px;
+  position: absolute;
+  left: -50%;
+  right: 0;
+  top: 35px;
   min-width: 65px; }
 
 .dam-card-svg {
