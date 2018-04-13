@@ -26,6 +26,8 @@ gulp.task("watch", function() {
     proxy: "localhost:8000",
   });
 
+  gulp.start('sass:dev');
+
   gulp.watch(userInterfaceDir + 'src/scss/**/*.scss', ['sass:dev']);
 });
 
