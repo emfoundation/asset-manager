@@ -130,14 +130,16 @@ class CountryTagAdmin(admin.ModelAdmin):
 
 # Register your models here.
 
-admin.site.register(models.TagGroup, TagGroupAdmin)
-admin.site.register(models.Tag, TagAdmin)
-admin.site.register(models.Contributor)
-admin.site.register(models.ContinentTagGroup, ContinentTagGroupAdmin)
-admin.site.register(models.CountryTag, CountryTagAdmin)
-admin.site.register(models.Collection)
-admin.site.register(models.Folder, FolderAdmin)
 admin.site.register(models.Asset, AssetAdmin)
+admin.site.register(models.AssetLearnerJourney)
+admin.site.register(models.Collection)
+admin.site.register(models.ContinentTagGroup, ContinentTagGroupAdmin)
+admin.site.register(models.Contributor)
+admin.site.register(models.CountryTag, CountryTagAdmin)
+admin.site.register(models.Folder, FolderAdmin)
+admin.site.register(models.LearnerJourney)
+admin.site.register(models.Tag, TagAdmin)
+admin.site.register(models.TagGroup, TagGroupAdmin)
 
 admin.site.site_header = 'EMF Digital Asset Management System'
 admin.site.site_title = 'EMF DAMS Admin'

@@ -134,6 +134,14 @@ class Collection(models.Model):
     def __str__(self):
         return self.name
 
+# ------------ LearnerJourney ------------#
+
+class LearnerJourney(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
 # ------------ Assets ------------#
 
 class Asset(S3_Object):
@@ -288,3 +296,18 @@ class Asset(S3_Object):
             self.filetype = mimetypes.guess_type(self.get_filename())[0]
         else:
             self.filetype = ''
+
+# ------------ AssetLearnerJourney ------------#
+
+class AssetLearnerJourney(models.Model):
+
+    def __str__(self):
+        return 'Learner Journey: {} Asset: {} Position: {}'.format(
+            self.learner_journey,
+            self.asset,
+            self.position
+        )
+
+    learner_journey = models.ForeignKey(LearnerJourney)
+    asset = models.ForeignKey(Asset)
+    position = models.PositiveSmallIntegerField()
