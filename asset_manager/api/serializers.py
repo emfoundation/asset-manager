@@ -24,6 +24,11 @@ class CountryTagSerializer(serializers.ModelSerializer):
         model = models.CountryTag
         fields = ('id', 'name', 'display_name', 'code',)
 
+class LearnerJourneySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.LearnerJourney
+        fields = ('__all__')
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tag
