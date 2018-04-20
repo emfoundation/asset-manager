@@ -23,10 +23,16 @@ router.register(
 	views.AssetPerCollectionAndLocationViewSet,
 	'asset-collection-location'
 	)
+router.register(
+	"assets/learner-journey/(?P<id>\d+)",
+	views.AssetPerLearnerJourneyViewSet,
+	'asset-learner-journey'
+)
 router.register("assets", views.AssetViewSet,)
 router.register("collections", views.CollectionViewSet)
 router.register("contributors", views.ContributorViewSet)
 router.register("countries", views.CountryTagViewSet)
+router.register("learner-journey",views.LearnerJourneyViewSet)
 router.register("tags", views.TagViewSet)
 router.register("tag-groups", views.TagGroupViewSet)
 
