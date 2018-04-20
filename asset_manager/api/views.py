@@ -26,13 +26,16 @@ class AssetPerLearnerJourneyViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    # Returns all Assets from a given Learner Journey
     def get_queryset(self):
+        """
+        Returns all Assets from a given Learner Journey
+        """
         learner_journey_id = self.kwargs['id']
-        asset_learner_journeys = AssetLearnerJourney.objects.filter(learner_journey=learner_journey_id).order_by('position')
+        asset_learner_journeys = AssetLearnerJourney.objects.filter(
+            learner_journey=learner_journey_id).order_by('position')
         asset_query_sets = []
         for asset_learner_journey in asset_learner_journeys:
-            asset_query_set = Asset.objects.get(id = asset_learner_journey.asset.id)
+            asset_query_set = Asset.objects.get(id=asset_learner_journey.asset.id)
             asset_query_sets.append(asset_query_set)
 
         return list(chain(asset_query_sets))
