@@ -57,6 +57,17 @@ class AssetPerCollectionAndTagViewSet(ModelViewSet):
         tag_id = self.kwargs['tag_id']
         return Asset.objects.filter(collections__id=collection_id).filter(tags__id=tag_id)
 
+class AssetPerCollectionAndTagGroupViewSet(ModelViewSet):
+    serializer_class = serializers.AssetSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['collection_id']
+        tag_group_id = self.kwargs['tag_group_id']
+
+        tags = Tag.objects.filter(group=tag_group_id)
+        return Asset.objects.filter(collections__id=collection_id).filter(tags__in=tags).distinct()
+
 class AssetPerCollectionAndLocationViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)

@@ -19,6 +19,11 @@ router.register(
 	views.AssetPerCollectionAndTagViewSet, 
 	'asset-collection-tag')
 router.register(
+	"assets/collection/(?P<collection_id>\d+)/tag-group/(?P<tag_group_id>\d+)",
+	views.AssetPerCollectionAndTagGroupViewSet,
+	'asset-collection-tag-group'
+)
+router.register(
 	"assets/collection/(?P<collection_id>\d+)/location/(?P<location_id>\d+)",
 	views.AssetPerCollectionAndLocationViewSet,
 	'asset-collection-location'
