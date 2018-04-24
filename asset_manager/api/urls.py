@@ -16,7 +16,7 @@ router.register(
 	)
 router.register(
 	"assets/collection/(?P<collection_id>\d+)/tag/(?P<tag_id>\d+)",
-	views.AssetPerCollectionAndTagViewSet, 
+	views.AssetPerCollectionAndTagViewSet,
 	'asset-collection-tag')
 router.register(
 	"assets/collection/(?P<collection_id>\d+)/tag-group/(?P<tag_group_id>\d+)",
@@ -29,9 +29,9 @@ router.register(
 	'asset-collection-location'
 	)
 router.register(
-	"assets/learner-journey/(?P<id>\d+)",
-	views.AssetPerLearnerJourneyViewSet,
-	'asset-learner-journey'
+	"assets/collection/(?P<collection_id>\d+)/learner-journey/(?P<learner_journey_id>\d+)",
+	views.AssetPerCollectionAndLearnerJourneyViewSet,
+	'asset-collection-learner-journey'
 )
 router.register("assets", views.AssetViewSet,)
 router.register("collections", views.CollectionViewSet)
