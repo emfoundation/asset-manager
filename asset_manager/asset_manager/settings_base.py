@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django.contrib.postgres',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -151,6 +153,9 @@ LOGFILE_TEST='logs/logs_test.txt'
 
 # Custom Variables
 MAX_FILE_SIZE = 100000000 # 100MB Note, if you change this you need to change the file_size.js file.
+
+# CORS Settings
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Test settings
 
