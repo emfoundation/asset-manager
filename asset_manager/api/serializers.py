@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from file_manager import models
 
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Answer
+        fields = ('__all__')
+
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Asset
@@ -8,6 +13,11 @@ class AssetSerializer(serializers.ModelSerializer):
             'creation_date', 'copyright_info', 'enabled', 'status', \
             'type_field', 'filetype', 'uploaded_at', 'last_edit_at', \
             'tags', 'locations', 'contributors', 'collections', )
+
+class ChapterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Chapter
+        fields = ('__all__')
 
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,6 +37,11 @@ class CountryTagSerializer(serializers.ModelSerializer):
 class LearnerJourneySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LearnerJourney
+        fields = ('__all__')
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Question
         fields = ('__all__')
 
 class TagSerializer(serializers.ModelSerializer):

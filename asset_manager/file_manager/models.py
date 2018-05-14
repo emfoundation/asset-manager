@@ -28,7 +28,7 @@ class S3_Object(models.Model):
         return self.name
 
 
-# ------------ Folders ------------#
+# ------------ Folders ------------ #
 
 class Folder(S3_Object):
     parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
@@ -74,7 +74,7 @@ class Folder(S3_Object):
             return False
         return True
 
-# ------------ Tags ------------#
+# ------------ Tags ------------ #
 
 class TagGroup(models.Model):
     name = models.CharField(max_length=64)
@@ -118,7 +118,7 @@ class CountryTag(models.Model):
     class Meta:
         ordering = ('name', )
 
-# ------------ Contributor ------------#
+# ------------ Contributor ------------ #
 
 class Contributor(models.Model):
     name = models.CharField(max_length=64)
@@ -126,7 +126,7 @@ class Contributor(models.Model):
     def __str__(self):
         return self.name
 
-# ------------ Collection ------------#
+# ------------ Collection ------------ #
 
 class Collection(models.Model):
     name = models.CharField(max_length=64)
@@ -134,15 +134,40 @@ class Collection(models.Model):
     def __str__(self):
         return self.name
 
-# ------------ LearnerJourney ------------#
+# ------------ LearnerJourney ------------ #
 
 class LearnerJourney(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
+
     name = models.CharField(max_length=64)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    duration = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Duration (hours)')
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
 
     def __str__(self):
         return self.name
 
-# ------------ Assets ------------#
+# ------------ Question ------------ #
+
+class Question(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
+
+    name = models.CharField(max_length=64)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    intro_title = models.TextField(blank=True, null=True, max_length=64)
+    intro_text = models.TextField(blank=True, null=True, max_length=512)
+    quote = models.TextField(blank=True, null=True, max_length=256)
+    quote_source = models.TextField(blank=True, null=True, max_length=64)
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
+
+    def __str__(self):
+        return self.name 
+
+# ------------ Assets ------------ # 
 
 class Asset(S3_Object):
 
@@ -297,9 +322,12 @@ class Asset(S3_Object):
         else:
             self.filetype = ''
 
-# ------------ AssetLearnerJourney ------------#
+# ------------ Asset-LearnerJourney Through table (Chapter) ------------ #
 
-class AssetLearnerJourney(models.Model):
+class Chapter(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
 
     def __str__(self):
         return 'Learner Journey: {} Asset: {} Position: {}'.format(
@@ -308,6 +336,29 @@ class AssetLearnerJourney(models.Model):
             self.position
         )
 
-    learner_journey = models.ForeignKey(LearnerJourney)
     asset = models.ForeignKey(Asset)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    learner_journey = models.ForeignKey(LearnerJourney)
     position = models.PositiveSmallIntegerField()
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
+
+
+# ------------ Asset-Question Through table (Answer) ------------ #
+
+class Answer(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
+
+    def __str__(self):
+        return 'Question: {} Asset: {} Position: {}'.format(
+            self.question,
+            self.asset,
+            self.position
+        )
+
+    asset = models.ForeignKey(Asset)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    question = models.ForeignKey(Question)
+    position = models.PositiveSmallIntegerField()
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)

@@ -5,10 +5,24 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from file_manager.models import Asset, AssetLearnerJourney, Contributor, Collection, CountryTag, LearnerJourney, Tag, TagGroup
+from file_manager.models import Answer, Asset, Chapter, Contributor, Collection, CountryTag, LearnerJourney, Question, Tag, TagGroup
 from . import serializers
 
 # Create your views here.
+class AnswerViewSet(ModelViewSet):
+    serializer_class = serializers.AnswerSerializer
+    queryset = Answer.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+class AnswerPerCollectionAndQuestionViewSet(ModelViewSet):
+    serializer_class = serializers.AnswerSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['collection_id']
+        question_id = self.kwargs['question_id']
+        return Answer.objects.filter(question=question_id).filter(asset__collections=collection_id).order_by('position')
+
 class AssetViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
     queryset = Asset.objects.all()
@@ -22,24 +36,24 @@ class AssetPerCollectionViewSet(ModelViewSet):
         collection_id = self.kwargs['id']
         return Asset.objects.filter(collections__id=collection_id)
 
-class AssetPerCollectionAndLearnerJourneyViewSet(ModelViewSet):
-    serializer_class = serializers.AssetSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+# class AssetPerCollectionAndLearnerJourneyViewSet(ModelViewSet):
+#     serializer_class = serializers.AssetSerializer
+#     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    def get_queryset(self):
-        """
-        Returns all Assets from a given Learner Journey
-        """
-        learner_journey_id = self.kwargs['learner_journey_id']
-        collection_id = self.kwargs['collection_id']
-        asset_learner_journeys = AssetLearnerJourney.objects.filter(
-            learner_journey=learner_journey_id).filter(asset__collections=collection_id).order_by('position')
-        asset_query_sets = []
-        for asset_learner_journey in asset_learner_journeys:
-            asset_query_set = Asset.objects.get(id=asset_learner_journey.asset.id)
-            asset_query_sets.append(asset_query_set)
+#     def get_queryset(self):
+#         """
+#         Returns all Assets from a given Learner Journey
+#         """
+#         learner_journey_id = self.kwargs['learner_journey_id']
+#         collection_id = self.kwargs['collection_id']
+#         asset_learner_journeys = AssetLearnerJourney.objects.filter(
+#             learner_journey=learner_journey_id).filter(asset__collections=collection_id).order_by('position')
+#         asset_query_sets = []
+#         for asset_learner_journey in asset_learner_journeys:
+#             asset_query_set = Asset.objects.get(id=asset_learner_journey.asset.id)
+#             asset_query_sets.append(asset_query_set)
 
-        return list(chain(asset_query_sets))
+#         return list(chain(asset_query_sets))
 
 class AssetPerTagViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
@@ -78,6 +92,20 @@ class AssetPerCollectionAndLocationViewSet(ModelViewSet):
         location_id = self.kwargs['location_id']
         return Asset.objects.filter(collections__id=collection_id).filter(locations__id=location_id)
 
+class ChapterViewSet(ModelViewSet):
+    serializer_class = serializers.ChapterSerializer
+    queryset = Chapter.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly)
+
+class ChapterPerCollectionAndLearnerJourneyViewSet(ModelViewSet):
+    serializer_class = serializers.ChapterSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['collection_id']
+        learner_journey_id = self.kwargs['learner_journey_id']
+        return Chapter.objects.filter(learner_journey=learner_journey_id).filter(asset__collections=collection_id).order_by('position')
+
 class ContributorViewSet(ModelViewSet):
     serializer_class = serializers.ContributorSerializer
     queryset = Contributor.objects.all()
@@ -96,6 +124,11 @@ class CountryTagViewSet(ModelViewSet):
 class LearnerJourneyViewSet(ModelViewSet):
     serializer_class = serializers.LearnerJourneySerializer
     queryset = LearnerJourney.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+class QuestionViewSet(ModelViewSet):
+    serializer_class = serializers.QuestionSerializer
+    queryset = Question.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class TagViewSet(ModelViewSet):
