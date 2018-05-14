@@ -5,6 +5,11 @@ from file_manager import models
 router = SimpleRouter()
 
 router.register(
+	"answers/collection/(?P<collection_id>\d+)/question/(?P<question_id>\d+)",
+	views.AnswerPerCollectionAndQuestionViewSet,
+	'answer-collection-question'
+)
+router.register(
 	"assets/collection/(?P<id>\d+)",
 	views.AssetPerCollectionViewSet,
 	'asset-collection'
@@ -38,12 +43,14 @@ router.register(
 	views.ChapterPerCollectionAndLearnerJourneyViewSet,
 	'chapter-collection-learner-journey'
 )
+router.register("answers", views.AnswerViewSet)
 router.register("assets", views.AssetViewSet)
 router.register("chapters", views.ChapterViewSet)
 router.register("collections", views.CollectionViewSet)
 router.register("contributors", views.ContributorViewSet)
 router.register("countries", views.CountryTagViewSet)
 router.register("learner-journey", views.LearnerJourneyViewSet)
+router.register("questions", views.QuestionViewSet)
 router.register("tags", views.TagViewSet)
 router.register("tag-groups", views.TagGroupViewSet)
 

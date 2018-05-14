@@ -5,10 +5,24 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from file_manager.models import Asset, Chapter, Contributor, Collection, CountryTag, LearnerJourney, Tag, TagGroup
+from file_manager.models import Answer, Asset, Chapter, Contributor, Collection, CountryTag, LearnerJourney, Question, Tag, TagGroup
 from . import serializers
 
 # Create your views here.
+class AnswerViewSet(ModelViewSet):
+    serializer_class = serializers.AnswerSerializer
+    queryset = Answer.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+class AnswerPerCollectionAndQuestionViewSet(ModelViewSet):
+    serializer_class = serializers.AnswerSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['collection_id']
+        question_id = self.kwargs['question_id']
+        return Answer.objects.filter(question=question_id).filter(asset__collections=collection_id).order_by('position')
+
 class AssetViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
     queryset = Asset.objects.all()
@@ -110,6 +124,11 @@ class CountryTagViewSet(ModelViewSet):
 class LearnerJourneyViewSet(ModelViewSet):
     serializer_class = serializers.LearnerJourneySerializer
     queryset = LearnerJourney.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+class QuestionViewSet(ModelViewSet):
+    serializer_class = serializers.QuestionSerializer
+    queryset = Question.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class TagViewSet(ModelViewSet):
