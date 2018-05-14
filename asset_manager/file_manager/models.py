@@ -137,7 +137,14 @@ class Collection(models.Model):
 # ------------ LearnerJourney ------------#
 
 class LearnerJourney(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
+
     name = models.CharField(max_length=64)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    duration = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Duration (hours)')
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
 
     def __str__(self):
         return self.name
@@ -297,9 +304,12 @@ class Asset(S3_Object):
         else:
             self.filetype = ''
 
-# ------------ AssetLearnerJourney ------------#
+# ------------ Asset-LearnerJourney Through table (Chapter) ------------#
 
-class AssetLearnerJourney(models.Model):
+class Chapter(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
 
     def __str__(self):
         return 'Learner Journey: {} Asset: {} Position: {}'.format(
@@ -308,6 +318,8 @@ class AssetLearnerJourney(models.Model):
             self.position
         )
 
-    learner_journey = models.ForeignKey(LearnerJourney)
     asset = models.ForeignKey(Asset)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    learner_journey = models.ForeignKey(LearnerJourney)
     position = models.PositiveSmallIntegerField()
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)

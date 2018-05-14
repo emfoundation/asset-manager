@@ -131,7 +131,7 @@ class CountryTagAdmin(admin.ModelAdmin):
 # Register your models here.
 
 admin.site.register(models.Asset, AssetAdmin)
-admin.site.register(models.AssetLearnerJourney)
+admin.site.register(models.Chapter)
 admin.site.register(models.Collection)
 admin.site.register(models.ContinentTagGroup, ContinentTagGroupAdmin)
 admin.site.register(models.Contributor)

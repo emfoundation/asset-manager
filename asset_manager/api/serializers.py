@@ -9,6 +9,11 @@ class AssetSerializer(serializers.ModelSerializer):
             'type_field', 'filetype', 'uploaded_at', 'last_edit_at', \
             'tags', 'locations', 'contributors', 'collections', )
 
+class ChapterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Chapter
+        fields = ('__all__')
+
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Collection
