@@ -32,12 +32,12 @@ router.register(
 	"assets/collection/(?P<collection_id>\d+)/location/(?P<location_id>\d+)",
 	views.AssetPerCollectionAndLocationViewSet,
 	'asset-collection-location'
-	),
-# router.register(
-# 	"assets/collection/(?P<collection_id>\d+)/learner-journey/(?P<learner_journey_id>\d+)",
-# 	views.AssetPerCollectionAndLearnerJourneyViewSet,
-# 	'asset-collection-learner-journey'
-# )
+),
+router.register(
+	"assets/collection/(?P<collection_id>\d+)/learner-journey/(?P<learner_journey_id>\d+)",
+	views.AssetPerCollectionAndLearnerJourneyViewSet,
+	'asset-collection-learner-journey'
+),
 router.register(
 	"chapters/collection/(?P<collection_id>\d+)/learner-journey/(?P<learner_journey_id>\d+)",
 	views.ChapterPerCollectionAndLearnerJourneyViewSet,
