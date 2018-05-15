@@ -95,11 +95,11 @@ class AssetPerCollectionAndLocationViewSet(ModelViewSet):
 class ChapterViewSet(ModelViewSet):
     serializer_class = serializers.ChapterSerializer
     queryset = Chapter.objects.all()
-    permission_classes = (IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class ChapterPerCollectionAndLearnerJourneyViewSet(ModelViewSet):
     serializer_class = serializers.ChapterSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         collection_id = self.kwargs['collection_id']
