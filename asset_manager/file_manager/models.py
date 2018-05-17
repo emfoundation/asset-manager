@@ -165,9 +165,9 @@ class Question(models.Model):
     thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
 
     def __str__(self):
-        return self.name 
+        return self.name
 
-# ------------ Assets ------------ # 
+# ------------ Assets ------------ #
 
 class Asset(S3_Object):
 
@@ -336,6 +336,7 @@ class Chapter(models.Model):
             self.position
         )
 
+    title = models.CharField(blank=True, null=True, max_length=128)
     asset = models.ForeignKey(Asset)
     description = models.TextField(blank=True, null=True, max_length=1024)
     learner_journey = models.ForeignKey(LearnerJourney)
@@ -357,8 +358,9 @@ class Answer(models.Model):
             self.position
         )
 
+    title = models.CharField(blank=True, null=True, max_length=128)
     asset = models.ForeignKey(Asset)
-    description = models.TextField(blank=True, null=True, max_length=1024)
+    description = models.TextField(blank=True, null=True, max_length=512)
     question = models.ForeignKey(Question)
     position = models.PositiveSmallIntegerField()
     thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
