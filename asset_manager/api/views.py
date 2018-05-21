@@ -1,6 +1,7 @@
 from itertools import chain
 
 from django.shortcuts import render
+from django.db.models import Count
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -125,6 +126,9 @@ class LearnerJourneyViewSet(ModelViewSet):
     serializer_class = serializers.LearnerJourneySerializer
     queryset = LearnerJourney.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        return LearnerJourney.objects.annotate(parts=Count('chapter'))
 
 class QuestionViewSet(ModelViewSet):
     serializer_class = serializers.QuestionSerializer

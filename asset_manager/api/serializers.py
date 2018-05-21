@@ -35,9 +35,10 @@ class CountryTagSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'display_name', 'code',)
 
 class LearnerJourneySerializer(serializers.ModelSerializer):
+    parts = serializers.IntegerField()
     class Meta:
         model = models.LearnerJourney
-        fields = ('__all__')
+        fields = ('id', 'name', 'description', 'parts', 'duration', 'thumbnail')
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
