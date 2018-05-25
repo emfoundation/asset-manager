@@ -360,7 +360,8 @@ class Answer(models.Model):
 
     title = models.CharField(blank=True, null=True, max_length=128)
     asset = models.ForeignKey(Asset)
-    description = models.TextField(blank=True, null=True, max_length=512)
+    tile_description = models.TextField(blank=True, null=True, max_length=256)
+    description = models.TextField(blank=True, null=True, max_length=1024)
     question = models.ForeignKey(Question)
     position = models.PositiveSmallIntegerField()
     thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
