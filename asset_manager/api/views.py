@@ -2,6 +2,7 @@ from itertools import chain
 
 from django.shortcuts import render
 from django.db.models import Count
+from django.db.models import F
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -16,13 +17,16 @@ class AnswerViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class AnswerPerCollectionAndQuestionViewSet(ModelViewSet):
-    serializer_class = serializers.AnswerSerializer
+    serializer_class = serializers.AnswerPlusFormatSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         collection_id = self.kwargs['collection_id']
         question_id = self.kwargs['question_id']
-        return Answer.objects.filter(question=question_id).filter(asset__collections=collection_id).order_by('position')
+        return Answer.objects.filter(
+            question=question_id).filter(
+            asset__collections=collection_id).annotate(
+            format=F('asset__format')).order_by('position')
 
 class AssetViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer

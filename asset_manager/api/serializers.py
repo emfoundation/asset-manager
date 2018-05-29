@@ -6,6 +6,12 @@ class AnswerSerializer(serializers.ModelSerializer):
         model = models.Answer
         fields = ('__all__')
 
+class AnswerPlusFormatSerializer(serializers.ModelSerializer):
+    format = serializers.CharField()
+    class Meta:
+        model = models.Answer
+        fields = ('title', 'asset', 'tile_description', 'description', 'question', 'position', 'thumbnail', 'format',)
+
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Asset
