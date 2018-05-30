@@ -10,7 +10,7 @@ class AnswerPlusFormatSerializer(serializers.ModelSerializer):
     format = serializers.CharField()
     class Meta:
         model = models.Answer
-        fields = ('title', 'asset', 'tile_description', 'description', 'question', 'position', 'thumbnail', 'format',)
+        fields = ('id', 'title', 'tile_description', 'question_context', 'description', 'asset', 'question', 'position', 'thumbnail', 'format',)
 
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:

@@ -352,16 +352,18 @@ class Answer(models.Model):
         return 'smf-prototype/thumbnails/' + filename
 
     def __str__(self):
-        return 'Question: {} Asset: {} Position: {}'.format(
+        return 'TITLE: {} --- QUESTION: {} --- ASSET: {} --- POSITION: {}'.format(
+            self.title,
             self.question,
             self.asset,
             self.position
         )
 
     title = models.CharField(blank=True, null=True, max_length=128)
+    tile_description = models.TextField(blank=True, null=True, max_length=256, help_text="Appears on Answer tile in the Question Page.")
+    question_context = models.TextField(blank=True, null=True, max_length=512, help_text="Appears below Question name, in Banner on individual Answer Page.")
+    description = models.TextField(blank=True, null=True, max_length=1024, help_text="Appears on individual Answer Page.")
     asset = models.ForeignKey(Asset)
-    tile_description = models.TextField(blank=True, null=True, max_length=256)
-    description = models.TextField(blank=True, null=True, max_length=1024)
     question = models.ForeignKey(Question)
-    position = models.PositiveSmallIntegerField()
-    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
+    position = models.PositiveSmallIntegerField(help_text="Choose the position that the Answer will appear in on the Question Page.")
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True, help_text="Background image used on Answer tile on Question Page.")
