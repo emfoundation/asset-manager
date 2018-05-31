@@ -10,6 +10,11 @@ router.register(
 	'answer-collection-question'
 )
 router.register(
+	"asset/answer/(?P<answer_id>\d+)",
+	views.AssetPerAnswerViewSet,
+	'asset-answer'
+)
+router.register(
 	"assets/collection/(?P<id>\d+)",
 	views.AssetPerCollectionViewSet,
 	'asset-collection'
