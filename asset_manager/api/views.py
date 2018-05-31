@@ -33,6 +33,15 @@ class AssetViewSet(ModelViewSet):
     queryset = Asset.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+class AssetPerAnswerViewSet(ModelViewSet):
+    serializer_class = serializers.AssetSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        answer_id = self.kwargs['answer_id']
+        asset = Answer.objects.get(id=answer_id).asset
+        return [asset]
+
 class AssetPerCollectionViewSet(ModelViewSet):
     serializer_class = serializers.AssetSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
