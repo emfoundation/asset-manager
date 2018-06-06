@@ -47,7 +47,17 @@ router.register(
 	"chapters/collection/(?P<collection_id>\d+)/learner-journey/(?P<learner_journey_id>\d+)",
 	views.ChapterPerCollectionAndLearnerJourneyViewSet,
 	'chapter-collection-learner-journey'
-)
+),
+router.register(
+	"chapter-ids/collection/(?P<collection_id>\d+)/learner-journey/(?P<learner_journey_id>\d+)",
+	views.ChapterIdsPerCollectionAndLearnerJourneyViewSet,
+	'chapter-ids-collection-learner-journey'
+),
+# router.register(
+# 	"chapters/collection/(?P<collection_id>\d+)/learner-journey/(?P<learner_journey_id>\d+)/chapter/(?P<chapter_num>\d+)",
+# 	views.ChapterPlusAssetViewSet,
+# 	'chapter-plus-asset'
+# )
 router.register("answers", views.AnswerViewSet)
 router.register("assets", views.AssetViewSet)
 router.register("chapters", views.ChapterViewSet)
