@@ -111,8 +111,28 @@ class ChapterViewSet(ModelViewSet):
     queryset = Chapter.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+# class ChapterPlusAssetViewSet(ModelViewSet):
+#     serializer_class = serializers.ChapterSerializer
+#     permission_classes = (IsAuthenticatedOrReadOnly,)
+#
+#     def get_queryset(self):
+#         collection_id = self.kwargs['collection_id']
+#         learner_journey_id = self.kwargs['learner_journey_id']
+#         chapter_num = int(self.kwargs['chapter_num'])
+#         chapters = Chapter.objects.filter(learner_journey=learner_journey_id).filter(asset__collections=collection_id).order_by('position')
+#         return [chapters[chapter_num -1]]
+
 class ChapterPerCollectionAndLearnerJourneyViewSet(ModelViewSet):
     serializer_class = serializers.ChapterSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        collection_id = self.kwargs['collection_id']
+        learner_journey_id = self.kwargs['learner_journey_id']
+        return Chapter.objects.filter(learner_journey=learner_journey_id).filter(asset__collections=collection_id).order_by('position')
+
+class ChapterIdsPerCollectionAndLearnerJourneyViewSet(ModelViewSet):
+    serializer_class = serializers.ChapterIdsSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):

@@ -15,15 +15,17 @@ class AnswerPlusFormatSerializer(serializers.ModelSerializer):
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Asset
-        fields = ('id', 'name', 'file', 'link', 'description', 'duration', \
-            'creation_date', 'copyright_info', 'enabled', 'status', \
-            'type_field', 'filetype', 'uploaded_at', 'last_edit_at', \
-            'tags', 'locations', 'contributors', 'collections', )
+        fields = ('__all__')
 
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Chapter
         fields = ('__all__')
+
+class ChapterIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Chapter
+        fields = ('id',)
 
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
