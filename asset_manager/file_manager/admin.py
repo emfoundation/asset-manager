@@ -25,6 +25,12 @@ def set_asset_user_metadata(instance, user):
     if not instance.owner:
         instance.owner = user
 
+
+class AnswerAdmin(admin.ModelAdmin):
+    model = models.Answer
+    list_filter = ('question',)
+
+
 class AssetAdmin(admin.ModelAdmin):
 
     form = forms.AssetForm
@@ -67,6 +73,11 @@ class AssetInline(admin.TabularInline):
     template = "admin/file_manager/asset/tabular.html"
     ### Adds the ability to collapse the asset block within the parent folder ###
     # classes = ['collapse', ]
+
+
+class ChapterAdmin(admin.ModelAdmin):
+    model = models.Chapter
+    list_filter = ('learner_journey',)
 
 
 class FolderInline(admin.TabularInline):
@@ -130,9 +141,9 @@ class CountryTagAdmin(admin.ModelAdmin):
 
 # Register your models here.
 
-admin.site.register(models.Answer)
+admin.site.register(models.Answer, AnswerAdmin)
 admin.site.register(models.Asset, AssetAdmin)
-admin.site.register(models.Chapter)
+admin.site.register(models.Chapter, ChapterAdmin)
 admin.site.register(models.Collection)
 admin.site.register(models.ContinentTagGroup, ContinentTagGroupAdmin)
 admin.site.register(models.Contributor)
