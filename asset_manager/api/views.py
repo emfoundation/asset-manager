@@ -1,4 +1,5 @@
 from itertools import chain
+from random import shuffle
 
 from django.shortcuts import render
 from django.db.models import Count
@@ -161,12 +162,19 @@ class LearnerJourneyViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
-        return LearnerJourney.objects.annotate(parts=Count('chapter'))
+        learner_journeys = list(LearnerJourney.objects.annotate(parts=Count('chapter')))
+        shuffle(learner_journeys)
+        return learner_journeys
 
 class QuestionViewSet(ModelViewSet):
     serializer_class = serializers.QuestionSerializer
     queryset = Question.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        questions = list(Question.objects.all())
+        shuffle(questions)
+        return questions
 
 class TagViewSet(ModelViewSet):
     serializer_class = serializers.TagSerializer
