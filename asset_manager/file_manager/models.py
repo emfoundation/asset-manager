@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
+from ckeditor.fields import RichTextField
 from model_utils import FieldTracker
 
 from . import utils
@@ -337,8 +338,9 @@ class Chapter(models.Model):
         )
 
     title = models.CharField(blank=True, null=True, max_length=128)
-    asset = models.ForeignKey(Asset)
     description = models.TextField(blank=True, null=True, max_length=1024)
+    asset = models.ForeignKey(Asset)
+    content = RichTextField(blank=True, null=True)
     learner_journey = models.ForeignKey(LearnerJourney)
     position = models.PositiveSmallIntegerField()
     thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
@@ -364,6 +366,7 @@ class Answer(models.Model):
     question_context = models.TextField(blank=True, null=True, max_length=512, help_text="Appears below Question name, in Banner on individual Answer Page.")
     description = models.TextField(blank=True, null=True, max_length=1024, help_text="Appears on individual Answer Page.")
     asset = models.ForeignKey(Asset)
+    content = RichTextField(blank=True, null=True)
     question = models.ForeignKey(Question)
     position = models.PositiveSmallIntegerField(help_text="Choose the position that the Answer will appear in on the Question Page.")
     thumbnail = models.ImageField(upload_to=get_s3_key, blank=True, help_text="Background image used on Answer tile on Question Page.")
