@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django.contrib.postgres',
     'corsheaders',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [

@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
+from ckeditor.fields import RichTextField
 from model_utils import FieldTracker
 
 from . import utils
@@ -339,6 +340,7 @@ class Chapter(models.Model):
     title = models.CharField(blank=True, null=True, max_length=128)
     asset = models.ForeignKey(Asset)
     description = models.TextField(blank=True, null=True, max_length=1024)
+    content = RichTextField(blank=True, null=True)
     learner_journey = models.ForeignKey(LearnerJourney)
     position = models.PositiveSmallIntegerField()
     thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
