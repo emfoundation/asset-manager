@@ -157,9 +157,10 @@ CKEDITOR_JQUERY_URL = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'format_tags': 'h1;h2;h3;h4;h5;h6',
+        'format_tags': 'h2',
         'removeButtons': 'Styles,Table',
-        'removePlugins': 'colorbutton,flash,horizontalrule,smiley,specialchar'
+        'removePlugins': 'colorbutton,flash,horizontalrule,smiley,specialchar',
+        'disallowedContent': 'img{float}'
     },
 }
 
