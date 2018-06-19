@@ -152,6 +152,17 @@ MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 LOGFILE='logs/logs.txt'
 LOGFILE_TEST='logs/logs_test.txt'
 
+# CKEditor Settings
+CKEDITOR_JQUERY_URL = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'format_tags': 'h1;h2;h3;h4;h5;h6',
+        'removeButtons': 'Styles,Table',
+        'removePlugins': 'colorbutton,flash,horizontalrule,smiley,specialchar'
+    },
+}
+
 # Custom Variables
 MAX_FILE_SIZE = 100000000 # 100MB Note, if you change this you need to change the file_size.js file.
 
