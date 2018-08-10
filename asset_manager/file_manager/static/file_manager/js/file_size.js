@@ -28,3 +28,35 @@ $(document).ready(function() {
     }
   });
 });
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  const fileInput = document.querySelector('#id_file');
+  const fileContainer = fileInput.parentElement;
+  let errorList = document.createElement("ul");
+  errorList.setAttribute('id', 'customErrorList');
+  errorList.classList.add("errorlist");
+
+  fileInput.addEventListener('change', function(){
+    var fileName = fileInput.files[0].name;
+    var re = /^[\w\-.]+$/;
+
+    if (!re.test(fileName)) {
+      // Add error
+      var li = document.createElement("li");
+      var node = document.createTextNode("Filename fail!");
+      li.appendChild(node);
+      errorList.appendChild(li);
+      fileContainer.insertBefore(errorList, fileInput);
+
+      // clear file
+      fileInput.value = '';
+
+      // add css
+      fileInput.style.border = '1px solid #ba2121';
+      fileInput.style.borderRadius = '5px';
+    } else {
+      fileInput.style.border = 'none';
+      errorList.parentNode.removeChild(errorList);
+    }
+  });
+});
