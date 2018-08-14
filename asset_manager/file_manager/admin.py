@@ -53,7 +53,8 @@ class AssetAdmin(admin.ModelAdmin):
 
     class Media:
         js = [
-        'file_manager/js/file_size.js',
+        'file_manager/js/config.js',
+        'file_manager/js/fileValidation.js',
         'file_manager/js/filter.js'
         ]
 

@@ -26,6 +26,13 @@ missing_parent_msg = 'No Parent Folder has been selected. Please choose a Parent
 
 file_size_exceeded = 'The file you have chosen is too large, please select a file that is less than {0}'
 
+
+# Helper text for use in forms
+ASSET_PARENT_HELPER = 'Please select a parent Folder for the Asset'
+ASSET_NAME_HELPER = 'Valid Asset name includes letters (lower and upper case) and the following characters _ - \' \" & , . ( )'
+ASSET_FILE_NAME_HELPER = 'Valid file names include letters (lower and upper case), hyphen and underscore (- and _). Max uplod size 100mb.'
+
+
 # string constants
 VALID_NAME_FORMAT = '^[a-zA-Z0-9-_\'"&,.() ]+$'
 VALID_FILE_NAME_FORMAT = '^[a-zA-Z0-9!-_.\'()]+$'
