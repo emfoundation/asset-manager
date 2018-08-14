@@ -42,12 +42,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function createError(errorId, errorMsg, errorList) {
-  if (!document.getElementById(errorId)) {
+  let error = document.getElementById(errorId);
+  if (!error) {
     let li = document.createElement("li");
     li.setAttribute('id', errorId);
     let node = document.createTextNode(errorMsg);
     li.appendChild(node);
     errorList.appendChild(li);
+  } else {
+    if (error.childNodes[0].nodeValue != errorMsg) {
+      error.childNodes[0].nodeValue = errorMsg;
+    }
   }
 }
 

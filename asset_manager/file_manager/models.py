@@ -5,8 +5,8 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from model_utils import FieldTracker
 
-from . import utils
 from . import s3_utils
+from . import strings
 
 import mimetypes
 
@@ -175,8 +175,9 @@ class Asset(S3_Object):
     def get_s3_key(self, filename):
         return str(self.parent.id) + '/' + filename
 
-    parent = models.ForeignKey(Folder, on_delete=models.CASCADE)
-    file = models.FileField(upload_to=get_s3_key, blank=True)
+    name = models.CharField(max_length=64, help_text=strings.ASSET_NAME_HELPER)
+    parent = models.ForeignKey(Folder, on_delete=models.CASCADE, help_text=strings.ASSET_PARENT_HELPER)
+    file = models.FileField(upload_to=get_s3_key, blank=True, help_text=strings.ASSET_FILE_NAME_HELPER)
     link = models.URLField(blank=True)
 
     tags = models.ManyToManyField(Tag, blank=True)
