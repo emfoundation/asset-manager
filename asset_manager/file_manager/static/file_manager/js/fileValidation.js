@@ -12,14 +12,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     let errorId = 'filenameError';
     if (!re.test(fileName)) {
-      createError(errorId, config.FILE_NAME_ERROR, errorList);
+      let msg = `Invalid file name: ${fileName}. ` + config.FILE_NAME_ERROR
+      createError(errorId, msg, errorList);
     } else {
       removeError(errorId);
     }
 
     errorId = 'filesizeError';
     if (fileInput.files[0].size > config.MAX_UPLOAD_SIZE) {
-      createError(errorId, config.FILE_SIZE_ERROR, errorList);
+      let msg = `File size of ${Math.floor(fileInput.files[0].size/1000000)}mb is too large. ` + config.FILE_SIZE_ERROR
+      createError(errorId, msg, errorList);
     } else {
       removeError(errorId);
     }
