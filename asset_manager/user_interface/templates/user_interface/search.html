@@ -1,0 +1,67 @@
+{% extends 'user_interface/base.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<section class="hero is-medium">
+	<div class="hero-body dam-hero">
+		<div class="container">
+      <h1 class="has-text-weight-bold is-size-3-touch is-size-1-desktop">Search</h1>
+      <form action="{% url 'user_interface:search' %}">
+        <div class="field has-addons">
+          <div class="control">
+            <input class="input" name="q" value="{{ searchTerm }}" type="text" placeholder="Find a resource">
+          </div>
+          <div class="control">
+            <button type="submit" class="button is-primary">
+              <span class="icon">
+                <i class="fas fa-search"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+      </form>
+		</div>
+	</div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {% if assets %}
+      {% regroup assets by type_field as assets_by_type %}
+      {% for type in assets_by_type %}
+        <div class="dam-padding">
+          <h2 class="title is-6 has-text-weight-normal">
+            {{ typeChoices|get_item:type.grouper|lower|capfirst }}
+          </h2>
+        </div>
+        <div class="columns is-multiline">
+          {% for asset in type.list %}
+            <div class="column is-half is-one-third-desktop">
+              <article class="media dam-media">
+                <figure class="media-left dam-media-left">
+                  <span class="icon is-medium dam-icon-border dam-is-circle">
+                    <i class="fas fa-{{ formatToIcon|get_item:asset.format }}"></i>
+                  </span>
+                  <figcaption class="dam-format-text dam-icon is-size-7 has-text-primary has-text-centered is-hidden-touch">
+                    {{ asset.get_format_display }}
+                  </figcaption>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                    <a href="{% url 'user_interface:asset' asset.id %}?t={{ topic.id }}">
+                      <h3 class="is-size-6 has-text-weight-bold">{{ asset.name }}</h3>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No results found for <strong>{{ searchTerm }}</strong>.</p>
+      {% endif %}
+  </div>
+</section>
+{% endblock %}

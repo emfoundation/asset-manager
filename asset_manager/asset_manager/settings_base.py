@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import sys
 
 from asset_manager.settings_secret import *
 
@@ -38,11 +39,15 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
+    'django.contrib.postgres',
+    'corsheaders',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -72,6 +77,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'asset_manager.wsgi.application'
 
+# Database
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_USER_PASSWORD,
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -115,13 +133,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_ROOT = 'static'
-
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_SIGNATURE_VERSION = 's3v4'
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 STATIC_URL = '/static/'
+
+# This will be used, along with custom_storages.StaticStorage, if we store static files on S3
+STATICFILES_LOCATION = 'static'
+
+# Media files
 
 DEFAULT_FILE_STORAGE = 'file_manager.custom_storages.MediaStorage'
 MEDIAFILES_LOCATION = 'media'
@@ -129,3 +150,31 @@ MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 
 # Logs
 LOGFILE='logs/logs.txt'
+LOGFILE_TEST='logs/logs_test.txt'
+
+# CKEditor Settings
+CKEDITOR_JQUERY_URL = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'format_tags': 'h2',
+        'removeButtons': 'Styles,Table',
+        'removePlugins': 'colorbutton,flash,horizontalrule,smiley,specialchar',
+        'disallowedContent': 'img{float}'
+    },
+}
+
+# Custom Variables
+MAX_FILE_SIZE = 100000000 # 100MB Note, if you change this you need to change the file_size.js file.
+
+# CORS Settings
+CORS_ORIGIN_ALLOW_ALL = True
+
+# Test settings
+
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
+if(TESTING):
+    LOGFILE = LOGFILE_TEST
+    AWS_STORAGE_BUCKET_NAME = AWS_TEST_BUCKET_NAME
+    MEDIAFILES_LOCATION = 'test'

@@ -36,7 +36,9 @@ class AssetForm(forms.ModelForm):
         widgets = {
             'file': widgets.ClearableFileInputNonEdit,
         }
-        fields = ['parent', 'name', 'file', 'link', 'owner', 'tags', 'locations', 'contributors', 'collections', 'description', 'copyright_info', 'duration', 'creation_date', 'enabled', 'status', 'type_field', ]
+        fields = ['parent', 'name', 'file', 'link', 'owner', 'tags', 'locations', 
+            'contributors', 'collections', 'description', 'copyright_info', 'duration', 
+            'creation_date', 'enabled', 'status', 'type_field', 'format', ]
 
     def clean(self):
         cleaned_data = super(AssetForm, self).clean()
@@ -63,7 +65,7 @@ class AssetForm(forms.ModelForm):
         if(file and not self.instance.tracker.previous('file')):
             pattern = re.compile(strings.VALID_FILE_NAME_FORMAT)
             if not pattern.match(file.name):
-                raise forms.ValidationError(strings.invalid_name_msg.format('file'))
+                raise forms.ValidationError(strings.invalid_file_name_msg)
 
             # Check file name is unique within parent Folder. Note that new
             # files do not yet have their parent's id appended to their name yet.
@@ -75,6 +77,15 @@ class AssetForm(forms.ModelForm):
             s3_key = str(parent.id) + '/' + file.name
             if s3_key in filenames:
                 raise forms.ValidationError(strings.duplicate_file_name_msg.format(file.name, parent, name))
+
+            #### VALIDATE FILE SIZE ####
+            # Catches files that are larger than nginx's max upload size from being uploaded.
+            # This should be combined with altering nginx conf file to set a limit that is higher
+            # than the one set in Django.
+
+            readable_size = int(settings.MAX_FILE_SIZE / (1024*1024))
+            if (file._size > settings.MAX_FILE_SIZE):
+                raise forms.ValidationError(strings.file_size_exceeded.format(str(readable_size) + "MB"))
 
         return cleaned_data
 

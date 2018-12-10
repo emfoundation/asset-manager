@@ -1,0 +1,27 @@
+# .coveragerc to control coverage.py
+
+[run]
+branch = true
+
+omit = 
+    *__init__.py
+   */migrations/*
+   asset_manager/settings*
+   manage.py
+   */tests/*
+   */tests.py
+   */scripts/*
+   *.pyc
+
+source = 
+    file_manager/
+    api/
+    asset_manager/
+    user_interface/
+
+[report]
+show_missing = True
+
+[html]
+title = DAM Unit Tests Report
+directory = cover

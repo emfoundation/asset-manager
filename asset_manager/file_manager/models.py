@@ -2,10 +2,11 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
+from ckeditor.fields import RichTextField
 from model_utils import FieldTracker
 
-from . import utils
 from . import s3_utils
+from . import strings
 
 import mimetypes
 
@@ -28,7 +29,7 @@ class S3_Object(models.Model):
         return self.name
 
 
-# ------------ Folders ------------#
+# ------------ Folders ------------ #
 
 class Folder(S3_Object):
     parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
@@ -74,7 +75,7 @@ class Folder(S3_Object):
             return False
         return True
 
-# ------------ Tags ------------#
+# ------------ Tags ------------ #
 
 class TagGroup(models.Model):
     name = models.CharField(max_length=64)
@@ -88,6 +89,7 @@ class TagGroup(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=64)
     group = models.ForeignKey(TagGroup, on_delete=models.CASCADE)
+    deprecated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.group.name.title() + ' | ' + self.name
@@ -117,7 +119,7 @@ class CountryTag(models.Model):
     class Meta:
         ordering = ('name', )
 
-# ------------ Contributor ------------#
+# ------------ Contributor ------------ #
 
 class Contributor(models.Model):
     name = models.CharField(max_length=64)
@@ -125,7 +127,7 @@ class Contributor(models.Model):
     def __str__(self):
         return self.name
 
-# ------------ Collection ------------#
+# ------------ Collection ------------ #
 
 class Collection(models.Model):
     name = models.CharField(max_length=64)
@@ -133,15 +135,49 @@ class Collection(models.Model):
     def __str__(self):
         return self.name
 
-# ------------ Assets ------------#
+# ------------ LearnerJourney ------------ #
+
+class LearnerJourney(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
+
+    name = models.CharField(max_length=64)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    duration = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Duration (hours)')
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
+
+    def __str__(self):
+        return self.name
+
+# ------------ Question ------------ #
+
+class Question(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
+
+    name = models.CharField(max_length=64)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    intro_title = models.TextField(blank=True, null=True, max_length=64)
+    intro_text = models.TextField(blank=True, null=True, max_length=512)
+    quote = models.TextField(blank=True, null=True, max_length=256)
+    quote_source = models.TextField(blank=True, null=True, max_length=64)
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
+
+    def __str__(self):
+        return self.name
+
+# ------------ Assets ------------ #
 
 class Asset(S3_Object):
 
     def get_s3_key(self, filename):
         return str(self.parent.id) + '/' + filename
 
-    parent = models.ForeignKey(Folder, on_delete=models.CASCADE)
-    file = models.FileField(upload_to=get_s3_key, blank=True)
+    name = models.CharField(max_length=64, help_text=strings.ASSET_NAME_HELPER)
+    parent = models.ForeignKey(Folder, on_delete=models.CASCADE, help_text=strings.ASSET_PARENT_HELPER)
+    file = models.FileField(upload_to=get_s3_key, blank=True, help_text=strings.ASSET_FILE_NAME_HELPER)
     link = models.URLField(blank=True)
 
     tags = models.ManyToManyField(Tag, blank=True)
@@ -182,33 +218,52 @@ class Asset(S3_Object):
 
     CASE_STUDY = 'CS'
     CO_PROJECT = 'CP'
-    IMAGE = 'IM'
-    LINK = 'LN'
     PAPER = 'PA'
-    PRESENTATION = 'PR'
     REPORT = 'RT'
-    VIDEO = 'VI'
-    WORKSHOP_SUMMARY = 'WS'
+    INFOGRAPHIC = 'IG'
+    TEACHING_LEARNING = 'TL'
+    OTHER = 'OT'
+
     TYPE_CHOICES = (
-        (CASE_STUDY, 'CASE STUDY'),
-        (CO_PROJECT, 'CO.PROJECT'),
-        (IMAGE, 'IMAGE'),
-        (LINK, 'LINK'),
-        (PAPER, 'PAPER'),
-        (PRESENTATION, 'PRESENTATION'),
-        (REPORT, 'REPORT'),
-        (VIDEO, 'VIDEO'),
-        (WORKSHOP_SUMMARY, 'WORKSHOP SUMMARY'),
-        ('OT', 'OTHER') # change this line to use OTHER which already exists on dev
+        (CASE_STUDY, 'Case study'),
+        (CO_PROJECT, 'Co.Project'),
+        (PAPER, 'Paper'),
+        (REPORT, 'Report'),
+        (INFOGRAPHIC, 'Infographic'),
+        (TEACHING_LEARNING, 'Teaching & learning resource'),
+        (OTHER, 'Other')
     )
     type_field = models.CharField(
-        default='OT',
+        default=OTHER,
         max_length=2,
         choices = TYPE_CHOICES,
-        verbose_name='Type (CE100 Resources only)'
+        verbose_name='Content Type'
     )
 
-    filetype = models.CharField(max_length=64, null=True)
+    IMAGE = 'IM'
+    VIDEO = 'VI'
+    PRESENTATION = 'PR'
+    LINK = 'LN'
+    AUDIO = 'AU'
+    DOCUMENT = 'DO'
+
+    FORMAT_CHOICES = (
+        (IMAGE, 'Image'),
+        (VIDEO, 'Video'),
+        (PRESENTATION, 'Presentation'),
+        (LINK, 'Web link'),
+        (AUDIO, 'Audio'),
+        (DOCUMENT, 'Document'),
+        (OTHER, 'Other')
+    )
+    format = models.CharField(
+        max_length=2,
+        choices = FORMAT_CHOICES,
+        default = OTHER,
+        verbose_name='Format'
+    )
+
+    filetype = models.CharField(max_length=128, null=True)
     uploaded_at = models.DateTimeField(null=True)
     last_edit_at = models.DateTimeField(null=True)
 
@@ -227,15 +282,15 @@ class Asset(S3_Object):
         if not self.id:
             self.update_filetype()
 
-        # if a new file is uploaded, will update filename even if parent has also changed...
+        # if a new file is uploaded, the filename will be updated whether or not the parent has changed
         elif self.tracker.has_changed('file'):
             old_s3_key = settings.MEDIAFILES_LOCATION + '/' + self.tracker.previous('file').name
             s3_utils.delete_s3_object(old_s3_key)
             # update filetype
             self.update_filetype()
 
-        # but if file has not changed and parent has, must be handled manually
-        elif self.tracker.has_changed('parent_id'):
+        # but if a file is already attached, and the parent is changed, this must be handled manually
+        elif self.file and self.tracker.has_changed('parent_id'):
             old_file_name = self.file.name
             self.file.name = str(self.parent.id) + '/' + self.get_filename()
             logging.info('Filename changed from {0} to {1}'.format(old_file_name, self.file.name))
@@ -264,4 +319,55 @@ class Asset(S3_Object):
         """
         Automatically update filetype field based on file field
         """
-        self.filetype = mimetypes.guess_type(self.get_filename())[0]
+        if self.file:
+            self.filetype = mimetypes.guess_type(self.get_filename())[0]
+        else:
+            self.filetype = ''
+
+# ------------ Asset-LearnerJourney Through table (Chapter) ------------ #
+
+class Chapter(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
+
+    def __str__(self):
+        return 'Learner Journey: {} Asset: {} Position: {}'.format(
+            self.learner_journey,
+            self.asset,
+            self.position
+        )
+
+    title = models.CharField(blank=True, null=True, max_length=128)
+    description = models.TextField(blank=True, null=True, max_length=1024)
+    asset = models.ForeignKey(Asset)
+    content = RichTextField(blank=True, null=True)
+    learner_journey = models.ForeignKey(LearnerJourney)
+    position = models.PositiveSmallIntegerField()
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True)
+
+
+# ------------ Asset-Question Through table (Answer) ------------ #
+
+class Answer(models.Model):
+
+    def get_s3_key(self, filename):
+        return 'smf-prototype/thumbnails/' + filename
+
+    def __str__(self):
+        return 'TITLE: {} --- QUESTION: {} --- ASSET: {} --- POSITION: {}'.format(
+            self.title,
+            self.question,
+            self.asset,
+            self.position
+        )
+
+    title = models.CharField(blank=True, null=True, max_length=128)
+    tile_description = models.TextField(blank=True, null=True, max_length=256, help_text="Appears on Answer tile in the Question Page.")
+    question_context = models.TextField(blank=True, null=True, max_length=512, help_text="Appears below Question name, in Banner on individual Answer Page.")
+    description = models.TextField(blank=True, null=True, max_length=1024, help_text="Appears on individual Answer Page.")
+    asset = models.ForeignKey(Asset)
+    content = RichTextField(blank=True, null=True)
+    question = models.ForeignKey(Question)
+    position = models.PositiveSmallIntegerField(help_text="Choose the position that the Answer will appear in on the Question Page.")
+    thumbnail = models.ImageField(upload_to=get_s3_key, blank=True, help_text="Background image used on Answer tile on Question Page.")

@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}EMF: Digital Asset Manager{% endblock %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://use.typekit.net/qvs1foo.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'user_interface/icons/apple-touch-icon.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'user_interface/icons/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'user_interface/icons/favicon-16x16.png' %}">
+	<link rel="manifest" href="{% static 'user_interface/icons/site.webmanifest' %}">
+	<link rel="mask-icon" href="{% static 'user_interface/icons/safari-pinned-tab.svg' %}" color="#3e4db9">
+	<meta name="msapplication-TileColor" content="#3e4db9">
+	<meta name="theme-color" content="#3e4db9">
+  <link rel="stylesheet" type="text/css" href="{% static 'user_interface/css/main.css' %}" />
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-12790826-17"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-12790826-17');
+	</script>
+</head>
+<body>
+  <div id="app">
+    <nav class="dam-shadow-bottom" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand dam-nav">
+        <a class="navbar-item dam-nav-link" href="/">
+          <img src="{% static 'user_interface/images/emf-logo.png' %}" alt="Ellen MacArthur Foundation resources">
+        </a>
+        <div class="navbar-item">
+          <strong>RESOURCES</strong>
+        </div>
+        <a href="{% url 'user_interface:search' %}" 
+           class="navbar-item dam-nav-link"
+           @click="toggleSearch">
+          <span class="icon">
+            <i class="fas fa-lg fa-search"></i>
+          </span>
+        </a>
+      </div>
+    </nav>
+    <div class="modal" :class="{ 'is-active': showSearch }">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <form action="{% url 'user_interface:search' %}">
+              <div class="field has-addons">
+                <div class="control is-expanded">
+                  <input class="input is-large" name="q" type="text" placeholder="Find a resource">
+                </div>
+                <div class="control">
+                  <button type="submit" class="button is-large is-primary">
+                    <span class="icon">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+      <button class="modal-close is-large" @click="toggleSearch" aria-label="close"></button>
+    </div>
+    {% block content %}{% endblock %}
+    <footer class="section is-white">
+      <div class="container">
+        <p class="has-text-grey-light is-size-7">
+          Charity Registration No.: 1130306,
+          OSCR Registration No.: SC043120,
+          Company No.: 6897785
+          <br />
+          © Copyright 2017 Ellen MacArthur Foundation.
+            All Rights Reserved
+        </p>
+      </div>
+    </footer>
+  </div>
+  <script src="{% static 'user_interface/js/main.js' %}"></script>
+</body>
+</html>

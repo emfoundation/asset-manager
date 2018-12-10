@@ -1,0 +1,26 @@
+@import "bulma/sass/utilities/initial-variables";
+@import "bulma/sass/utilities/functions";
+
+@import "variables";
+
+@import "bulma/bulma";
+
+body {
+    background: $dam-color-light;
+}
+
+@import "utilities";
+@import "elements";
+
+// NOTE: direct Bulma override, not ideal
+.card-content {
+    padding: 1rem;
+}
+
+.card:hover {
+    box-shadow: 0 10px 30px -5px rgba(10, 16, 34, .2);
+}
+
+.section.is-white {
+    background: white;
+}

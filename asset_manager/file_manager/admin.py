@@ -25,6 +25,12 @@ def set_asset_user_metadata(instance, user):
     if not instance.owner:
         instance.owner = user
 
+
+class AnswerAdmin(admin.ModelAdmin):
+    model = models.Answer
+    list_filter = ('question',)
+
+
 class AssetAdmin(admin.ModelAdmin):
 
     form = forms.AssetForm
@@ -33,7 +39,8 @@ class AssetAdmin(admin.ModelAdmin):
     search_fields = ('name', 'file', )
     list_filter = (
         filters.TagListFilter,
-        filters.LocationsListFilter,
+        filters.LocationListFilter,
+        filters.CollectionListFilter,
         filters.ContributorListFilter,
         filters.OwnerListFilter,
         filters.FileTypeListFilter,
@@ -44,6 +51,17 @@ class AssetAdmin(admin.ModelAdmin):
         set_asset_user_metadata(obj, request.user)
         super(AssetAdmin, self).save_model(request, obj, form, change)
 
+    class Media:
+        js = [
+        'file_manager/js/config.js',
+        'file_manager/js/fileValidation.js',
+        'file_manager/js/filter.js'
+        ]
+
+        css = {
+        'all':('file_manager/css/filter.css',)
+        }
+
 
 class AssetInline(admin.TabularInline):
     model = models.Asset
@@ -53,8 +71,14 @@ class AssetInline(admin.TabularInline):
     ordering = ['name', ]
     fields = ['name', ]
     show_change_link = True
+    template = "admin/file_manager/asset/tabular.html"
     ### Adds the ability to collapse the asset block within the parent folder ###
     # classes = ['collapse', ]
+
+
+class ChapterAdmin(admin.ModelAdmin):
+    model = models.Chapter
+    list_filter = ('learner_journey',)
 
 
 class FolderInline(admin.TabularInline):
@@ -64,6 +88,7 @@ class FolderInline(admin.TabularInline):
     extra = 0
     ordering = ['name', ]
     show_change_link = True
+    template = "admin/file_manager/folder/tabular.html"
     ### Adds the ability to collaspe the folder structure ###
     # classes = ['collapse', ]
 
@@ -82,18 +107,33 @@ class FolderAdmin(admin.ModelAdmin):
                 set_asset_user_metadata(instance, request.user)
             instance.save()
 
+
 class TagGroupAdmin(admin.ModelAdmin):
     model = models.TagGroup
     ordering = ['name', ]
 
+
 class TagAdmin(admin.ModelAdmin):
     model = models.Tag
     ordering = ['group', 'name', ]
-    list_filter = ('group', )
+    list_filter = (
+        filters.TagGroupListFilter,
+    )
+
+    class Media:
+        js = [
+        'file_manager/js/filter.js'
+        ]
+
+        css = {
+        'all':('file_manager/css/filter.css',)
+        }
+
 
 class ContinentTagGroupAdmin(admin.ModelAdmin):
     model = models.ContinentTagGroup
     ordering = ['name', ]
+
 
 class CountryTagAdmin(admin.ModelAdmin):
     model = models.CountryTag
@@ -102,14 +142,18 @@ class CountryTagAdmin(admin.ModelAdmin):
 
 # Register your models here.
 
-admin.site.register(models.TagGroup, TagGroupAdmin)
-admin.site.register(models.Tag, TagAdmin)
-admin.site.register(models.Contributor)
-admin.site.register(models.ContinentTagGroup, ContinentTagGroupAdmin)
-admin.site.register(models.CountryTag, CountryTagAdmin)
-admin.site.register(models.Collection)
-admin.site.register(models.Folder, FolderAdmin)
+admin.site.register(models.Answer, AnswerAdmin)
 admin.site.register(models.Asset, AssetAdmin)
+admin.site.register(models.Chapter, ChapterAdmin)
+admin.site.register(models.Collection)
+admin.site.register(models.ContinentTagGroup, ContinentTagGroupAdmin)
+admin.site.register(models.Contributor)
+admin.site.register(models.CountryTag, CountryTagAdmin)
+admin.site.register(models.Folder, FolderAdmin)
+admin.site.register(models.LearnerJourney)
+admin.site.register(models.Question)
+admin.site.register(models.Tag, TagAdmin)
+admin.site.register(models.TagGroup, TagGroupAdmin)
 
 admin.site.site_header = 'EMF Digital Asset Management System'
 admin.site.site_title = 'EMF DAMS Admin'

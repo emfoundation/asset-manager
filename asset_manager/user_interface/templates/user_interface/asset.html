@@ -1,0 +1,113 @@
+{% extends 'user_interface/base.html' %}
+
+{% block title %}
+	{{ block.super }} - {{ asset.name }}
+{% endblock %}
+
+{% block content %}
+<section class="hero is-medium">
+  <div class="hero-body dam-hero dam-asset-hero">
+    <div class="container">
+      <div class="">
+        <a href="{% if topicGroup %}{% url 'user_interface:topic' topicGroup %}{% else %}/{% endif %}"
+           class="has-text-grey">
+          < Back
+        </a>
+      </div>
+      <br>
+      <div class="dam-container-narrow">
+        <div class="content">
+          <p>
+            <span class="icon is-medium dam-icon-border dam-is-circle">
+              <i class="fas fa-{{ icon }}"></i>
+            </span>
+            <span class="dam-margin-left has-text-primary">{{ asset.get_format_display }}</span>
+            <span class="dam-margin-left-large">{{ asset.get_type_field_display|lower|capfirst }}</span>
+          </p>
+          <h1 class="dam-title has-text-weight-bold is-size-3-touch is-size-1-desktop">
+            {{ asset.name }}
+          </h1>
+        
+          <p class="has-text-grey dam-margin-bottom">Uploaded at {{ asset.uploaded_at|date:"jS F, Y" }}</p>
+          <p>
+            {% if asset.link %}
+              <a href="{{ asset.link }}" class="button is-primary dam-button" target="_blank">
+                GO TO WEBSITE
+              </a>
+              <a href="mailto:?to=&body={{ asset.link }}&subject={{ asset.name }}"
+                class="button is-primary dam-button">
+                SHARE
+              </a>
+            {% elif asset.file %}
+              <a href="{{ filename }}"
+                class="button is-primary dam-button"
+                target="_blank">
+                DOWNLOAD
+              </a>
+              <a href="mailto:?to=&body={{ filename }}&subject={{ asset.name }}"
+                class="button is-primary dam-button">
+                SHARE
+              </a>
+            {% else %}
+              File/link coming soon...
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if asset.description %}
+  <section class="section">
+    <div class="container dam-container-narrow">
+      <div class="content">
+        <p>{{ asset.description }}</p>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% if asset.contributors.all|length %}
+  <section class="section">
+    <div class="container dam-container-narrow">
+      <div class="content">
+        <p>Collaborators</p>
+      </div>
+      <div class="columns is-multiline">
+        {% for contributor in asset.contributors.all %}
+        <div class="column is-half">
+          <article class="media">
+            <figure class="media-left">
+                <span class="icon is-medium dam-is-circle dam-icon-full">
+                  <i class="fas fa-user"></i>
+                </span>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                {{ contributor.name }}
+              </div>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% if asset.tags.all|length %}
+  <section class="section">
+    <div class="container dam-container-narrow">
+      <div class="content">
+        <p>This is about...</p>
+      </div>
+      <div class="tags">
+        {% for tag in asset.tags.all %}
+        <span class="tag is-white is-medium dam-tag">{{ tag.name }}</span>
+        {% endfor %}
+      </div>
+	  </div>
+  </section>
+{% endif %}
+{% endblock %}

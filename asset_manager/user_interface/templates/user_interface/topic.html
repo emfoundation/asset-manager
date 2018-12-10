@@ -1,0 +1,59 @@
+{% extends 'user_interface/base.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+	{{ block.super }} - {{ topic.name |lower|capfirst}}
+{% endblock %}
+
+{% block content %}
+<section class="hero is-medium">
+  <div class="hero-body dam-hero">
+    <div class="container">
+      <div class="dam-back has-text-grey">
+        <a href="/">< Back</a>
+      </div>
+      <h1 class="has-text-weight-bold is-size-3-touch is-size-1-desktop">
+        {{ topic.name|lower|capfirst }}
+      </h1>
+    </div>
+	</div>
+</section>
+
+{% regroup assets|dictsort:'type_field' by type_field as assets_by_type %}
+
+<section class="section">
+  <div class="container">
+    {% for type in assets_by_type %}
+      <div class="dam-padding">
+        <h2 class="title is-6 has-text-weight-normal">
+          {{ typeChoices|get_item:type.grouper|lower|capfirst }}
+        </h2>
+      </div>
+      <div class="columns is-multiline">
+        {% for asset in type.list %}
+          <div class="column is-half is-one-third-desktop">
+            <article class="media dam-media">
+              <figure class="media-left dam-media-left">
+                <span class="icon is-medium dam-icon-border dam-is-circle">
+                  <i class="fas fa-{{ formatToIcon|get_item:asset.format }}"></i>
+                </span>
+                <figcaption class="dam-format-text dam-icon is-size-7 has-text-primary has-text-centered is-hidden-touch">
+                  {{ asset.get_format_display }}
+                </figcaption>
+              </figure>
+              <div class="media-content">
+                <div class="content">
+                  <a href="{% url 'user_interface:asset' asset.id %}?t={{ topic.id }}">
+                    <h3 class="is-size-6 has-text-weight-bold">{{ asset.name }}</h3>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+  </div>
+</section>
+{% endblock %}

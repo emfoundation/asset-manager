@@ -1,26 +1,38 @@
-{% load static %}
+{% extends 'user_interface/base.html' %}
 
-<head>
-  <link rel="shortcut icon" type="image/x-icon" href="{% static 'user_interface/images/emf-logo.ico' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'user_interface/css/index.css' %}" />
-  <title>EMF: Digital Asset Manager</title>
-</head>
+{% load custom_filters %}
 
-<header>
-  <a href="https://www.ellenmacarthurfoundation.org/"><img src="{% static "user_interface/images/emf-logo.png" %}" alt="EMF Logo" /></a>
-</header>
-<body>
-  <div class="background-image"></div>
-    <div class="text-overlay">
-      <h1 id="home-title">THE DIGITAL ASSET MANAGER </h1>
-      <h2>Come back soon to use the DAM, or go to the <a href="{% url 'admin:index' %}">admin</a> if you are an EMF Employee.</h2>
-    </div>
-    <p class="legal-info">
-      Charity Registration No.: 1130306,
-      OSCR Registration No.: SC043120,
-      Company No.: 6897785
-      <br />
-      © Copyright 2017 Ellen MacArthur Foundation.
-        All Rights Reserved
-    </p>
-</body>
+{% block content %}
+<section class="hero is-medium">
+	<div class="hero-body dam-hero">
+		<div class="container">
+			<h1 class="has-text-weight-bold is-size-3-touch is-size-1-desktop">Circular economy resources at your fingertips</h1>
+		</div>
+	</div>
+</section>
+
+<section class="section">
+	<div class="container">
+		<div class="columns is-multiline">
+	  	{% for topic in topics  %}
+	  		<div class="column is-half is-one-third-desktop">
+					<a href="{% url 'user_interface:topic' topic.id %}">
+						<div class="card">
+							<div class="card-content">
+								<div class="content">
+                  <h2 class="is-size-6 has-text-primary">{{ topic.name|lower|capfirst }}</h2>
+                  <div class="dam-card-svg">
+                    {% with filename=tagGroupToIcon|get_item:topic.name %}
+                      {% include 'user_interface/svg/'|add:filename|add:'.svg' %}
+                    {% endwith %}
+                  </div>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+	  	{% endfor %}
+	  </div>
+	</div>
+</section>
+{% endblock %}
