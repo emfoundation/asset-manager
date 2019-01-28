@@ -84,7 +84,7 @@ class AssetForm(forms.ModelForm):
             # than the one set in Django.
 
             readable_size = int(settings.MAX_FILE_SIZE / (1024*1024))
-            if (file._size > settings.MAX_FILE_SIZE):
+            if (file.size > settings.MAX_FILE_SIZE):
                 raise forms.ValidationError(strings.file_size_exceeded.format(str(readable_size) + "MB"))
 
         return cleaned_data
