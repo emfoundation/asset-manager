@@ -99,3 +99,6 @@ def search(request):
 	}
 
 	return render(request, 'user_interface/search.html', context)
+
+def data(request):
+   return render(request, 'data.html')

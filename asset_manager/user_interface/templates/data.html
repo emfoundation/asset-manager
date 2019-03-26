@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>EMF Asset Manager</title>
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script type="text/javascript" src="{% static 'script.js' %}"></script>
+
+  </head>
+  <body>
+
+    <div id="graphSelection">
+      <form id="graphSelector">
+        Data Type:</br>
+        <select name="dataType">
+          <option value="owner">Owner</option>
+          <option value="format">Format</option>
+          <option value="filetype">File Type</option>
+          <option value="tag">Tag</option>
+        </select></br>
+        Chart Type:</br>
+        <input type="radio" name="chartType" value="bar" checked>Bar
+        <input type="radio" name="chartType" value="line">Line
+        <input type="radio" name="chartType" value="pie">Pie</br>
+
+        <button type="button" id="loadGraph">Display</button>
+      </form>
+    </div>
+
+    <div id="chartArea">
+      <canvas class="chart" id="chart"></canvas>
+    </div>
+
+    <p id="loadingMessage" class="loading-message is-visible">loading</p>
+    
+  </body>
+
+</html>
