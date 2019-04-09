@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>EMF Asset Manager</title>
-    
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'main.css' %}">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="{% static 'canvas-toBlob.js' %}"></script>
+    <script src="{% static 'FileSaver.js' %}"></script>
     <script type="text/javascript" src="{% static 'script.js' %}"></script>
 
   </head>
@@ -34,10 +36,11 @@
 
     <div id="chartArea">
       <canvas class="chart" id="chart"></canvas>
+      <button type="button" id="saveGraph">Export as PNG</button>
     </div>
 
     <p id="loadingMessage" class="loading-message is-visible">loading</p>
-    
+
   </body>
 
 </html>

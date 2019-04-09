@@ -1,13 +1,13 @@
 //API Call
 axios.get('http://circulareconomy.space/api/assets')
   .then(function (response) {
+    var myChart = null;
     //const data = JSON.stringify(response.data, null, 4);
     const data = response.data;
     const dataContainer = document.querySelector('#data-container');
     //console.log(data);
     //dataContainer.innerHTML = data[0].id;
     //dataContainer.innerHTML = typeof data;
-
     chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -17,12 +17,16 @@ axios.get('http://circulareconomy.space/api/assets')
             beginAtZero: true,
           }
         }]
-      }
+      },
+      legend: {
+        display: false,
+      },
     };
 
     $("#loadGraph").click(
       function(){
-      form = document.getElementById("graphSelector")
+        //if (document.getElementById("saveGraph").style.display == "none") { saveGraphButton.style.display = "block" } //<
+        form = document.getElementById("graphSelector")
       //dataType
       if (form.dataType.value == "owner") {
         ////console.log("owner");
@@ -75,21 +79,31 @@ axios.get('http://circulareconomy.space/api/assets')
       }
 
       //drawChart
-      var ctx = document.getElementById("chart").getContext('2d');
-      var myChart = new Chart(ctx,{
+	    if(myChart!=null){myChart.destroy();}
+      canvas = document.getElementById("chart");
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      myChart = new Chart(ctx,{
         type: form.chartType.value,
         data: {
           labels: labels,
           datasets: [{
-            label: 'Chart Label',
+            label: 'Matches',
             backgroundColor: 'rgb(255,0,0)',
             fill: false,
             data: chartData,
           }],
         },
         options: chartOptions
-      })
+      });
   });
+  $("#saveGraph").click(function() {
+ 	    $("#chart").get(0).toBlob(function(blob) {
+    		saveAs(blob, "chart_1.png");
+		});
+});
+
 
 
     //end

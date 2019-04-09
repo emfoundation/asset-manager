@@ -37,7 +37,16 @@ html, body {
   text-align: center;
   width: 30%;
   height: 90%;
+  padding-top: 15px;
   padding-bottom: 5px;
   background-color: lightgrey;
   border-left: 5px solid red;
 }
+
+#graphSelector {
+  text-align: center;
+}
+
+/* #saveGraph {
+  display: none;
+} */
