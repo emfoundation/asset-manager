@@ -10,7 +10,7 @@ django-extensions==1.7.9
 django-js-asset==1.1.0
 django-model-utils==3.0.0
 django-storages==1.5.2
-djangorestframework==3.9.0
+djangorestframework==3.11.2
 djangorestframework-jwt==1.10.0
 docutils==0.13.1
 et-xmlfile==1.0.1
